@@ -136,7 +136,33 @@ public class EmployeeBBDD {
         Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
     }
     }
+    protected void deleteEmployee(int id) throws SQLException, ClassNotFoundException {
+        try {
+            if (conector() == true) {
+                String queryBBDD = "delete from employee where id like "+id+";";
 
+                try {
+                    createStatement.executeUpdate(queryBBDD);
+                } catch (SQLException ex) {
+                    Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                try {
+
+                    con.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            else{
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
 
 
