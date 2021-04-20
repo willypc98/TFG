@@ -59,12 +59,57 @@ public class EmployeeBBDD {
     }
 
     protected void addEmployee(String name,String department,  String pass, int salary ) throws SQLException, ClassNotFoundException {
-        if(conector()==true){
+        if (conector() == true) {
 
-            createStatement.executeUpdate("INSERT INTO employee (name,department,salary) VALUES ('" + name + "', '" + department +"', '"+salary + "')");
+            createStatement.executeUpdate("INSERT INTO employee (name,department,salary) VALUES ('" + name + "', '" + department + "', '" + salary + "')");
             con.close();
         }
     }
+        protected ArrayList<Employee> getAllEmployees() {
+            ArrayList<Employee> empleadoLista = new ArrayList();
+            try {
+                if(conector()==true){
+                    String queryBBDD = "select * from employee";
+                    int i=0;
+                    try {
+                        rS = createStatement.executeQuery(queryBBDD);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    try {
+                        while (rS.next()) {
+                            Employee empleado = new Employee();
+                            empleado.setId(Integer.parseInt(rS.getString("id")));
+                            empleado.setName(rS.getString("name"));
+                            empleado.setDepartment(rS.getString("department"));
+                            empleado.setSalary(Integer.parseInt(rS.getString("email")));
+
+                           empleadoLista.add(empleado);
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    try {
+                        i=0;
+                        con.close();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }
+                else{
+                    return empleadoLista;
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return empleadoLista;
+        }
+
+
 
 
 
