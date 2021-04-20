@@ -58,7 +58,13 @@ public class EmployeeBBDD {
         return  valor;
     }
 
+    protected void addEmployee(String name,String department,  String pass, int salary ) throws SQLException, ClassNotFoundException {
+        if(conector()==true){
 
+            createStatement.executeUpdate("INSERT INTO employee (name,department,salary) VALUES ('" + name + "', '" + department +"', '"+salary + "')");
+            con.close();
+        }
+    }
 
 
 
