@@ -109,6 +109,33 @@ public class EmployeeBBDD {
             return empleadoLista;
         }
 
+    protected void updateEmployee(int id,String name,String department, int salary ) throws SQLException, ClassNotFoundException {
+        try {
+        if (conector() == true) {
+            String queryBBDD = "update employee set name='"+name+"', department='"+department+"',salary="+salary+"where id like "+id+";";
+
+            try {
+                createStatement.executeUpdate(queryBBDD);
+            } catch (SQLException ex) {
+                Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            try {
+
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else{
+
+        }
+    } catch (SQLException ex) {
+        Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (ClassNotFoundException ex) {
+        Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    }
 
 
 
