@@ -112,7 +112,7 @@ public class EmployeeBBDD {
     protected void updateEmployee(int id,String name,String department, int salary ) throws SQLException, ClassNotFoundException {
         try {
         if (conector() == true) {
-            String queryBBDD = "update employee set name='"+name+"', department='"+department+"',salary="+salary+"where id like "+id+";";
+            String queryBBDD = "update employee set name='"+name+"', department='"+department+"',salary="+salary+"where id="+id+";";
 
             try {
                 createStatement.executeUpdate(queryBBDD);
@@ -139,7 +139,7 @@ public class EmployeeBBDD {
     protected void deleteEmployee(int id) throws SQLException, ClassNotFoundException {
         try {
             if (conector() == true) {
-                String queryBBDD = "delete from employee where id like "+id+";";
+                String queryBBDD = "delete from employee where id="+id+";";
 
                 try {
                     createStatement.executeUpdate(queryBBDD);
