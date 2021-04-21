@@ -20,6 +20,14 @@ import java.util.logging.Logger;
 
 public class EmployeeBBDD {
 
+    private static EmployeeBBDD instance;
+    public static EmployeeBBDD getInstance() {
+        if (instance == null) {
+            instance = new EmployeeBBDD();
+        }
+        return instance;
+    }
+
     Database database = Databases.createFrom("com.mysql.jdbc.Driver", "jdbc:mysql://localhost:3306/tfg");
 
     private static Connection con;
