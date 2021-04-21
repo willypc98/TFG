@@ -8,17 +8,46 @@ import entities.Employee;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import play.libs.Json;
+import play.api.libs.json.*;
 import play.mvc.Controller;
 import play.mvc.Result;
+import services.EmployeeBBDD;
 import services.EmployeeService;
 import utils.ApplicationUtil;
+import org.*;
+/*
+import org.json.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+*/
+
  
 import java.util.Set;
  
 public class EmployeeController extends Controller {
  
     private static final Logger logger = LoggerFactory.getLogger("controller");
- 
+/*
+    public Result create(Http.Request request){
+        JsonNode json = request.body().asJson();
+        if (json == null) {
+            return badRequest(ApplicationUtil.createResponse("Expecting JSON data", false));
+        }
+        logger.debug("In EmployeeController.create(), input is: {}", json.toString());
+       /* String jsonString; //assign your JSON String here
+        JSONObject obj = new JSONObject(jsonString);
+        String pageName = obj.getJSONObject("pageInfo").getString("pageName");
+        */
+    /*
+        val name = json("name");
+        Employee employee = EmployeeBBDD.getInstance().addEmployee(Json.fromJson(json, Employee.class));
+        //Employee employee = EmployeeService.getInstance().addEmployee(Json.fromJson(json, Employee.class));
+        JsonNode jsonObject = Json.toJson(employee);
+        return created(ApplicationUtil.createResponse(jsonObject, true));
+    }
+
+    */
     public Result create(Http.Request request) {
         JsonNode json = request.body().asJson();
         if (json == null) {
@@ -29,7 +58,7 @@ public class EmployeeController extends Controller {
         JsonNode jsonObject = Json.toJson(employee);
         return created(ApplicationUtil.createResponse(jsonObject, true));
     }
- 
+
     public Result update(Http.Request request) {
         logger.debug("In EmployeeController.update()");
         JsonNode json = request.body().asJson();
