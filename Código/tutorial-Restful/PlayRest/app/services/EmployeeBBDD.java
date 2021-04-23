@@ -66,14 +66,69 @@ public class EmployeeBBDD {
         return  valor;
     }
 
-    protected void addEmployee(String name,String department,  String pass, int salary ) throws SQLException, ClassNotFoundException {
+   // public void addEmployee(String name,String department,  String pass, int salary ) throws SQLException, ClassNotFoundException {
+    public Employee addEmployee(Employee employee) throws SQLException, ClassNotFoundException {
         if (conector() == true) {
 
-            createStatement.executeUpdate("INSERT INTO employee (name,department,salary) VALUES ('" + name + "', '" + department + "', '" + salary + "')");
+            int id = employee.getId();
+            employee.setId(id);
+            String name= employee.getName();
+            employee.setName(name);
+            String department= employee.getDepartment();
+            int salary = employee.getSalary();
+
+            createStatement.executeUpdate("INSERT INTO employee (id,name,department,salary) VALUES ("+id+", '" + name + "', '" + department + "', '" + salary + "')");
             con.close();
+
         }
+        return employee;
     }
-        protected ArrayList<Employee> getAllEmployees() {
+    public Employee getEmployee(Employee employee) {
+
+        try {
+            if(conector()==true){
+                int id = employee.getId();
+                String queryBBDD = "select * from employee where id=" + id + ";";
+                int i=0;
+                try {
+                    rS = createStatement.executeQuery(queryBBDD);
+                } catch (SQLException ex) {
+                    Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                try {
+                    while (rS.next()) {
+
+                        employee.setId(Integer.parseInt(rS.getString("id")));
+                        employee.setName(rS.getString("name"));
+                        employee.setDepartment(rS.getString("department"));
+                        employee.setSalary(Integer.parseInt(rS.getString("email")));
+
+
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                try {
+                    i=0;
+                    con.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+            else{
+                    return null;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return employee;
+    }
+
+        public ArrayList<Employee> getAllEmployees() {
             ArrayList<Employee> empleadoLista = new ArrayList();
             try {
                 if(conector()==true){
@@ -117,9 +172,14 @@ public class EmployeeBBDD {
             return empleadoLista;
         }
 
-    protected void updateEmployee(int id,String name,String department, int salary ) throws SQLException, ClassNotFoundException {
+    public Employee updateEmployee(Employee employee ) throws SQLException, ClassNotFoundException {
         try {
         if (conector() == true) {
+            int id = employee.getId();
+            //employee.setId(id);
+            String name= employee.getName();
+            String department= employee.getDepartment();
+            int salary = employee.getSalary();
             String queryBBDD = "update employee set name='"+name+"', department='"+department+"',salary="+salary+"where id="+id+";";
 
             try {
@@ -143,10 +203,13 @@ public class EmployeeBBDD {
     } catch (ClassNotFoundException ex) {
         Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
     }
+        return employee;
     }
-    protected void deleteEmployee(int id) throws SQLException, ClassNotFoundException {
+    public Employee deleteEmployee(Employee employee) throws SQLException, ClassNotFoundException {
+
         try {
             if (conector() == true) {
+                int id = employee.getId();
                 String queryBBDD = "delete from employee where id="+id+";";
 
                 try {
@@ -170,6 +233,7 @@ public class EmployeeBBDD {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return employee;
     }
 
 
