@@ -24,6 +24,7 @@ import org.json.JSONObject;
 
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Set;
  
 public class EmployeeController extends Controller {
@@ -105,6 +106,16 @@ public class EmployeeController extends Controller {
     */
     public Result retrieve(int id) {
         logger.debug("In EmployeeController.retrieve(), retrieve employee with id: {}",id);
+        if (EmployeeBBDD.getInstance().getEmployee(id) == null) {
+            return notFound(ApplicationUtil.createResponse("Employee with id:" + id + " not found", false));
+        }
+        JsonNode jsonObjects = Json.toJson(EmployeeBBDD.getInstance().getEmployee(id));
+        logger.debug("In EmployeeController.retrieve(), result is: {}",jsonObjects.toString());
+        return ok(ApplicationUtil.createResponse(jsonObjects, true));
+    }
+    /*
+    public Result retrieve(int id) {
+        logger.debug("In EmployeeController.retrieve(), retrieve employee with id: {}",id);
         if (EmployeeService.getInstance().getEmployee(id) == null) {
             return notFound(ApplicationUtil.createResponse("Employee with id:" + id + " not found", false));
         }
@@ -113,9 +124,9 @@ public class EmployeeController extends Controller {
         return ok(ApplicationUtil.createResponse(jsonObjects, true));
     }
 
- 
+
     public Result listEmployees() {
-        Set<Employee> result = EmployeeService.getInstance().getAllEmployees();
+        Set<Employee> result = EmployeeBBDD.getInstance().getAllEmployees();
         logger.debug("In EmployeeController.listEmployees(), result is: {}",result.toString());
         ObjectMapper mapper = new ObjectMapper();
  
@@ -123,7 +134,7 @@ public class EmployeeController extends Controller {
         return ok(ApplicationUtil.createResponse(jsonData, true));
  
     }
-    /*
+    */
     public Result listEmployees() {
         Set<Employee> result = EmployeeService.getInstance().getAllEmployees();
         logger.debug("In EmployeeController.listEmployees(), result is: {}",result.toString());
@@ -133,7 +144,7 @@ public class EmployeeController extends Controller {
         return ok(ApplicationUtil.createResponse(jsonData, true));
 
     }
- */
+
 /*
     public Result delete(Http.Request request) throws SQLException, ClassNotFoundException {
         JsonNode json = request.body().asJson();
@@ -156,6 +167,15 @@ public class EmployeeController extends Controller {
 
 
  */
+    public Result delete(int id) throws SQLException, ClassNotFoundException {
+        logger.debug("In EmployeeController.retrieve(), delete employee with id: {}",id);
+        if (!EmployeeBBDD.getInstance().deleteEmployee(id)) {
+            return notFound(ApplicationUtil.createResponse("Employee with id:" + id + " not found", false));
+        }
+        return ok(ApplicationUtil.createResponse("Employee with id:" + id + " deleted", true));
+    }
+
+    /*
     public Result delete(int id) {
         logger.debug("In EmployeeController.retrieve(), delete employee with id: {}",id);
         if (!EmployeeService.getInstance().deleteEmployee(id)) {
@@ -163,6 +183,7 @@ public class EmployeeController extends Controller {
         }
         return ok(ApplicationUtil.createResponse("Employee with id:" + id + " deleted", true));
     }
+     */
 
 
 }

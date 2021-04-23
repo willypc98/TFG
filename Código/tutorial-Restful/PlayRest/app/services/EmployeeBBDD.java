@@ -1,12 +1,6 @@
 package services;
 import entities.Employee;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
-import javax.inject.*;
 import play.db.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -83,11 +77,11 @@ public class EmployeeBBDD {
         }
         return employee;
     }
-    public Employee getEmployee(Employee employee) {
-
+    public Employee getEmployee(int id) {
+        Employee employee = new Employee();
         try {
             if(conector()==true){
-                int id = employee.getId();
+
                 String queryBBDD = "select * from employee where id=" + id + ";";
                 int i=0;
                 try {
@@ -95,30 +89,37 @@ public class EmployeeBBDD {
                 } catch (SQLException ex) {
                     Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                if (rS == null){
+                    employee= null;
 
-                try {
-                    while (rS.next()) {
-
-                        employee.setId(Integer.parseInt(rS.getString("id")));
-                        employee.setName(rS.getString("name"));
-                        employee.setDepartment(rS.getString("department"));
-                        employee.setSalary(Integer.parseInt(rS.getString("email")));
-
-
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                try {
-                    i=0;
-                    con.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+                else{
+
+                    try {
+                        while (rS.next()) {
+
+                            employee.setId(Integer.parseInt(rS.getString("id")));
+                            employee.setName(rS.getString("name"));
+                            employee.setDepartment(rS.getString("department"));
+                            employee.setSalary(Integer.parseInt(rS.getString("salary")));
+
+
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    try {
+                        i = 0;
+                        con.close();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
 
             }
             else{
-                    return null;
+                    employee=null;
+
             }
         } catch (SQLException ex) {
             Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
@@ -205,15 +206,17 @@ public class EmployeeBBDD {
     }
         return employee;
     }
-    public Employee deleteEmployee(Employee employee) throws SQLException, ClassNotFoundException {
-
+    public boolean deleteEmployee(int id) throws SQLException, ClassNotFoundException {
+        boolean valor= false;
         try {
             if (conector() == true) {
-                int id = employee.getId();
+
                 String queryBBDD = "delete from employee where id="+id+";";
 
                 try {
                     createStatement.executeUpdate(queryBBDD);
+                    valor = true;
+                    return valor;
                 } catch (SQLException ex) {
                     Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -233,7 +236,7 @@ public class EmployeeBBDD {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return employee;
+        return valor;
     }
 
 
