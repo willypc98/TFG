@@ -65,9 +65,9 @@ public class EmployeeBBDD {
         if (conector() == true) {
 
             int id = employee.getId();
-            employee.setId(id);
+            //employee.setId(id);
             String name= employee.getName();
-            employee.setName(name);
+            //employee.setName(name);
             String department= employee.getDepartment();
             int salary = employee.getSalary();
 
@@ -97,12 +97,12 @@ public class EmployeeBBDD {
 
                     try {
                         while (rS.next()) {
-
-                            employee.setId(Integer.parseInt(rS.getString("id")));
+                            employee.setId(rS.getInt("id"));
+                            //employee.setId(Integer.parseInt(rS.getString("id")));
                             employee.setName(rS.getString("name"));
                             employee.setDepartment(rS.getString("department"));
-                            employee.setSalary(Integer.parseInt(rS.getString("salary")));
-
+                            //employee.setSalary(Integer.parseInt(rS.getString("salary")));
+                            employee.setSalary(rS.getInt("salary"));
 
                         }
                     } catch (SQLException ex) {
@@ -133,23 +133,20 @@ public class EmployeeBBDD {
             ArrayList<Employee> empleadoLista = new ArrayList();
             try {
                 if(conector()==true){
-                    String queryBBDD = "select * from employee";
+                    String queryBBDD = "select * from employee;";
                     int i=0;
                     try {
                         rS = createStatement.executeQuery(queryBBDD);
-                    } catch (SQLException ex) {
-                        Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
-                    }
 
-                    try {
                         while (rS.next()) {
                             Employee empleado = new Employee();
                             empleado.setId(Integer.parseInt(rS.getString("id")));
                             empleado.setName(rS.getString("name"));
                             empleado.setDepartment(rS.getString("department"));
-                            empleado.setSalary(Integer.parseInt(rS.getString("email")));
-
+                            empleado.setSalary(Integer.parseInt(rS.getString("salary")));
+                            System.out.println("xxxxxxxx"+ empleado.getName());
                            empleadoLista.add(empleado);
+
                         }
                     } catch (SQLException ex) {
                         Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
@@ -170,18 +167,22 @@ public class EmployeeBBDD {
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
             }
+            System.out.println("El tamaño de la lista es" + empleadoLista.size());
             return empleadoLista;
+
         }
 
     public Employee updateEmployee(Employee employee ) throws SQLException, ClassNotFoundException {
         try {
         if (conector() == true) {
             int id = employee.getId();
-            //employee.setId(id);
             String name= employee.getName();
             String department= employee.getDepartment();
             int salary = employee.getSalary();
-            String queryBBDD = "update employee set name='"+name+"', department='"+department+"',salary="+salary+"where id="+id+";";
+            System.out.println(name);
+            System.out.println(department);
+            System.out.println(salary);
+            String queryBBDD = "update employee set name='"+name+"', department='"+department+"',salary="+salary+" where id="+id+";";
 
             try {
                 createStatement.executeUpdate(queryBBDD);
@@ -206,6 +207,7 @@ public class EmployeeBBDD {
     }
         return employee;
     }
+
     public boolean deleteEmployee(int id) throws SQLException, ClassNotFoundException {
         boolean valor= false;
         try {

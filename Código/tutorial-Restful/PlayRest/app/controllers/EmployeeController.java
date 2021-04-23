@@ -72,6 +72,23 @@ public class EmployeeController extends Controller {
     }
     */
 
+    public Result update(Http.Request request) throws SQLException, ClassNotFoundException {
+        logger.debug("In EmployeeController.update()");
+        JsonNode json = request.body().asJson();
+        if (json == null) {
+            return badRequest(ApplicationUtil.createResponse("Expecting Json data", false));
+        }
+        Employee employee = EmployeeBBDD.getInstance().updateEmployee(Json.fromJson(json, Employee.class));
+        logger.debug("In EmployeeController.update(), employee is: {}",employee);
+        if (employee == null) {
+            return notFound(ApplicationUtil.createResponse("Employee not found", false));
+        }
+
+        JsonNode jsonObject = Json.toJson(employee);
+        return ok(ApplicationUtil.createResponse(jsonObject, true));
+    }
+
+    /*
     public Result update(Http.Request request) {
         logger.debug("In EmployeeController.update()");
         JsonNode json = request.body().asJson();
@@ -87,7 +104,7 @@ public class EmployeeController extends Controller {
         JsonNode jsonObject = Json.toJson(employee);
         return ok(ApplicationUtil.createResponse(jsonObject, true));
     }
-
+     */
 
      /*
 
@@ -136,7 +153,7 @@ public class EmployeeController extends Controller {
     }
     */
     public Result listEmployees() {
-        Set<Employee> result = EmployeeService.getInstance().getAllEmployees();
+        ArrayList<Employee> result = EmployeeBBDD.getInstance().getAllEmployees();
         logger.debug("In EmployeeController.listEmployees(), result is: {}",result.toString());
         ObjectMapper mapper = new ObjectMapper();
 
