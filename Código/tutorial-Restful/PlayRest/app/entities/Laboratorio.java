@@ -40,4 +40,14 @@ public class Laboratorio {
     public void setListaDisponibilidad(ArrayList<String> listaDisponibilidad) {
         this.listaDisponibilidad = listaDisponibilidad;
     }
+
+    @Override
+    public String toString() {
+        return "Laboratorio{" +
+                "id del laboratorio= 'L." + idLab +
+                ", nombre del laboratorio='" + nombreLab + '\'' +
+                ", descripción del laboratorio='" + desccripcionLab +
+                ", horarios disponibles='" + listaDisponibilidad +
+                '}';
+    }
 }

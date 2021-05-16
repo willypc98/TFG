@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class BancoDeTrabajo {
 
     private int idBanco;
-    private String desccripcionBanco;
+    private String descripcionBanco;
     private ArrayList<RecursosBancoDeTrabajo> listaRecursosBanco;
 
     public int getIdBanco() {
@@ -17,11 +17,11 @@ public class BancoDeTrabajo {
     }
 
     public String getDesccripcionBanco() {
-        return desccripcionBanco;
+        return descripcionBanco;
     }
 
     public void setDesccripcionBanco(String desccripcionBanco) {
-        this.desccripcionBanco = desccripcionBanco;
+        this.descripcionBanco = desccripcionBanco;
     }
 
     public ArrayList<RecursosBancoDeTrabajo> getListaRecursosBanco() {
@@ -30,5 +30,14 @@ public class BancoDeTrabajo {
 
     public void setListaRecursosBanco(ArrayList<RecursosBancoDeTrabajo> listaRecursosBanco) {
         this.listaRecursosBanco = listaRecursosBanco;
+    }
+
+    @Override
+    public String toString() {
+        return "Banco de trabajo{" +
+                "id del banco de trabajo ='" + idBanco +
+                ", descripción del banco de trabajo ='" + descripcionBanco +
+                ", lista de recursos del banco de trabajo='" + listaRecursosBanco +
+                '}';
     }
 }

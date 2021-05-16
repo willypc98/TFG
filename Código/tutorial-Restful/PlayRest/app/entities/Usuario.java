@@ -35,9 +35,9 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return "Employee{" +
+        return "Usuario{" +
                 "id=" + id +
-                ", nmbre='" + nombre + '\'' +
+                ", nombre='" + nombre + '\'' +
                 ", grado universitario='" + grado +
                 '}';
     }

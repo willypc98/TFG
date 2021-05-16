@@ -4,7 +4,7 @@ public class RecursosBancoDeTrabajo {
 
     private int idRecursoBanco;
     private String nombreRecursoBanco;
-    private String desccripcionRecursoBanco;
+    private String descripcionRecursoBanco;
 
     public int getIdRecursoBanco() {
         return idRecursoBanco;
@@ -23,10 +23,19 @@ public class RecursosBancoDeTrabajo {
     }
 
     public String getDesccripcionRecursoBanco() {
-        return desccripcionRecursoBanco;
+        return descripcionRecursoBanco;
     }
 
     public void setDesccripcionRecursoBanco(String desccripcionRecursoBanco) {
-        this.desccripcionRecursoBanco = desccripcionRecursoBanco;
+        this.descripcionRecursoBanco = desccripcionRecursoBanco;
+    }
+
+    @Override
+    public String toString() {
+        return "Recurso del banco de trabajo {" +
+                "id del recurso del banco de trabajo='" + idRecursoBanco +
+                ", nombre del recurso del banco de trabajo='" + nombreRecursoBanco + '\'' +
+                ", descripción del recurso del banco de trabajo='" + descripcionRecursoBanco +
+                '}';
     }
 }
