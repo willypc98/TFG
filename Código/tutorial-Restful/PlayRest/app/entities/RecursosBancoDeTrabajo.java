@@ -1,10 +1,13 @@
 package entities;
 
+import java.util.ArrayList;
+
 public class RecursosBancoDeTrabajo {
 
     private int idRecursoBanco;
     private String nombreRecursoBanco;
     private String descripcionRecursoBanco;
+    private ArrayList<String> listaDisponibilidad;
 
     public int getIdRecursoBanco() {
         return idRecursoBanco;

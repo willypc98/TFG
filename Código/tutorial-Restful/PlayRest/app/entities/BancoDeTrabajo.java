@@ -6,6 +6,7 @@ public class BancoDeTrabajo {
 
     private int idBanco;
     private String descripcionBanco;
+    private ArrayList<String> listaDisponibilidad;
     private ArrayList<RecursosBancoDeTrabajo> listaRecursosBanco;
 
     public int getIdBanco() {

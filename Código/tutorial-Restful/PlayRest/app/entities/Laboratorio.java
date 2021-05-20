@@ -6,8 +6,9 @@ public class Laboratorio {
 
     private int idLab;
     private String nombreLab;
-    private String desccripcionLab;
-    private ArrayList<String> listaDisponibilidad;
+    private String descripcionLab;
+    private ArrayList<String> listaDisponibilidad; //horas de apertura y cierre
+    private ArrayList<BancoDeTrabajo> listaBancosDeTrabajo;
 
     public int getIdLab() {
         return idLab;
@@ -26,11 +27,11 @@ public class Laboratorio {
     }
 
     public String getDesccripcionLab() {
-        return desccripcionLab;
+        return descripcionLab;
     }
 
     public void setDesccripcionLab(String desccripcionLab) {
-        this.desccripcionLab = desccripcionLab;
+        this.descripcionLab = desccripcionLab;
     }
 
     public ArrayList<String> getListaDisponibilidad() {
@@ -46,7 +47,7 @@ public class Laboratorio {
         return "Laboratorio{" +
                 "id del laboratorio= 'L." + idLab +
                 ", nombre del laboratorio='" + nombreLab + '\'' +
-                ", descripción del laboratorio='" + desccripcionLab +
+                ", descripción del laboratorio='" + descripcionLab +
                 ", horarios disponibles='" + listaDisponibilidad +
                 '}';
     }
