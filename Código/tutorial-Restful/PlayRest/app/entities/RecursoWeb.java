@@ -2,9 +2,10 @@ package entities;
 
 public class RecursoWeb {
 
-    private int id;
-    private String url;
+    protected int id;
+    protected String url;
 
+    /*
     public int getId() {
         return id;
     }
@@ -29,4 +30,6 @@ public class RecursoWeb {
 
                 '}';
     }
+
+     */
 }
