@@ -2,12 +2,12 @@ package entities;
 
 import java.util.ArrayList;
 
-public class RecursosBancoDeTrabajo {
+public class RecursosBancoDeTrabajo extends RecursoWeb{
 
     private int idRecursoBanco;
     private String nombreRecursoBanco;
     private String descripcionRecursoBanco;
-    private ArrayList<String> listaDisponibilidad;
+    private ArrayList<String> listaDisponibilidadRecursos;
 
     public int getIdRecursoBanco() {
         return idRecursoBanco;
@@ -39,6 +39,7 @@ public class RecursosBancoDeTrabajo {
                 "id del recurso del banco de trabajo='" + idRecursoBanco +
                 ", nombre del recurso del banco de trabajo='" + nombreRecursoBanco + '\'' +
                 ", descripción del recurso del banco de trabajo='" + descripcionRecursoBanco +
+                ", lista de disponibilidad de los recursos del banco de trabajo='" + listaDisponibilidadRecursos +
                 '}';
     }
 }

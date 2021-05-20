@@ -1,6 +1,6 @@
 package entities;
 
-public class Usuario {
+public class Usuario extends RecursoWeb{
 
     private int id;
     private String nombre;

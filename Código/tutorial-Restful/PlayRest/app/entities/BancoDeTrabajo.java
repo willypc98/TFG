@@ -2,11 +2,11 @@ package entities;
 
 import java.util.ArrayList;
 
-public class BancoDeTrabajo {
+public class BancoDeTrabajo extends RecursoWeb{
 
     private int idBanco;
     private String descripcionBanco;
-    private ArrayList<String> listaDisponibilidad;
+    private ArrayList<String> listaDisponibilidadBanco;
     private ArrayList<RecursosBancoDeTrabajo> listaRecursosBanco;
 
     public int getIdBanco() {
@@ -33,12 +33,21 @@ public class BancoDeTrabajo {
         this.listaRecursosBanco = listaRecursosBanco;
     }
 
+    public ArrayList<String> getListaDisponibilidadBanco() {
+        return listaDisponibilidadBanco;
+    }
+
+    public void setListaDisponibilidadBanco(ArrayList<String> listaDisponibilidadBanco) {
+        this.listaDisponibilidadBanco = listaDisponibilidadBanco;
+    }
+
     @Override
     public String toString() {
         return "Banco de trabajo{" +
                 "id del banco de trabajo ='" + idBanco +
                 ", descripción del banco de trabajo ='" + descripcionBanco +
                 ", lista de recursos del banco de trabajo='" + listaRecursosBanco +
+                ", lista de disponibilidad del banco de trabajo='" + listaDisponibilidadBanco +
                 '}';
     }
 }

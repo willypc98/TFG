@@ -2,12 +2,12 @@ package entities;
 
 import java.util.ArrayList;
 
-public class Laboratorio {
+public class Laboratorio extends RecursoWeb{
 
     private int idLab;
     private String nombreLab;
     private String descripcionLab;
-    private ArrayList<String> listaDisponibilidad; //horas de apertura y cierre
+    private ArrayList<String> listaDisponibilidadLaboratorio; //horas de apertura y cierre
     private ArrayList<BancoDeTrabajo> listaBancosDeTrabajo;
 
     public int getIdLab() {
@@ -34,12 +34,21 @@ public class Laboratorio {
         this.descripcionLab = desccripcionLab;
     }
 
-    public ArrayList<String> getListaDisponibilidad() {
-        return listaDisponibilidad;
+
+    public ArrayList<String> getListaDisponibilidadLaboratorio() {
+        return listaDisponibilidadLaboratorio;
     }
 
-    public void setListaDisponibilidad(ArrayList<String> listaDisponibilidad) {
-        this.listaDisponibilidad = listaDisponibilidad;
+    public void setListaDisponibilidadLaboratorio(ArrayList<String> listaDisponibilidadLaboratorio) {
+        this.listaDisponibilidadLaboratorio = listaDisponibilidadLaboratorio;
+    }
+
+    public ArrayList<BancoDeTrabajo> getListaBancosDeTrabajo() {
+        return listaBancosDeTrabajo;
+    }
+
+    public void setListaBancosDeTrabajo(ArrayList<BancoDeTrabajo> listaBancosDeTrabajo) {
+        this.listaBancosDeTrabajo = listaBancosDeTrabajo;
     }
 
     @Override
@@ -48,7 +57,7 @@ public class Laboratorio {
                 "id del laboratorio= 'L." + idLab +
                 ", nombre del laboratorio='" + nombreLab + '\'' +
                 ", descripción del laboratorio='" + descripcionLab +
-                ", horarios disponibles='" + listaDisponibilidad +
+                ", horarios disponibles='" + listaDisponibilidadLaboratorio +
                 '}';
     }
 }
