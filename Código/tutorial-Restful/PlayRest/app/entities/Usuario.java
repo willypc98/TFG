@@ -2,11 +2,18 @@ package entities;
 
 public class Usuario extends RecursoWeb{
 
-    private int id;
+   // private int id;
     private String nombre;
     private String grado;
 
+    Usuario(int id,String url,String nombre, String grado){
+        super(id,url);
+        this.nombre=nombre;
+        this.grado=grado;
 
+    }
+
+    /**
     public int getId() {
 
         return id;
@@ -16,7 +23,7 @@ public class Usuario extends RecursoWeb{
 
         this.id = id;
     }
-
+**/
     public String getNombre() {
         return nombre;
     }
@@ -36,7 +43,7 @@ public class Usuario extends RecursoWeb{
     @Override
     public String toString() {
         return "Usuario{" +
-                "id=" + id +
+                "id del usuario=" + id +
                 ", nombre='" + nombre + '\'' +
                 ", grado universitario='" + grado +
                 '}';

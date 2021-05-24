@@ -1,14 +1,24 @@
 package entities;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class RecursosBancoDeTrabajo extends RecursoWeb{
 
-    private int idRecursoBanco;
+   // private int idRecursoBanco;
     private String nombreRecursoBanco;
     private String descripcionRecursoBanco;
-    private ArrayList<String> listaDisponibilidadRecursos;
+    private ArrayList<Date> listaDisponibilidadRecursos;
 
+    public RecursosBancoDeTrabajo(int id, String url, String nombreRecursoBanco
+            , String descripcionRecursoBanco , ArrayList<Date> listaDisponibilidadRecursos) {
+        super(id, url);
+        this.nombreRecursoBanco=nombreRecursoBanco;
+        this.descripcionRecursoBanco=descripcionRecursoBanco;
+        this.setListaDisponibilidadRecursos(listaDisponibilidadRecursos);
+    }
+
+    /**
     public int getIdRecursoBanco() {
         return idRecursoBanco;
     }
@@ -16,7 +26,7 @@ public class RecursosBancoDeTrabajo extends RecursoWeb{
     public void setIdRecursoBanco(int idRecursoBanco) {
         this.idRecursoBanco = idRecursoBanco;
     }
-
+**/
     public String getNombreRecursoBanco() {
         return nombreRecursoBanco;
     }
@@ -33,10 +43,18 @@ public class RecursosBancoDeTrabajo extends RecursoWeb{
         this.descripcionRecursoBanco = desccripcionRecursoBanco;
     }
 
+    public ArrayList<Date> getListaDisponibilidadRecursos() {
+        return listaDisponibilidadRecursos;
+    }
+
+    public void setListaDisponibilidadRecursos(ArrayList<Date> listaDisponibilidadRecursos) {
+        this.listaDisponibilidadRecursos = listaDisponibilidadRecursos;
+    }
+
     @Override
     public String toString() {
         return "Recurso del banco de trabajo {" +
-                "id del recurso del banco de trabajo='" + idRecursoBanco +
+                "id del recurso del banco de trabajo='" + id +
                 ", nombre del recurso del banco de trabajo='" + nombreRecursoBanco + '\'' +
                 ", descripción del recurso del banco de trabajo='" + descripcionRecursoBanco +
                 ", lista de disponibilidad de los recursos del banco de trabajo='" + listaDisponibilidadRecursos +

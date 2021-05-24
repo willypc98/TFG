@@ -1,16 +1,27 @@
 package entities;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Laboratorio extends RecursoWeb{
 
-    private int idLab;
+  //  private int idLab;
     private String nombreLab;
     private String descripcionLab;
-    private ArrayList<String> listaDisponibilidadLaboratorio; //horas de apertura y cierre
+    private ArrayList<Date> listaDisponibilidadLaboratorio; //horas de apertura y cierre
     private ArrayList<BancoDeTrabajo> listaBancosDeTrabajo;
 
-    public int getIdLab() {
+    public Laboratorio(int id, String url, String nombreLab, String descripcionLab
+            , ArrayList<Date> listaDisponibilidadLaboratorio
+            , ArrayList<BancoDeTrabajo> listaBancosDeTrabajo) {
+        super(id, url);
+        this.nombreLab=nombreLab;
+        this.descripcionLab=descripcionLab;
+        this.listaDisponibilidadLaboratorio=listaDisponibilidadLaboratorio;
+        this.listaBancosDeTrabajo=listaBancosDeTrabajo;
+    }
+
+   /** public int getIdLab() {
         return idLab;
     }
 
@@ -18,6 +29,7 @@ public class Laboratorio extends RecursoWeb{
         this.idLab = idLab;
     }
 
+    **/
     public String getNombreLab() {
         return nombreLab;
     }
@@ -35,11 +47,11 @@ public class Laboratorio extends RecursoWeb{
     }
 
 
-    public ArrayList<String> getListaDisponibilidadLaboratorio() {
+    public ArrayList<Date> getListaDisponibilidadLaboratorio() {
         return listaDisponibilidadLaboratorio;
     }
 
-    public void setListaDisponibilidadLaboratorio(ArrayList<String> listaDisponibilidadLaboratorio) {
+    public void setListaDisponibilidadLaboratorio(ArrayList<Date> listaDisponibilidadLaboratorio) {
         this.listaDisponibilidadLaboratorio = listaDisponibilidadLaboratorio;
     }
 
@@ -54,7 +66,7 @@ public class Laboratorio extends RecursoWeb{
     @Override
     public String toString() {
         return "Laboratorio{" +
-                "id del laboratorio= 'L." + idLab +
+                "id del laboratorio= 'L." + id +
                 ", nombre del laboratorio='" + nombreLab + '\'' +
                 ", descripción del laboratorio='" + descripcionLab +
                 ", horarios disponibles='" + listaDisponibilidadLaboratorio +
