@@ -2,7 +2,6 @@ package entities;
 
 public class Usuario extends RecursoWeb{
 
-   // private int id;
     private String nombre;
     private String grado;
 
@@ -16,17 +15,7 @@ public class Usuario extends RecursoWeb{
 
     }
 
-    /**
-    public int getId() {
 
-        return id;
-    }
-
-    public void setId(int id) {
-
-        this.id = id;
-    }
-**/
     public String getNombre() {
         return nombre;
     }

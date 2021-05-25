@@ -13,7 +13,7 @@ public class RecursoWeb {
         this.url=url;
     }
 
-    /*
+
     public int getId() {
         return id;
     }
@@ -39,5 +39,5 @@ public class RecursoWeb {
                 '}';
     }
 
-     */
+
 }

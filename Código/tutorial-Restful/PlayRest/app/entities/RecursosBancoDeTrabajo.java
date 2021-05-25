@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class RecursosBancoDeTrabajo extends RecursoWeb{
-
-   // private int idRecursoBanco;
+    
     private String nombreRecursoBanco;
     private String descripcionRecursoBanco;
     private ArrayList<Date> listaDisponibilidadRecursos;
@@ -13,7 +12,7 @@ public class RecursosBancoDeTrabajo extends RecursoWeb{
     public RecursosBancoDeTrabajo(){
         super();
     }
-    
+
     public RecursosBancoDeTrabajo(int id, String url, String nombreRecursoBanco, String descripcionRecursoBanco ) {
         super(id, url);
         this.nombreRecursoBanco=nombreRecursoBanco;
@@ -28,12 +27,12 @@ public class RecursosBancoDeTrabajo extends RecursoWeb{
         this.nombreRecursoBanco = nombreRecursoBanco;
     }
 
-    public String getDesccripcionRecursoBanco() {
+    public String getDescripcionRecursoBanco() {
         return descripcionRecursoBanco;
     }
 
-    public void setDesccripcionRecursoBanco(String desccripcionRecursoBanco) {
-        this.descripcionRecursoBanco = desccripcionRecursoBanco;
+    public void setDescripcionRecursoBanco(String descripcionRecursoBanco) {
+        this.descripcionRecursoBanco = descripcionRecursoBanco;
     }
 
     public ArrayList<Date> getListaDisponibilidadRecursos() {
