@@ -6,7 +6,10 @@ public class Usuario extends RecursoWeb{
     private String nombre;
     private String grado;
 
-    Usuario(int id,String url,String nombre, String grado){
+   public Usuario(){
+        super();
+    }
+   public Usuario(int id,String url,String nombre, String grado){
         super(id,url);
         this.nombre=nombre;
         this.grado=grado;

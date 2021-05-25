@@ -10,12 +10,16 @@ public class RecursosBancoDeTrabajo extends RecursoWeb{
     private String descripcionRecursoBanco;
     private ArrayList<Date> listaDisponibilidadRecursos;
 
+    public RecursosBancoDeTrabajo(){
+        super();
+    }
+    
     public RecursosBancoDeTrabajo(int id, String url, String nombreRecursoBanco, String descripcionRecursoBanco ) {
         super(id, url);
         this.nombreRecursoBanco=nombreRecursoBanco;
         this.descripcionRecursoBanco=descripcionRecursoBanco;
     }
-    
+
     public String getNombreRecursoBanco() {
         return nombreRecursoBanco;
     }

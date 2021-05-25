@@ -9,6 +9,10 @@ public class BancoDeTrabajo extends RecursoWeb{
     private ArrayList<Date> listaDisponibilidadBanco;
     private ArrayList<RecursosBancoDeTrabajo> listaRecursosBanco;
 
+    public BancoDeTrabajo(){
+        super();
+    }
+
     public BancoDeTrabajo(int id, String url, String descripcionBanco) {
         super(id, url);
         this.descripcionBanco=descripcionBanco;
