@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class RecursosBancoDeTrabajo extends RecursoWeb{
-    
+
     private String nombreRecursoBanco;
     private String descripcionRecursoBanco;
     private ArrayList<Date> listaDisponibilidadRecursos;
