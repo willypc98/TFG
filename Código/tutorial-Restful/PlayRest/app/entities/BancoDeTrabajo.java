@@ -5,33 +5,21 @@ import java.util.Date;
 
 public class BancoDeTrabajo extends RecursoWeb{
 
-    //private int idBanco;
     private String descripcionBanco;
     private ArrayList<Date> listaDisponibilidadBanco;
     private ArrayList<RecursosBancoDeTrabajo> listaRecursosBanco;
 
-    public BancoDeTrabajo(int id, String url, String descripcionBanco,
-                          ArrayList<Date> listaDisponibilidadBanco, ArrayList<RecursosBancoDeTrabajo> listaRecursosBanco ) {
+    public BancoDeTrabajo(int id, String url, String descripcionBanco) {
         super(id, url);
         this.descripcionBanco=descripcionBanco;
-        this.listaDisponibilidadBanco=listaDisponibilidadBanco;
-        this.listaRecursosBanco=listaRecursosBanco;
     }
 
-    /**
-    public int getIdBanco() {
-        return idBanco;
-    }
 
-    public void setIdBanco(int idBanco) {
-        this.idBanco = idBanco;
-    }
-**/
-    public String getDesccripcionBanco() {
+    public String getDescripcionBanco() {
         return descripcionBanco;
     }
 
-    public void setDesccripcionBanco(String desccripcionBanco) {
+    public void setDescripcionBanco(String desccripcionBanco) {
         this.descripcionBanco = desccripcionBanco;
     }
 

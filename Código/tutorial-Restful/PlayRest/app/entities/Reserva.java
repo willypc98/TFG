@@ -11,13 +11,11 @@ public class Reserva extends RecursoWeb{
     private ArrayList<RecursosBancoDeTrabajo> listaRecursos;
     private ArrayList<Date> listaDisponibilidadReserva;
 
-    public Reserva(int id, String url, Usuario usu, Laboratorio lab, BancoDeTrabajo ban ,
-                   ArrayList<RecursosBancoDeTrabajo> listaRecursos, ArrayList<Date> listaDisponibilidadReserva) {
+    public Reserva(int id, String url, Usuario usu, Laboratorio lab, BancoDeTrabajo ban ) {
         super(id, url);
         this.usu=usu;
         this.lab=lab;
         this.ban=ban;
-        this.listaRecursos=listaRecursos;
-        this.listaDisponibilidadReserva=listaDisponibilidadReserva;
+
     }
 }

@@ -5,31 +5,21 @@ import java.util.Date;
 
 public class Laboratorio extends RecursoWeb{
 
-  //  private int idLab;
     private String nombreLab;
     private String descripcionLab;
     private ArrayList<Date> listaDisponibilidadLaboratorio; //horas de apertura y cierre
     private ArrayList<BancoDeTrabajo> listaBancosDeTrabajo;
 
-    public Laboratorio(int id, String url, String nombreLab, String descripcionLab
-            , ArrayList<Date> listaDisponibilidadLaboratorio
-            , ArrayList<BancoDeTrabajo> listaBancosDeTrabajo) {
+    public Laboratorio(){
+        super();
+    }
+    public Laboratorio(int id, String url, String nombreLab, String descripcionLab) {
         super(id, url);
         this.nombreLab=nombreLab;
         this.descripcionLab=descripcionLab;
-        this.listaDisponibilidadLaboratorio=listaDisponibilidadLaboratorio;
-        this.listaBancosDeTrabajo=listaBancosDeTrabajo;
+
     }
 
-   /** public int getIdLab() {
-        return idLab;
-    }
-
-    public void setIdLab(int idLab) {
-        this.idLab = idLab;
-    }
-
-    **/
     public String getNombreLab() {
         return nombreLab;
     }

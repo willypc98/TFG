@@ -5,6 +5,9 @@ public class RecursoWeb {
     protected int id;
     protected String url;
 
+    public RecursoWeb(){
+
+    }
     public RecursoWeb(int id, String url) {
         this.id=id;
         this.url=url;
