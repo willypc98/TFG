@@ -1,6 +1,5 @@
 package services;
 
-import entities.Employee;
 import entities.Usuario;
 
 import java.sql.SQLException;
