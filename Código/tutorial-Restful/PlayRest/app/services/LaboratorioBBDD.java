@@ -1,4 +1,4 @@
 package services;
 
-public class LaboratorioBBDD {
+public class LaboratorioBBDD extends ConexionBBDD{
 }

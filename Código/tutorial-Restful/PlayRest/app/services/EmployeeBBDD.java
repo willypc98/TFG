@@ -12,7 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class EmployeeBBDD {
+public class EmployeeBBDD extends ConexionBBDD{
 
     private static EmployeeBBDD instance;
     public static EmployeeBBDD getInstance() {
@@ -21,7 +21,7 @@ public class EmployeeBBDD {
         }
         return instance;
     }
-
+/*
     Database database = Databases.createFrom("com.mysql.jdbc.Driver", "jdbc:mysql://localhost:3306/tfg");
 
     private static Connection con;
@@ -59,7 +59,7 @@ public class EmployeeBBDD {
         }
         return  valor;
     }
-
+*/
    // public void addEmployee(String name,String department,  String pass, int salary ) throws SQLException, ClassNotFoundException {
     public Employee addEmployee(Employee employee) throws SQLException, ClassNotFoundException {
         if (conector() == true) {

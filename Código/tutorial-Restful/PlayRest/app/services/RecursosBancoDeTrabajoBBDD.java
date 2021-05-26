@@ -1,4 +1,4 @@
 package services;
 
-public class RecursosBancoDeTrabajoBBDD {
+public class RecursosBancoDeTrabajoBBDD extends ConexionBBDD{
 }
