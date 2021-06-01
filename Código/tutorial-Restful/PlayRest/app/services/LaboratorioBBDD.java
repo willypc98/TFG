@@ -16,6 +16,7 @@ public class LaboratorioBBDD extends ConexionBBDD{
         }
         return instance;
     }
+
 /*
     public Laboratorio addLaboratorio(Laboratorio lab) throws SQLException, ClassNotFoundException {
         if (conector() == true) {

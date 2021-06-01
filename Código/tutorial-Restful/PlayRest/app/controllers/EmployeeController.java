@@ -1,6 +1,7 @@
 package controllers;
 
-import play.*; 
+import entities.Laboratorio;
+import play.*;
 import play.mvc.Http;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -126,7 +127,9 @@ public class EmployeeController extends Controller {
         if (EmployeeBBDD.getInstance().getEmployee(id) == null) {
             return notFound(ApplicationUtil.createResponse("Employee with id:" + id + " not found", false));
         }
-        JsonNode jsonObjects = Json.toJson(EmployeeBBDD.getInstance().getEmployee(id));
+      //  JsonNode jsonObjects = Json.toJson(EmployeeBBDD.getInstance().getEmployee(id));
+        JsonNode jsonObjects = Json.toJson(new Laboratorio());
+
         logger.debug("In EmployeeController.retrieve(), result is: {}",jsonObjects.toString());
         return ok(ApplicationUtil.createResponse(jsonObjects, true));
     }
