@@ -17,16 +17,18 @@ public class LaboratorioBBDD extends ConexionBBDD{
         return instance;
     }
 
-/*
+
     public Laboratorio addLaboratorio(Laboratorio lab) throws SQLException, ClassNotFoundException {
         if (conector() == true) {
 
             int id = lab.getId();
             String url = lab.getUrl();
+            String nombre = lab.getNombreLab();
+            String descripcion = lab.getDescripcionLab();
+            lab.getListaDisponibilidadLaboratorio();
 
 
-
-            createStatement.executeUpdate("INSERT INTO laboratorio (id,url,nombre,grado) VALUES ("+id+", '" + url + "', '" + nombre + "', '" + grado + "')");
+            createStatement.executeUpdate("INSERT INTO laboratorio (id,url,nombre,descripcion) VALUES ("+id+", '" + url + "', '" + nombre + "', '" + descripcion + "')");
             con.close();
 
         }
@@ -55,8 +57,8 @@ public class LaboratorioBBDD extends ConexionBBDD{
                         while (rS.next()) {
                             lab.setId(rS.getInt("id"));
                             lab.setUrl(rS.getString("url"));
-                            lab.setNombre(rS.getString("nombre"));
-                            lab.setGrado(rS.getString("grado"));
+                            lab.setNombreLab(rS.getString("nombre"));
+                            lab.setDescripcionLab(rS.getString("descripcion"));
 
 
                         }
@@ -97,8 +99,8 @@ public class LaboratorioBBDD extends ConexionBBDD{
                         Laboratorio lab = new Laboratorio();
                         lab.setId(Integer.parseInt(rS.getString("id")));
                         lab.setUrl(rS.getString("url"));
-                        lab.setNombre(rS.getString("nombre"));
-                        lab.setGrado(rS.getString("grado"));
+                        lab.setNombreLab(rS.getString("nombre"));
+                        lab.setDescripcionLab(rS.getString("descripcion"));
                         laboratoriosLista.add(lab);
 
                     }
@@ -130,10 +132,10 @@ public class LaboratorioBBDD extends ConexionBBDD{
             if (conector() == true) {
                 int id = lab.getId();
                 //String url = lab.getUrl();
-                String nombre = lab.getNombre();
-                String grado= lab.getGrado();
+                String nombre = lab.getNombreLab();
+                String descripcion= lab.getDescripcionLab();
 
-                String queryBBDD = "update Laboratorio set nombre='"+nombre+"', grado='"+grado+"' where id="+id+";";
+                String queryBBDD = "update Laboratorio set nombre='"+nombre+"', descripcion='"+descripcion+"' where id="+id+";";
 
                 try {
                     createStatement.executeUpdate(queryBBDD);
@@ -193,5 +195,5 @@ public class LaboratorioBBDD extends ConexionBBDD{
         return valor;
     }
 
- */
+
 }

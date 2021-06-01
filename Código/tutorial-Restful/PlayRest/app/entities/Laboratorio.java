@@ -36,11 +36,11 @@ public class Laboratorio extends RecursoWeb{
         this.nombreLab = nombreLab;
     }
 
-    public String getDesccripcionLab() {
+    public String getDescripcionLab() {
         return descripcionLab;
     }
 
-    public void setDesccripcionLab(String desccripcionLab) {
+    public void setDescripcionLab(String desccripcionLab) {
         this.descripcionLab = desccripcionLab;
     }
 
