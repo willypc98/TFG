@@ -50,8 +50,8 @@ public class Laboratorio extends RecursoWeb{
         return descripcionLab;
     }
 
-    public void setDescripcionLab(String desccripcionLab) {
-        this.descripcionLab = desccripcionLab;
+    public void setDescripcionLab(String descripcionLab) {
+        this.descripcionLab = descripcionLab;
     }
 
 
