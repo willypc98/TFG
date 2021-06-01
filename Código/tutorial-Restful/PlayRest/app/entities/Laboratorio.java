@@ -13,6 +13,10 @@ public class Laboratorio extends RecursoWeb{
     private ArrayList<BancoDeTrabajo> listaBancosDeTrabajo;
 
     public Laboratorio(){
+        super();
+    }
+    /*
+    public Laboratorio(){
 
         super(1, "/laboratorio/1");
         this.nombreLab="nombreLab";
@@ -21,6 +25,8 @@ public class Laboratorio extends RecursoWeb{
         listaDisponibilidadLaboratorio.add(LocalDateTime.of(2021,05,01,9,30));
         listaDisponibilidadLaboratorio.add(LocalDateTime.of(2021-1900,05,01,10,00 ));
     }
+    */
+     
     public Laboratorio(int id, String url, String nombreLab, String descripcionLab) {
         super(id, url);
         this.nombreLab=nombreLab;
