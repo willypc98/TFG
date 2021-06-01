@@ -14,6 +14,8 @@ GET     /usuarios/:id          controllers.UsuarioController.retrieve(id:Int)
 POST    /usuarios              controllers.UsuarioController.create(request:Request)
 PUT     /usuarios/:id          controllers.UsuarioController.update(request:Request,id:Int)
 DELETE  /usuarios/:id          controllers.UsuarioController.delete(id:Int)
- 
+
+POST    /laboratorios          controllers.LaboratorioController.create(request:Request)
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

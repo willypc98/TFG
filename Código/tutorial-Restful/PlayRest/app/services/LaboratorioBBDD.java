@@ -3,6 +3,7 @@ package services;
 
 import entities.Laboratorio;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,15 +22,28 @@ public class LaboratorioBBDD extends ConexionBBDD{
     public Laboratorio addLaboratorio(Laboratorio lab) throws SQLException, ClassNotFoundException {
         if (conector() == true) {
 
-            int id = lab.getId();
-            String url = lab.getUrl();
-            String nombre = lab.getNombreLab();
-            String descripcion = lab.getDescripcionLab();
-            lab.getListaDisponibilidadLaboratorio();
+            try {
+
+                con.setAutoCommit(false);
+                int id = lab.getId();
+                String url = lab.getUrl();
+                String nombre = lab.getNombreLab();
+                String descripcion = lab.getDescripcionLab();
+                ArrayList<LocalDateTime> disponibilidad= lab.getListaDisponibilidadLaboratorio();
 
 
-            createStatement.executeUpdate("INSERT INTO laboratorio (id,url,nombre,descripcion) VALUES ("+id+", '" + url + "', '" + nombre + "', '" + descripcion + "')");
-            con.close();
+
+                createStatement.executeUpdate("INSERT INTO laboratorio (id,url,nombre,descripcion) VALUES (" + id + ", '" + url + "', '" + nombre + "', '" + descripcion + "')");
+
+                for (LocalDateTime dis:disponibilidad) {
+                    createStatement.executeUpdate("INSERT INTO DisponibilidadLaboratorio (labid,disponibilidad) VALUES (" + id + ", '" + dis +  "')");
+                }
+                con.commit();
+                con.close();
+            }
+            catch(SQLException e){
+                con.rollback();
+                }
 
         }
         return lab;
