@@ -12,7 +12,7 @@ DELETE  /employee/:id          controllers.EmployeeController.delete(id:Int)
 GET     /usuarios              controllers.UsuarioController.listUsuarios()
 GET     /usuarios/:id          controllers.UsuarioController.retrieve(id:Int)
 POST    /usuarios              controllers.UsuarioController.create(request:Request)
-PUT     /usuarios              controllers.UsuarioController.update(request:Request)
+PUT     /usuarios/:id          controllers.UsuarioController.update(request:Request,id:Int)
 DELETE  /usuarios/:id          controllers.UsuarioController.delete(id:Int)
  
 # Map static resources from the /public folder to the /assets URL path

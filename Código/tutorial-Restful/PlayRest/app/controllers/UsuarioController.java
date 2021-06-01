@@ -32,13 +32,14 @@ public class UsuarioController extends Controller{
         return created(ApplicationUtil.createResponse(jsonObject, true));
     }
 
-    public Result update(Http.Request request) throws SQLException, ClassNotFoundException {
+    public Result update(Http.Request request,int id) throws SQLException, ClassNotFoundException {
         logger.debug("In UsuarioController.update()");
         JsonNode json = request.body().asJson();
+        //JsonNode jsonObjects = Json.toJson(UsuarioBBDD.getInstance().getUsuario(id));
         if (json == null) {
             return badRequest(ApplicationUtil.createResponse("Expecting Json data", false));
         }
-        Usuario usu = UsuarioBBDD.getInstance().updateUsuario(Json.fromJson(json, Usuario.class));
+        Usuario usu = UsuarioBBDD.getInstance().updateUsuario(Json.fromJson(json, Usuario.class),id);
         logger.debug("In UsuarioController.update(), usuario is: {}",usu);
         if (usu == null) {
             return notFound(ApplicationUtil.createResponse("Usuario not found", false));

@@ -125,10 +125,10 @@ public class UsuarioBBDD extends ConexionBBDD{
         return usuariosLista;
 
     }
-    public Usuario updateUsuario(Usuario usu ) throws SQLException, ClassNotFoundException {
+    public Usuario updateUsuario(Usuario usu, int id ) throws SQLException, ClassNotFoundException {
         try {
             if (conector() == true) {
-                int id = usu.getId();
+                //int id = usu.getId();
                 //String url = usu.getUrl();
                 String nombre = usu.getNombre();
                 String grado= usu.getGrado();
