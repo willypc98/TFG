@@ -74,6 +74,8 @@ public class LaboratorioBBDD extends ConexionBBDD{
                             lab.setUrl(rS.getString("url"));
                             lab.setNombreLab(rS.getString("nombre"));
                             lab.setDescripcionLab(rS.getString("descripcion"));
+                          // lab.setListaDisponibilidadLaboratorio(rS.getLocalDateTime("disponibilidad"));
+                           // lab.setListaDisponibilidadLaboratorio(rS.getDate("disponibilidad"));
 
 
                         }
@@ -142,6 +144,59 @@ public class LaboratorioBBDD extends ConexionBBDD{
         return laboratoriosLista;
 
     }
+    /*
+    public Laboratorio getDisponibilidadLaboratorio(int id) {
+        Laboratorio lab = new Laboratorio();
+        try {
+            if(conector()==true){
+
+                String queryBBDD = "select * from disponibilidadlaboratorio where id=" + id + ";";
+                int i=0;
+                try {
+                    rS = createStatement.executeQuery(queryBBDD);
+                } catch (SQLException ex) {
+                    Logger.getLogger(LaboratorioBBDD.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                if (rS == null){
+                    lab= null;
+
+                }
+                else{
+
+                    try {
+                        while (rS.next()) {
+                            lab.setId(rS.getInt("id"));
+                            lab.setUrl(rS.getString("url"));
+                            lab.setNombreLab(rS.getString("nombre"));
+                            lab.setDescripcionLab(rS.getString("descripcion"));
+
+
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(LaboratorioBBDD.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    try {
+                        i = 0;
+                        con.close();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(LaboratorioBBDD.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+
+            }
+            else{
+                lab=null;
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lab;
+    }
+
+     */
     public Laboratorio updateLaboratorio(Laboratorio lab, int id) throws SQLException, ClassNotFoundException {
         try {
             if (conector() == true) {
