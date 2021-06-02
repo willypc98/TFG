@@ -39,6 +39,7 @@ public class LaboratorioBBDD extends ConexionBBDD{
                     createStatement.executeUpdate("INSERT INTO DisponibilidadLaboratorio (labid,disponibilidad) VALUES (" + id + ", '" + dis +  "')");
                 }
                 con.commit();
+                con.setAutoCommit(true);
                 con.close();
             }
             catch(SQLException e){
@@ -141,10 +142,10 @@ public class LaboratorioBBDD extends ConexionBBDD{
         return laboratoriosLista;
 
     }
-    public Laboratorio updateLaboratorio(Laboratorio lab ) throws SQLException, ClassNotFoundException {
+    public Laboratorio updateLaboratorio(Laboratorio lab, int id) throws SQLException, ClassNotFoundException {
         try {
             if (conector() == true) {
-                int id = lab.getId();
+               // int id = lab.getId();
                 //String url = lab.getUrl();
                 String nombre = lab.getNombreLab();
                 String descripcion= lab.getDescripcionLab();
