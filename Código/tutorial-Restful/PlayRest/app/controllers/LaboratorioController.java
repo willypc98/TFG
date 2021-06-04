@@ -70,9 +70,9 @@ public class LaboratorioController extends Controller {
         if (LaboratorioBBDD.getInstance().getLaboratorio(id) == null) {
             return notFound(ApplicationUtil.createResponse("Laboratorio with id:" + id + " not found", false));
         }
-         ObjectMapper mapper = new ObjectMapper();
-        //JsonNode jsonObjects = Json.toJson(LaboratorioBBDD.getInstance().getLaboratorio(id));
-        JsonNode jsonObjects = mapper.convertValue(LaboratorioBBDD.getInstance().getLaboratorio(id),JsonNode.class);
+        //ObjectMapper mapper = new ObjectMapper();
+        JsonNode jsonObjects = Json.toJson(LaboratorioBBDD.getInstance().getLaboratorio(id));
+       // JsonNode jsonObjects = mapper.convertValue(LaboratorioBBDD.getInstance().getLaboratorio(id),JsonNode.class);
 
         logger.debug("In LaboratorioController.retrieve(), result is: {}",jsonObjects.toString());
         return ok(ApplicationUtil.createResponse(jsonObjects, true));
@@ -82,9 +82,10 @@ public class LaboratorioController extends Controller {
     public Result listLaboratorios() {
         Collection<Laboratorio> result = LaboratorioBBDD.getInstance().getAllLaboratorios();
         logger.debug("In LaboratorioController.listLaboratorios(), result is: {}",result.toString());
-        ObjectMapper mapper = new ObjectMapper();
+        //ObjectMapper mapper = new ObjectMapper();
 
-        JsonNode jsonData = mapper.convertValue(result, JsonNode.class);
+        JsonNode jsonData = Json.toJson(result);
+        //JsonNode jsonData = mapper.convertValue(result, JsonNode.class);
         return ok(ApplicationUtil.createResponse(jsonData, true));
 
     }
