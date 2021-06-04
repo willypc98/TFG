@@ -54,8 +54,9 @@ public class LaboratorioBBDD extends ConexionBBDD{
         return lab;
     }
 
-    public Laboratorio getLaboratorio(int id) {
-        Laboratorio lab = new Laboratorio();
+    public ArrayList<Laboratorio> getLaboratorio(int id) {
+
+        ArrayList<Laboratorio> laboratoriosLista = new ArrayList();
         try {
             if(conector()==true){
 
@@ -63,31 +64,34 @@ public class LaboratorioBBDD extends ConexionBBDD{
               //  String queryBBDD = "select laboratorio.id, laboratorio.url, laboratorio.nombre, laboratorio.descripcion, disponibilidadlaboratorio.disponibilidad from laboratorio, disponibilidadlaboratorio where laboratorio.id=" + id + " order by laboratorio.id ASC , disponibilidadlaboratorio.disponibilidad ASC;";
                 String queryBBDD = "select laboratorio.id, laboratorio.url, laboratorio.nombre, laboratorio.descripcion, disponibilidadlaboratorio.disponibilidad from laboratorio inner join disponibilidadlaboratorio on laboratorio.id = disponibilidadlaboratorio.labid where laboratorio.id =" + id + " ;";
                 int i=0;
+
                 try {
+
                     rS = createStatement.executeQuery(queryBBDD);
                 } catch (SQLException ex) {
                     Logger.getLogger(LaboratorioBBDD.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 if (rS == null){
-                    lab= null;
+                    //lab= null;
 
                 }
                 else{
 
                     try {
                         while (rS.next()) {
-                            lab.setId(rS.getInt("laboratorio.id"));
+                            Laboratorio lab = new Laboratorio();
+                            lab.setId(Integer.parseInt(rS.getString("laboratorio.id")));
                             lab.setUrl(rS.getString("laboratorio.url"));
                             lab.setNombreLab(rS.getString("laboratorio.nombre"));
                             lab.setDescripcionLab(rS.getString("laboratorio.descripcion"));
-
                             ArrayList<LocalDateTime> arrayDisponibilidad = new ArrayList<>();
                             arrayDisponibilidad.add(rS.getObject("disponibilidadlaboratorio.disponibilidad",LocalDateTime.class));
                             for (LocalDateTime dis:arrayDisponibilidad) {
-                                lab.setListaDisponibilidadLaboratorio(arrayDisponibilidad);
+                                ArrayList<LocalDateTime> horarios = new ArrayList<>();
+                                horarios.add(dis);
+                                lab.setListaDisponibilidadLaboratorio(horarios);
                             }
-
-
+                            laboratoriosLista.add(lab);
 
                         }
                     } catch (SQLException ex) {
@@ -103,7 +107,7 @@ public class LaboratorioBBDD extends ConexionBBDD{
 
             }
             else{
-                lab=null;
+                //lab=null;
 
             }
         } catch (SQLException ex) {
@@ -111,7 +115,7 @@ public class LaboratorioBBDD extends ConexionBBDD{
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return lab;
+        return laboratoriosLista;
     }
 
     public ArrayList<Laboratorio> getAllLaboratorios() {

@@ -49,6 +49,16 @@ public class LaboratorioController extends Controller {
     }
 
     public Result retrieve(int id) {
+        ArrayList<Laboratorio> result = LaboratorioBBDD.getInstance().getLaboratorio(id);
+        logger.debug("In LaboratorioController.getLaboratorio(id), result is: {}",result.toString());
+        ObjectMapper mapper = new ObjectMapper();
+
+        JsonNode jsonData = mapper.convertValue(result, JsonNode.class);
+        return ok(ApplicationUtil.createResponse(jsonData, true));
+    }
+
+    /*
+     public Result retrieve(int id) {
         logger.debug("In LaboratorioController.retrieve(), retrieve usuario with id: {}",id);
         if (LaboratorioBBDD.getInstance().getLaboratorio(id) == null) {
             return notFound(ApplicationUtil.createResponse("Laboratorio with id:" + id + " not found", false));
@@ -57,6 +67,7 @@ public class LaboratorioController extends Controller {
         logger.debug("In LaboratorioController.retrieve(), result is: {}",jsonObjects.toString());
         return ok(ApplicationUtil.createResponse(jsonObjects, true));
     }
+     */
 
     public Result listLaboratorios() {
         ArrayList<Laboratorio> result = LaboratorioBBDD.getInstance().getAllLaboratorios();
