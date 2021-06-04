@@ -1,12 +1,13 @@
 package entities;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class BancoDeTrabajo extends RecursoWeb{
 
     private String descripcionBanco;
-    private ArrayList<Date> listaDisponibilidadBanco;
+    private ArrayList<LocalDateTime> listaDisponibilidadBanco;
     private ArrayList<RecursosBancoDeTrabajo> listaRecursosBanco;
 
     public BancoDeTrabajo(){
@@ -35,12 +36,21 @@ public class BancoDeTrabajo extends RecursoWeb{
         this.listaRecursosBanco = listaRecursosBanco;
     }
 
-    public ArrayList<Date> getListaDisponibilidadBanco() {
+    public ArrayList<LocalDateTime> getListaDisponibilidadBanco() {
         return listaDisponibilidadBanco;
     }
 
-    public void setListaDisponibilidadBanco(ArrayList<Date> listaDisponibilidadBanco) {
+    public void setListaDisponibilidadBanco(ArrayList<LocalDateTime> listaDisponibilidadBanco) {
         this.listaDisponibilidadBanco = listaDisponibilidadBanco;
+    }
+
+    public void annadirListaDisponibilidad(LocalDateTime horario){
+
+        listaDisponibilidadBanco.add(horario);
+    }
+
+    public void annadirListaRecursosBancoDeTrabajo(RecursosBancoDeTrabajo recurso) {
+        listaRecursosBanco.add(recurso);
     }
 
     @Override
