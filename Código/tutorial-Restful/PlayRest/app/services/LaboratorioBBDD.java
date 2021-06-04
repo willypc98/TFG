@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -59,7 +60,8 @@ public class LaboratorioBBDD extends ConexionBBDD{
             if(conector()==true){
 
                 //String queryBBDD = "select * from laboratorio where id=" + id + ";";
-                String queryBBDD = "select laboratorio.id, laboratorio.url, laboratorio.nombre, laboratorio.descripcion, disponibilidadlaboratorio.disponibilidad from laboratorio, disponibilidadlaboratorio where laboratorio.id=" + id + " order by laboratorio.id ASC , disponibilidadlaboratorio.disponibilidad ASC;";
+              //  String queryBBDD = "select laboratorio.id, laboratorio.url, laboratorio.nombre, laboratorio.descripcion, disponibilidadlaboratorio.disponibilidad from laboratorio, disponibilidadlaboratorio where laboratorio.id=" + id + " order by laboratorio.id ASC , disponibilidadlaboratorio.disponibilidad ASC;";
+                String queryBBDD = "select laboratorio.id, laboratorio.url, laboratorio.nombre, laboratorio.descripcion, disponibilidadlaboratorio.disponibilidad from laboratorio inner join disponibilidadlaboratorio on laboratorio.id = disponibilidadlaboratorio.labid where laboratorio.id =" + id + " ;";
                 int i=0;
                 try {
                     rS = createStatement.executeQuery(queryBBDD);
@@ -81,8 +83,10 @@ public class LaboratorioBBDD extends ConexionBBDD{
 
                             ArrayList<LocalDateTime> arrayDisponibilidad = new ArrayList<>();
                             arrayDisponibilidad.add(rS.getObject("disponibilidadlaboratorio.disponibilidad",LocalDateTime.class));
+                            for (LocalDateTime dis:arrayDisponibilidad) {
+                                lab.setListaDisponibilidadLaboratorio(arrayDisponibilidad);
+                            }
 
-                            lab.setListaDisponibilidadLaboratorio(arrayDisponibilidad);
 
 
                         }
@@ -112,11 +116,13 @@ public class LaboratorioBBDD extends ConexionBBDD{
 
     public ArrayList<Laboratorio> getAllLaboratorios() {
         ArrayList<Laboratorio> laboratoriosLista = new ArrayList();
-        ArrayList<LocalDateTime> arrayDisponibilidad = new ArrayList<>();
+
+
         try {
             if(conector()==true){
                // String queryBBDD = "select * from laboratorio;";
-                String queryBBDD = "select laboratorio.id, laboratorio.url, laboratorio.nombre, laboratorio.descripcion, disponibilidadlaboratorio.disponibilidad from laboratorio, disponibilidadlaboratorio order by laboratorio.id ASC , disponibilidadlaboratorio.disponibilidad ASC;";
+               // String queryBBDD = "select laboratorio.id, laboratorio.url, laboratorio.nombre, laboratorio.descripcion, disponibilidadlaboratorio.disponibilidad from laboratorio, disponibilidadlaboratorio order by laboratorio.id ASC , disponibilidadlaboratorio.disponibilidad ASC;";
+                String queryBBDD = "select laboratorio.id, laboratorio.url, laboratorio.nombre, laboratorio.descripcion, disponibilidadlaboratorio.disponibilidad from laboratorio inner join disponibilidadlaboratorio on laboratorio.id = disponibilidadlaboratorio.labid;";
                 int i=0;
                 try {
                     rS = createStatement.executeQuery(queryBBDD);
@@ -128,8 +134,13 @@ public class LaboratorioBBDD extends ConexionBBDD{
                         lab.setUrl(rS.getString("laboratorio.url"));
                         lab.setNombreLab(rS.getString("laboratorio.nombre"));
                         lab.setDescripcionLab(rS.getString("laboratorio.descripcion"));
+                        ArrayList<LocalDateTime> arrayDisponibilidad = new ArrayList<>();
                         arrayDisponibilidad.add(rS.getObject("disponibilidadlaboratorio.disponibilidad",LocalDateTime.class));
-                        lab.setListaDisponibilidadLaboratorio(arrayDisponibilidad);
+                        for (LocalDateTime dis:arrayDisponibilidad) {
+                            ArrayList<LocalDateTime> horarios = new ArrayList<>();
+                            horarios.add(dis);
+                            lab.setListaDisponibilidadLaboratorio(horarios);
+                        }
                         laboratoriosLista.add(lab);
 
                     }
