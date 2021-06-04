@@ -9,12 +9,13 @@ public class Laboratorio extends RecursoWeb{
 
     private String nombreLab;
     private String descripcionLab;
-    private ArrayList<LocalDateTime> listaDisponibilidadLaboratorio; //horas de apertura y cierre 01/01/2021-10:00
-    private ArrayList<BancoDeTrabajo> listaBancosDeTrabajo;
+    private ArrayList<LocalDateTime> listaDisponibilidadLaboratorio = new ArrayList<>(); //horas de apertura y cierre 01/01/2021-10:00
+    private ArrayList<BancoDeTrabajo> listaBancosDeTrabajo = new ArrayList<>();
 
 
     public Laboratorio(){
         super();
+
     }
 
 
@@ -71,6 +72,14 @@ public class Laboratorio extends RecursoWeb{
         this.listaBancosDeTrabajo = listaBancosDeTrabajo;
     }
 
+    public void annadirListaDisponibilidad(LocalDateTime horario){
+
+        listaDisponibilidadLaboratorio.add(horario);
+    }
+
+    public void annadirListaBancosDeTrabajo(BancoDeTrabajo banco){
+        listaBancosDeTrabajo.add(banco);
+    }
     @Override
     public String toString() {
         return "Laboratorio{" +

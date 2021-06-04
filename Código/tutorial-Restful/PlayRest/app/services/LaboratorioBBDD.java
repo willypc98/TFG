@@ -6,7 +6,9 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -54,9 +56,9 @@ public class LaboratorioBBDD extends ConexionBBDD{
         return lab;
     }
 
-    public ArrayList<Laboratorio> getLaboratorio(int id) {
+    public Laboratorio getLaboratorio(int id) {
 
-        ArrayList<Laboratorio> laboratoriosLista = new ArrayList();
+        HashMap<Integer,Laboratorio> mapa = new HashMap<>();
         try {
             if(conector()==true){
 
@@ -79,19 +81,25 @@ public class LaboratorioBBDD extends ConexionBBDD{
 
                     try {
                         while (rS.next()) {
-                            Laboratorio lab = new Laboratorio();
-                            lab.setId(Integer.parseInt(rS.getString("laboratorio.id")));
-                            lab.setUrl(rS.getString("laboratorio.url"));
-                            lab.setNombreLab(rS.getString("laboratorio.nombre"));
-                            lab.setDescripcionLab(rS.getString("laboratorio.descripcion"));
-                            ArrayList<LocalDateTime> arrayDisponibilidad = new ArrayList<>();
-                            arrayDisponibilidad.add(rS.getObject("disponibilidadlaboratorio.disponibilidad",LocalDateTime.class));
-                            for (LocalDateTime dis:arrayDisponibilidad) {
-                                ArrayList<LocalDateTime> horarios = new ArrayList<>();
-                                horarios.add(dis);
-                                lab.setListaDisponibilidadLaboratorio(horarios);
+                            Laboratorio lab;
+
+                            if (mapa.containsKey(Integer.parseInt(rS.getString("laboratorio.id")))){
+                                lab=mapa.get(Integer.parseInt(rS.getString("laboratorio.id")));
                             }
-                            laboratoriosLista.add(lab);
+                            else{
+                                lab = new Laboratorio();
+                                lab.setId(Integer.parseInt(rS.getString("laboratorio.id")));
+                                lab.setUrl(rS.getString("laboratorio.url"));
+                                lab.setNombreLab(rS.getString("laboratorio.nombre"));
+                                lab.setDescripcionLab(rS.getString("laboratorio.descripcion"));
+                                mapa.put(lab.getId(), lab);
+                            }
+
+
+                            LocalDateTime tiempo = rS.getObject("disponibilidadlaboratorio.disponibilidad",LocalDateTime.class);
+                            lab.annadirListaDisponibilidad(tiempo);
+
+
 
                         }
                     } catch (SQLException ex) {
@@ -115,12 +123,22 @@ public class LaboratorioBBDD extends ConexionBBDD{
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return laboratoriosLista;
+        if (mapa.values().size() >0){
+
+
+           return new ArrayList<>(mapa.values()).get(0);
+
+        }
+        else {
+            return null;
+        }
+
+
     }
 
-    public ArrayList<Laboratorio> getAllLaboratorios() {
-        ArrayList<Laboratorio> laboratoriosLista = new ArrayList();
+    public Collection<Laboratorio> getAllLaboratorios() {
 
+        HashMap<Integer,Laboratorio> mapa = new HashMap<>();
 
         try {
             if(conector()==true){
@@ -133,19 +151,24 @@ public class LaboratorioBBDD extends ConexionBBDD{
 
                     while (rS.next()) {
 
-                        Laboratorio lab = new Laboratorio();
-                        lab.setId(Integer.parseInt(rS.getString("laboratorio.id")));
-                        lab.setUrl(rS.getString("laboratorio.url"));
-                        lab.setNombreLab(rS.getString("laboratorio.nombre"));
-                        lab.setDescripcionLab(rS.getString("laboratorio.descripcion"));
-                        ArrayList<LocalDateTime> arrayDisponibilidad = new ArrayList<>();
-                        arrayDisponibilidad.add(rS.getObject("disponibilidadlaboratorio.disponibilidad",LocalDateTime.class));
-                        for (LocalDateTime dis:arrayDisponibilidad) {
-                            ArrayList<LocalDateTime> horarios = new ArrayList<>();
-                            horarios.add(dis);
-                            lab.setListaDisponibilidadLaboratorio(horarios);
+                        Laboratorio lab;
+
+                        if (mapa.containsKey(Integer.parseInt(rS.getString("laboratorio.id")))){
+                            lab=mapa.get(Integer.parseInt(rS.getString("laboratorio.id")));
                         }
-                        laboratoriosLista.add(lab);
+                        else{
+                            lab = new Laboratorio();
+                            lab.setId(Integer.parseInt(rS.getString("laboratorio.id")));
+                            lab.setUrl(rS.getString("laboratorio.url"));
+                            lab.setNombreLab(rS.getString("laboratorio.nombre"));
+                            lab.setDescripcionLab(rS.getString("laboratorio.descripcion"));
+                            mapa.put(lab.getId(), lab);
+                        }
+
+
+                        LocalDateTime tiempo = rS.getObject("disponibilidadlaboratorio.disponibilidad",LocalDateTime.class);
+                        lab.annadirListaDisponibilidad(tiempo);
+
 
                     }
                 } catch (SQLException ex) {
@@ -160,15 +183,16 @@ public class LaboratorioBBDD extends ConexionBBDD{
 
             }
             else{
-                return laboratoriosLista;
+                //return new ArrayList<>(mapa.values);
+                return null;
             }
         } catch (SQLException ex) {
             Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("El tamaño de la lista es" + laboratoriosLista.size());
-        return laboratoriosLista;
+       System.out.println("El tamaño de la lista es" + mapa.values().size());
+        return mapa.values();
 
     }
     /*
