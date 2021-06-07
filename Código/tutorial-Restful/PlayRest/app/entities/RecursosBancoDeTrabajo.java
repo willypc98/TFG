@@ -1,5 +1,6 @@
 package entities;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -7,7 +8,7 @@ public class RecursosBancoDeTrabajo extends RecursoWeb{
 
     private String nombreRecursoBanco;
     private String descripcionRecursoBanco;
-    private ArrayList<Date> listaDisponibilidadRecursos;
+    private ArrayList<LocalDateTime> listaDisponibilidadRecursos= new ArrayList<>();
 
     public RecursosBancoDeTrabajo(){
         super();
@@ -35,12 +36,17 @@ public class RecursosBancoDeTrabajo extends RecursoWeb{
         this.descripcionRecursoBanco = descripcionRecursoBanco;
     }
 
-    public ArrayList<Date> getListaDisponibilidadRecursos() {
+    public ArrayList<LocalDateTime> getListaDisponibilidadRecursos() {
         return listaDisponibilidadRecursos;
     }
 
-    public void setListaDisponibilidadRecursos(ArrayList<Date> listaDisponibilidadRecursos) {
+    public void setListaDisponibilidadRecursos(ArrayList<LocalDateTime> listaDisponibilidadRecursos) {
         this.listaDisponibilidadRecursos = listaDisponibilidadRecursos;
+    }
+
+    public void annadirListaDisponibilidad(LocalDateTime horario){
+
+        listaDisponibilidadRecursos.add(horario);
     }
 
     @Override

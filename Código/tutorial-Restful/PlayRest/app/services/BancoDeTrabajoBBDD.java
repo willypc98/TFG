@@ -61,7 +61,6 @@ public class BancoDeTrabajoBBDD extends ConexionBBDD{
                 //String queryBBDD = "select * from bancoDeTrabajo where id=" + id + ";";
                 //  String queryBBDD = "select bancoDeTrabajo.id, bancoDeTrabajo.url, bancoDeTrabajo.nombre, bancoDeTrabajo.descripcion, disponibilidadbancoDeTrabajo.disponibilidad from bancoDeTrabajo, disponibilidadbancoDeTrabajo where bancoDeTrabajo.id=" + id + " order by bancoDeTrabajo.id ASC , disponibilidadbancoDeTrabajo.disponibilidad ASC;";
                 String queryBBDD = "select bancoDeTrabajo.id, bancoDeTrabajo.url, bancoDeTrabajo.descripcion, bancodetrabajo.labid, disponibilidadbancoDeTrabajo.disponibilidad from bancoDeTrabajo inner join disponibilidadbancoDeTrabajo on bancoDeTrabajo.id = disponibilidadbancoDeTrabajo.bancoid where bancoDeTrabajo.id =" + id + " ;";
-                
                 int i=0;
 
                 try {
@@ -79,28 +78,28 @@ public class BancoDeTrabajoBBDD extends ConexionBBDD{
                     try {
                         while (rS.next()) {
                             BancoDeTrabajo banco;
-
+                          
                             if (mapa.containsKey(Integer.parseInt(rS.getString("bancoDeTrabajo.id")))){
                                 banco=mapa.get(Integer.parseInt(rS.getString("bancoDeTrabajo.id")));
-
+                                
                             }
                             else{
-
+                               
                                 banco = new BancoDeTrabajo();
                                 banco.setId(Integer.parseInt(rS.getString("bancoDeTrabajo.id")));
                                 banco.setUrl(rS.getString("bancoDeTrabajo.url"));
                                 banco.setDescripcionBanco(rS.getString("bancoDeTrabajo.descripcion"));
                                 banco.setLabID(Integer.parseInt(rS.getString("bancoDeTrabajo.labid")));
-
+                                
                                 mapa.put(banco.getId(), banco);
                             }
 
-
+                           
                             LocalDateTime tiempo = rS.getObject("disponibilidadbancoDeTrabajo.disponibilidad",LocalDateTime.class);
-
+                            
                             banco.annadirListaDisponibilidad(tiempo);
 
-
+                            
 
 
 
