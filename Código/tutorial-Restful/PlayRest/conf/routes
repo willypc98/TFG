@@ -21,6 +21,12 @@ POST    /laboratorios          controllers.LaboratorioController.create(request:
 PUT     /laboratorios/:id      controllers.LaboratorioController.update(request:Request,id:Int)
 DELETE  /laboratorios/:id      controllers.LaboratorioController.delete(id:Int)
 
+GET     /bancos                controllers.BancoDeTrabajoController.listBancosDeTrabajo()
+GET     /bancos/:id            controllers.BancoDeTrabajoController.retrieve(id:Int)
+POST    /bancos                controllers.BancoDeTrabajoController.create(request:Request)
+PUT     /bancos/:id            controllers.BancoDeTrabajoController.update(request:Request,id:Int)
+DELETE  /bancos/:id            controllers.BancoDeTrabajoController.delete(id:Int)
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
