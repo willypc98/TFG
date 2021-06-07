@@ -2,22 +2,23 @@ package entities;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class RecursosBancoDeTrabajo extends RecursoWeb{
 
     private String nombreRecursoBanco;
     private String descripcionRecursoBanco;
+    private int bancoID;
     private ArrayList<LocalDateTime> listaDisponibilidadRecursos= new ArrayList<>();
 
     public RecursosBancoDeTrabajo(){
         super();
     }
 
-    public RecursosBancoDeTrabajo(int id, String url, String nombreRecursoBanco, String descripcionRecursoBanco ) {
+    public RecursosBancoDeTrabajo(int id, String url, String nombreRecursoBanco, String descripcionRecursoBanco, int bancoID ) {
         super(id, url);
         this.nombreRecursoBanco=nombreRecursoBanco;
         this.descripcionRecursoBanco=descripcionRecursoBanco;
+        this.bancoID=bancoID;
     }
 
     public String getNombreRecursoBanco() {
@@ -35,6 +36,10 @@ public class RecursosBancoDeTrabajo extends RecursoWeb{
     public void setDescripcionRecursoBanco(String descripcionRecursoBanco) {
         this.descripcionRecursoBanco = descripcionRecursoBanco;
     }
+
+    public int getBancoID() { return bancoID; }
+
+    public void setBancoID(int bancoID) { this.bancoID = bancoID; }
 
     public ArrayList<LocalDateTime> getListaDisponibilidadRecursos() {
         return listaDisponibilidadRecursos;
@@ -58,4 +63,6 @@ public class RecursosBancoDeTrabajo extends RecursoWeb{
                 ", lista de disponibilidad de los recursos del banco de trabajo='" + listaDisponibilidadRecursos +
                 '}';
     }
+
+
 }

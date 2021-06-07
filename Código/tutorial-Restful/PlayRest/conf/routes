@@ -27,6 +27,12 @@ POST    /bancos                controllers.BancoDeTrabajoController.create(reque
 PUT     /bancos/:id            controllers.BancoDeTrabajoController.update(request:Request,id:Int)
 DELETE  /bancos/:id            controllers.BancoDeTrabajoController.delete(id:Int)
 
+GET     /recursos                controllers.RecursosBancoDeTrabajoController.listRecursosBancosDeTrabajo()
+GET     /recursos/:id            controllers.RecursosBancoDeTrabajoController.retrieve(id:Int)
+POST    /recursos                controllers.RecursosBancoDeTrabajoController.create(request:Request)
+PUT     /recursos/:id            controllers.RecursosBancoDeTrabajoController.update(request:Request,id:Int)
+DELETE  /recursos/:id            controllers.RecursosBancoDeTrabajoController.delete(id:Int)
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
