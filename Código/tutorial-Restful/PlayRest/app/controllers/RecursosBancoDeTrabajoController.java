@@ -26,7 +26,7 @@ public class RecursosBancoDeTrabajoController extends Controller {
     private static final Logger logger = LoggerFactory.getLogger("controller");
 
 
-    public Result create(Http.Request request) throws SQLException, ClassNotFoundException {
+    public Result create(Http.Request request, int labID, int bancoID) throws SQLException, ClassNotFoundException {
         JsonNode json = request.body().asJson();
         if (json == null) {
             return badRequest(ApplicationUtil.createResponse("Expecting JSON data", false));
@@ -37,7 +37,7 @@ public class RecursosBancoDeTrabajoController extends Controller {
         return created(ApplicationUtil.createResponse(jsonObject, true));
     }
 
-    public Result update(Http.Request request,int id) throws SQLException, ClassNotFoundException {
+    public Result update(Http.Request request,int labID, int bancoID,int id) throws SQLException, ClassNotFoundException {
         logger.debug("In RecursosBancoDeTrabajoController.update()");
         JsonNode json = request.body().asJson();
 
@@ -56,7 +56,7 @@ public class RecursosBancoDeTrabajoController extends Controller {
 
 
 
-    public Result retrieve(int id) {
+    public Result retrieve(int labID, int bancoID,int id) {
         logger.debug("In RecursosBancoDeTrabajoController.retrieve(), retrieve usuario with id: {}",id);
         if (RecursosBancoDeTrabajoBBDD.getInstance().getRecursosBancoDeTrabajo(id) == null) {
             return notFound(ApplicationUtil.createResponse("RecursosBancoDeTrabajo with id:" + id + " not found", false));
@@ -70,7 +70,7 @@ public class RecursosBancoDeTrabajoController extends Controller {
     }
 
 
-    public Result listRecursosBancosDeTrabajo() {
+    public Result listRecursosBancosDeTrabajo(int labID, int bancoID) {
         Collection<RecursosBancoDeTrabajo> result = RecursosBancoDeTrabajoBBDD.getInstance().getAllRecursosBancosDeTrabajos();
         logger.debug("In RecursosBancoDeTrabajoController.listRecursosBancoDeTrabajos(), result is: {}",result.toString());
         //ObjectMapper mapper = new ObjectMapper();
@@ -81,7 +81,7 @@ public class RecursosBancoDeTrabajoController extends Controller {
 
     }
 
-    public Result delete(int id) throws SQLException, ClassNotFoundException {
+    public Result delete(int labID, int bancoID,int id) throws SQLException, ClassNotFoundException {
         logger.debug("In RecursosBancoDeTrabajoController.retrieve(), delete recurso de trabajo with id: {}",id);
         if (!RecursosBancoDeTrabajoBBDD.getInstance().deleteRecursosBancoDeTrabajo(id)) {
             return notFound(ApplicationUtil.createResponse("RecursosBancoDeTrabajo with id:" + id + " not found", false));

@@ -27,11 +27,11 @@ POST    /laboratorios/:labID/bancos       controllers.BancoDeTrabajoController.c
 PUT     /laboratorios/:labID/bancos/:id   controllers.BancoDeTrabajoController.update(request:Request,labID:Int,id:Int)
 DELETE  /laboratorios/:labID/bancos/:id   controllers.BancoDeTrabajoController.delete(labID:Int,id:Int)
 
-GET     /recursos                controllers.RecursosBancoDeTrabajoController.listRecursosBancosDeTrabajo()
-GET     /recursos/:id            controllers.RecursosBancoDeTrabajoController.retrieve(id:Int)
-POST    /recursos                controllers.RecursosBancoDeTrabajoController.create(request:Request)
-PUT     /recursos/:id            controllers.RecursosBancoDeTrabajoController.update(request:Request,id:Int)
-DELETE  /recursos/:id            controllers.RecursosBancoDeTrabajoController.delete(id:Int)
+GET     /laboratorios/:labID/bancos/:bancoID/recursos          controllers.RecursosBancoDeTrabajoController.listRecursosBancosDeTrabajo(labID:Int,bancoID:Int)
+GET     /laboratorios/:labID/bancos/:bancoID/recursos/:id      controllers.RecursosBancoDeTrabajoController.retrieve(labID:Int,bancoID:Int,id:Int)
+POST    /laboratorios/:labID/bancos/:bancoID/recursos          controllers.RecursosBancoDeTrabajoController.create(request:Request,labID:Int,bancoID:Int)
+PUT     /laboratorios/:labID/bancos/:bancoID/recursos/:id      controllers.RecursosBancoDeTrabajoController.update(request:Request,labID:Int,bancoID:Int,id:Int)
+DELETE  /laboratorios/:labID/bancos/:bancoID/recursos/:id      controllers.RecursosBancoDeTrabajoController.delete(labID:Int,bancoID:Int,id:Int)
 
 
 # Map static resources from the /public folder to the /assets URL path
