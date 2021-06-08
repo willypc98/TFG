@@ -62,7 +62,7 @@ public class LaboratorioBBDD extends ConexionBBDD{
 
                 //String queryBBDD = "select * from laboratorio where id=" + id + ";";
               //  String queryBBDD = "select laboratorio.id, laboratorio.url, laboratorio.nombre, laboratorio.descripcion, disponibilidadlaboratorio.disponibilidad from laboratorio, disponibilidadlaboratorio where laboratorio.id=" + id + " order by laboratorio.id ASC , disponibilidadlaboratorio.disponibilidad ASC;";
-                String queryBBDD = "select laboratorio.id, laboratorio.url, laboratorio.nombre, laboratorio.descripcion, disponibilidadlaboratorio.disponibilidad from laboratorio inner join disponibilidadlaboratorio on laboratorio.id = disponibilidadlaboratorio.labid where laboratorio.id =" + id + " ;";
+                String queryBBDD = "select laboratorio.id, laboratorio.url, laboratorio.nombre, laboratorio.descripcion, disponibilidadlaboratorio.disponibilidad, bancodetrabajo.id as bancoID from laboratorio inner join disponibilidadlaboratorio on laboratorio.id = disponibilidadlaboratorio.labid LEFT JOIN bancodetrabajo on laboratorio.id = bancodetrabajo.labid where laboratorio.id =" + id + " ;";
                 int i=0;
 
                 try {
@@ -142,7 +142,7 @@ public class LaboratorioBBDD extends ConexionBBDD{
             if(conector()==true){
                // String queryBBDD = "select * from laboratorio;";
                // String queryBBDD = "select laboratorio.id, laboratorio.url, laboratorio.nombre, laboratorio.descripcion, disponibilidadlaboratorio.disponibilidad from laboratorio, disponibilidadlaboratorio order by laboratorio.id ASC , disponibilidadlaboratorio.disponibilidad ASC;";
-                String queryBBDD = "select laboratorio.id, laboratorio.url, laboratorio.nombre, laboratorio.descripcion, disponibilidadlaboratorio.disponibilidad from laboratorio inner join disponibilidadlaboratorio on laboratorio.id = disponibilidadlaboratorio.labid;";
+                String queryBBDD = "select laboratorio.id, laboratorio.url, laboratorio.nombre, laboratorio.descripcion, disponibilidadlaboratorio.disponibilidad, bancodetrabajo.id as bancoID from laboratorio inner join disponibilidadlaboratorio on laboratorio.id = disponibilidadlaboratorio.labid LEFT JOIN bancodetrabajo on laboratorio.id = bancodetrabajo.labid;";
                 int i=0;
                 try {
                     rS = createStatement.executeQuery(queryBBDD);
