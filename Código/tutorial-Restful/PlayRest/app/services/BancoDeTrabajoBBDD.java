@@ -52,7 +52,7 @@ public class BancoDeTrabajoBBDD extends ConexionBBDD{
         return banco;
     }
 
-    public BancoDeTrabajo getBancoDeTrabajo(int id) {
+    public BancoDeTrabajo getBancoDeTrabajo(int labID, int id) {
 
         HashMap<Integer,BancoDeTrabajo> mapa = new HashMap<>();
         try {
@@ -60,7 +60,7 @@ public class BancoDeTrabajoBBDD extends ConexionBBDD{
 
                 //String queryBBDD = "select * from bancoDeTrabajo where id=" + id + ";";
                 //  String queryBBDD = "select bancoDeTrabajo.id, bancoDeTrabajo.url, bancoDeTrabajo.nombre, bancoDeTrabajo.descripcion, disponibilidadbancoDeTrabajo.disponibilidad from bancoDeTrabajo, disponibilidadbancoDeTrabajo where bancoDeTrabajo.id=" + id + " order by bancoDeTrabajo.id ASC , disponibilidadbancoDeTrabajo.disponibilidad ASC;";
-                String queryBBDD = "select bancoDeTrabajo.id, bancoDeTrabajo.url, bancoDeTrabajo.descripcion, bancodetrabajo.labid, disponibilidadbancoDeTrabajo.disponibilidad from bancoDeTrabajo inner join disponibilidadbancoDeTrabajo on bancoDeTrabajo.id = disponibilidadbancoDeTrabajo.bancoid where bancoDeTrabajo.id =" + id + " ;";
+                String queryBBDD = "select bancoDeTrabajo.id, bancoDeTrabajo.url, bancoDeTrabajo.descripcion, bancodetrabajo.labid, disponibilidadbancoDeTrabajo.disponibilidad from bancoDeTrabajo inner join disponibilidadbancoDeTrabajo on bancoDeTrabajo.id = disponibilidadbancoDeTrabajo.bancoid where bancoDeTrabajo.id =" + id + " AND bancoDetrabajo.labid =" + labID +" ;";
                 int i=0;
 
                 try {
@@ -138,7 +138,7 @@ public class BancoDeTrabajoBBDD extends ConexionBBDD{
 
     }
 
-    public Collection<BancoDeTrabajo> getAllBancosDeTrabajos() {
+    public Collection<BancoDeTrabajo> getAllBancosDeTrabajos(int labID) {
 
         HashMap<Integer,BancoDeTrabajo> mapa = new HashMap<>();
 
@@ -146,7 +146,7 @@ public class BancoDeTrabajoBBDD extends ConexionBBDD{
             if(conector()==true){
                 // String queryBBDD = "select * from bancoDeTrabajo;";
                 // String queryBBDD = "select bancoDeTrabajo.id, bancoDeTrabajo.url, bancoDeTrabajo.nombre, bancoDeTrabajo.descripcion, disponibilidadbancoDeTrabajo.disponibilidad from bancoDeTrabajo, disponibilidadbancoDeTrabajo order by bancoDeTrabajo.id ASC , disponibilidadbancoDeTrabajo.disponibilidad ASC;";
-                String queryBBDD = "select bancoDeTrabajo.id, bancoDeTrabajo.url, bancoDeTrabajo.descripcion, bancodetrabajo.labid, disponibilidadbancoDeTrabajo.disponibilidad from bancoDeTrabajo inner join disponibilidadbancoDeTrabajo on bancoDeTrabajo.id = disponibilidadbancoDeTrabajo.bancoid;";
+                String queryBBDD = "select bancoDeTrabajo.id, bancoDeTrabajo.url, bancoDeTrabajo.descripcion, bancodetrabajo.labid, disponibilidadbancoDeTrabajo.disponibilidad from bancoDeTrabajo inner join disponibilidadbancoDeTrabajo on bancoDeTrabajo.id = disponibilidadbancoDeTrabajo.bancoid where bancoDeTrabajo.labid =" + labID + " ;";
                 int i=0;
                 try {
                     rS = createStatement.executeQuery(queryBBDD);
@@ -193,12 +193,12 @@ public class BancoDeTrabajoBBDD extends ConexionBBDD{
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("El tamaño de la lista es" + mapa.values().size());
+        //System.out.println("El tamaño de la lista es" + mapa.values().size());
         return mapa.values();
 
     }
 
-    public BancoDeTrabajo updateBancoDeTrabajo(BancoDeTrabajo banco, int id) throws SQLException, ClassNotFoundException {
+    public BancoDeTrabajo updateBancoDeTrabajo(BancoDeTrabajo banco,int labID, int id) throws SQLException, ClassNotFoundException {
         try {
             if (conector() == true) {
                 // int id = banco.getId();
@@ -206,7 +206,7 @@ public class BancoDeTrabajoBBDD extends ConexionBBDD{
 
                 String descripcion= banco.getDescripcionBanco();
 
-                String queryBBDD = "update BancoDeTrabajo set descripcion='"+descripcion+"' where id="+id+";";
+                String queryBBDD = "update BancoDeTrabajo set descripcion='"+descripcion+"' where id="+id+" AND labID= " + labID + ";";
 
                 try {
                     createStatement.executeUpdate(queryBBDD);
@@ -233,12 +233,12 @@ public class BancoDeTrabajoBBDD extends ConexionBBDD{
     }
 
 
-    public boolean deleteBancoDeTrabajo(int id) throws SQLException, ClassNotFoundException {
+    public boolean deleteBancoDeTrabajo(int labID,int id) throws SQLException, ClassNotFoundException {
         boolean valor= false;
         try {
             if (conector() == true) {
 
-                String queryBBDD = "delete from bancoDeTrabajo where id="+id+";";
+                String queryBBDD = "delete from bancoDeTrabajo where id="+id+" AND labID= " + labID + ";";
 
                 try {
                     createStatement.executeUpdate(queryBBDD);
