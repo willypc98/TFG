@@ -1,6 +1,7 @@
 package services;
 
 
+import entities.BancoDeTrabajo;
 import entities.Laboratorio;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -160,12 +161,18 @@ public class LaboratorioBBDD extends ConexionBBDD{
                             lab.setUrl(rS.getString("laboratorio.url"));
                             lab.setNombreLab(rS.getString("laboratorio.nombre"));
                             lab.setDescripcionLab(rS.getString("laboratorio.descripcion"));
+                            //String banco = rS.getString("bancoID");
+                           // lab.annadirListaBancosDeTrabajo(banco);
                             mapa.put(lab.getId(), lab);
                         }
 
 
                         LocalDateTime tiempo = rS.getObject("disponibilidadlaboratorio.disponibilidad",LocalDateTime.class);
                         lab.annadirListaDisponibilidad(tiempo);
+
+                        String banco = rS.getString("bancoID");
+
+                        lab.annadirListaBancosDeTrabajo(banco);
 
 
                     }
@@ -185,9 +192,9 @@ public class LaboratorioBBDD extends ConexionBBDD{
                 return null;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LaboratorioBBDD.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LaboratorioBBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
        System.out.println("El tamaño de la lista es" + mapa.values().size());
         return mapa.values();

@@ -10,7 +10,8 @@ public class Laboratorio extends RecursoWeb{
     private String nombreLab;
     private String descripcionLab;
     private ArrayList<LocalDateTime> listaDisponibilidadLaboratorio = new ArrayList<>(); //horas de apertura y cierre 01/01/2021-10:00
-    private ArrayList<BancoDeTrabajo> listaBancosDeTrabajo = new ArrayList<>();
+   // private ArrayList<BancoDeTrabajo> listaBancosDeTrabajo = new ArrayList<>();
+   private ArrayList<String> listaBancosDeTrabajo = new ArrayList<>();
 
 
     public Laboratorio(){
@@ -64,11 +65,11 @@ public class Laboratorio extends RecursoWeb{
         this.listaDisponibilidadLaboratorio = listaDisponibilidadLaboratorio;
     }
 
-    public ArrayList<BancoDeTrabajo> getListaBancosDeTrabajo() {
+    public ArrayList<String> getListaBancosDeTrabajo() {
         return listaBancosDeTrabajo;
     }
 
-    public void setListaBancosDeTrabajo(ArrayList<BancoDeTrabajo> listaBancosDeTrabajo) {
+    public void setListaBancosDeTrabajo(ArrayList<String> listaBancosDeTrabajo) {
         this.listaBancosDeTrabajo = listaBancosDeTrabajo;
     }
 
@@ -77,7 +78,7 @@ public class Laboratorio extends RecursoWeb{
         listaDisponibilidadLaboratorio.add(horario);
     }
 
-    public void annadirListaBancosDeTrabajo(BancoDeTrabajo banco){
+    public void annadirListaBancosDeTrabajo(String banco){
         listaBancosDeTrabajo.add(banco);
     }
     @Override
