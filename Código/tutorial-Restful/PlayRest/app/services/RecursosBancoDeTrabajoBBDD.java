@@ -194,7 +194,7 @@ public class RecursosBancoDeTrabajoBBDD extends ConexionBBDD{
 
         try {
             if(conector()==true){
-                 String queryBBDD = "select RecursosBancoDeTrabajo.id, RecursosBancoDeTrabajo.url, RecursosBancoDeTrabajo.nombre , RecursosBancoDeTrabajo.descripcion, RecursosBancoDeTrabajo.bancoID, disponibilidadRecursosBancoDeTrabajo.disponibilidad from RecursosBancoDeTrabajo inner join disponibilidadRecursosBancoDeTrabajo on RecursosBancoDeTrabajo.id = disponibilidadRecursosBancoDeTrabajo.recursoID WHERE RecursosBancoDeTrabajo.bancoID= "+ bancoID+ ";";
+                 String queryBBDD = "select RecursosBancoDeTrabajo.id, RecursosBancoDeTrabajo.url, RecursosBancoDeTrabajo.nombre , RecursosBancoDeTrabajo.descripcion, RecursosBancoDeTrabajo.labID , RecursosBancoDeTrabajo.bancoID, disponibilidadRecursosBancoDeTrabajo.disponibilidad from RecursosBancoDeTrabajo inner join disponibilidadRecursosBancoDeTrabajo on RecursosBancoDeTrabajo.id = disponibilidadRecursosBancoDeTrabajo.recursoID WHERE RecursosBancoDeTrabajo.bancoID= "+ bancoID+ " AND RecursosBancoDeTrabajo.labID= " + labID + ";";
                 int i=0;
                 try {
                     rS = createStatement.executeQuery(queryBBDD);
@@ -212,6 +212,7 @@ public class RecursosBancoDeTrabajoBBDD extends ConexionBBDD{
                             recurso.setUrl(rS.getString("RecursosBancoDeTrabajo.url"));
                             recurso.setNombreRecursoBanco(rS.getString("RecursosBancoDeTrabajo.nombre"));
                             recurso.setDescripcionRecursoBanco(rS.getString("RecursosBancoDeTrabajo.descripcion"));
+                            recurso.setLabID(Integer.parseInt(rS.getString("RecursosBancoDeTrabajo.labID")));
                             recurso.setBancoID(Integer.parseInt(rS.getString("RecursosBancoDeTrabajo.bancoID")));
                             mapa.put(recurso.getId(), recurso);
                         }
@@ -242,7 +243,6 @@ public class RecursosBancoDeTrabajoBBDD extends ConexionBBDD{
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(RecursosBancoDeTrabajoBBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //System.out.println("El tamaño de la lista es" + mapa.values().size());
         return mapa.values();
 
     }
@@ -250,14 +250,12 @@ public class RecursosBancoDeTrabajoBBDD extends ConexionBBDD{
     public RecursosBancoDeTrabajo updateRecursosBancoDeTrabajo(RecursosBancoDeTrabajo recurso,int labID, int bancoID, int id) throws SQLException, ClassNotFoundException {
         try {
             if (conector() == true) {
-                // int id = banco.getId();
-                //String url = banco.getUrl();
 
                 String nombre = recurso.getNombreRecursoBanco();
                 String descripcion= recurso.getDescripcionRecursoBanco();
-                //int bancoID = recurso.getBancoID();
 
-                String queryBBDD = "update RecursosBancoDeTrabajo set nombre='" + nombre + "', descripcion ='" + descripcion + "'  where id="+id+" AND bancoID= " + bancoID+ " ;";
+
+                String queryBBDD = "update RecursosBancoDeTrabajo set nombre='" + nombre + "', descripcion ='" + descripcion + "'  where id="+id+" AND bancoID= " + bancoID+" AND labID= " + labID+ " ;";
 
                 try {
                     createStatement.executeUpdate(queryBBDD);
