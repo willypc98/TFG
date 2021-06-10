@@ -18,8 +18,8 @@ public class BancoDeTrabajoShort extends RecursoWeb{
         return descripcionBanco;
     }
 
-    public void setDescripcionBanco(String desccripcionBanco) {
-        this.descripcionBanco = desccripcionBanco;
+    public void setDescripcionBanco(String descripcionBanco) {
+        this.descripcionBanco = descripcionBanco;
     }
 
 
