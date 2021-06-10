@@ -15,7 +15,7 @@ public class RecursosBancoDeTrabajo extends RecursoWeb{
         super();
     }
 
-    public RecursosBancoDeTrabajo(int id, String url, String nombreRecursoBanco, String descripcionRecursoBanco, int bancoID, int labID ) {
+    public RecursosBancoDeTrabajo(int id, String url, String nombreRecursoBanco, String descripcionRecursoBanco, int labID, int bancoID ) {
         super(id, url);
         this.nombreRecursoBanco=nombreRecursoBanco;
         this.descripcionRecursoBanco=descripcionRecursoBanco;

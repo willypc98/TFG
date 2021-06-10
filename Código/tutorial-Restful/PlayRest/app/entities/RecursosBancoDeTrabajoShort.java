@@ -11,7 +11,7 @@ public class RecursosBancoDeTrabajoShort extends RecursoWeb{
         super();
     }
 
-    public RecursosBancoDeTrabajoShort(int id, String url, String nombreRecursoBanco, String descripcionRecursoBanco, int bancoID, int labID ) {
+    public RecursosBancoDeTrabajoShort(int id, String url, String nombreRecursoBanco, String descripcionRecursoBanco, int labID, int bancoID ) {
         super(id, url);
         this.nombreRecursoBanco=nombreRecursoBanco;
         this.descripcionRecursoBanco=descripcionRecursoBanco;
@@ -20,6 +20,21 @@ public class RecursosBancoDeTrabajoShort extends RecursoWeb{
 
     }
 
+    public String getNombreRecursoBanco() {
+        return nombreRecursoBanco;
+    }
+
+    public void setNombreRecursoBanco(String nombreRecursoBanco) {
+        this.nombreRecursoBanco = nombreRecursoBanco;
+    }
+
+    public String getDescripcionRecursoBanco() {
+        return descripcionRecursoBanco;
+    }
+
+    public void setDescripcionRecursoBanco(String descripcionRecursoBanco) {
+        this.descripcionRecursoBanco = descripcionRecursoBanco;
+    }
     public int getLabID() { return labID; }
 
     public void setLabID(int labID) { this.labID = labID; }
