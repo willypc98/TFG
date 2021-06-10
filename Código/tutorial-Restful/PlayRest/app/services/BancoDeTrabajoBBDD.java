@@ -1,6 +1,8 @@
 package services;
 
 import entities.BancoDeTrabajo;
+import java.sql.Statement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,26 +21,73 @@ public class BancoDeTrabajoBBDD extends ConexionBBDD{
         return instance;
     }
 
-    public BancoDeTrabajo addBancoDeTrabajo(BancoDeTrabajo banco) throws SQLException, ClassNotFoundException {
+    /*
+     public Laboratorio addLaboratorio(Laboratorio lab) throws SQLException, ClassNotFoundException {
+        int identificador= -1;
         if (conector() == true) {
             con.setAutoCommit(false);
             try {
 
-                //con.setAutoCommit(false);
-                int id = banco.getId();
-                String url = banco.getUrl();
-                String descripcion = banco.getDescripcionBanco();
-                int labID = banco.getLabID();
+                String nombre = lab.getNombreLab();
+                String descripcion = lab.getDescripcionLab();
                 ArrayList<LocalDateTime> disponibilidad = new ArrayList<>();
-                disponibilidad= banco.getListaDisponibilidadBanco();
+                disponibilidad=  lab.getListaDisponibilidadLaboratorio();
 
-                //createStatement.executeUpdate("INSERT INTO bancoDeTrabajo (id,url,descripcion) VALUES (" + id + ", '" + url + "', '" + descripcion + "');");
-                createStatement.executeUpdate("INSERT INTO bancoDeTrabajo (id,url,descripcion,labid) VALUES (" + id + " , '" + url + "', '" + descripcion + "', " + labID+");");
 
+                createStatement.executeUpdate("INSERT INTO laboratorio (nombre,descripcion) VALUES ('" + nombre + "', '" + descripcion + "');",Statement.RETURN_GENERATED_KEYS);
+                ResultSet prueba = createStatement.getGeneratedKeys();
+                prueba.next();
+                identificador=prueba.getInt(1);
+                System.out.println("la fila es " + identificador );
+                String patron = "/laboratorios/";
+                String url = patron+identificador;
+                createStatement.executeUpdate("UPDATE  Laboratorio set url ='" + url + "' where id = "+ identificador + ";");
 
                 for (LocalDateTime dis:disponibilidad) {
 
-                    createStatement.executeUpdate("INSERT INTO DisponibilidadBancoDeTrabajo (bancoid,disponibilidad) VALUES (" + id + ", '" + dis +  "');");
+                    createStatement.executeUpdate("INSERT INTO DisponibilidadLaboratorio (labid,disponibilidad) VALUES (" + identificador + ", '" + dis +  "');");
+                }
+                con.commit();
+                con.setAutoCommit(true);
+                con.close();
+            }
+            catch(SQLException e){
+                e.printStackTrace();
+                con.rollback();
+                }
+
+        }
+        //return lab;
+        return getLaboratorio(identificador);
+        //return url;
+    }
+
+     */
+
+    public BancoDeTrabajo addBancoDeTrabajo(BancoDeTrabajo banco, int labID) throws SQLException, ClassNotFoundException {
+        int identificador= -1;
+        if (conector() == true) {
+            con.setAutoCommit(false);
+            try {
+
+
+                String descripcion = banco.getDescripcionBanco();
+                ArrayList<LocalDateTime> disponibilidad = new ArrayList<>();
+                disponibilidad= banco.getListaDisponibilidadBanco();
+
+                System.out.println("El identifacdor del laboratorio es: " + labID);
+                createStatement.executeUpdate("INSERT INTO bancoDeTrabajo (descripcion,labid) VALUES ('" + descripcion + "', " + labID+");",Statement.RETURN_GENERATED_KEYS);
+                ResultSet prueba = createStatement.getGeneratedKeys();
+                prueba.next();
+                identificador=prueba.getInt(1);
+                System.out.println("la fila es " + identificador );
+                String patron = "/laboratorios/" + labID + "/bancos/";
+                String url = patron+identificador;
+                createStatement.executeUpdate("UPDATE  BancoDeTrabajo set url ='" + url + "' where id = "+ identificador + ";");
+
+                for (LocalDateTime dis:disponibilidad) {
+
+                    createStatement.executeUpdate("INSERT INTO DisponibilidadBancoDeTrabajo (bancoid,disponibilidad) VALUES (" + identificador + ", '" + dis +  "');");
                 }
                 con.commit();
                 con.setAutoCommit(true);
@@ -49,7 +98,8 @@ public class BancoDeTrabajoBBDD extends ConexionBBDD{
             }
 
         }
-        return banco;
+       // return banco;
+        return getBancoDeTrabajo(labID,identificador);
     }
 
     public BancoDeTrabajo getBancoDeTrabajo(int labID, int id) {

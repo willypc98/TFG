@@ -28,9 +28,9 @@ public class BancoDeTrabajoController extends Controller {
             return badRequest(ApplicationUtil.createResponse("Expecting JSON data", false));
         }
         logger.debug("In BancoDeTrabajoBBDD.create(), input is: {}", json.toString());
-        BancoDeTrabajo banco  = BancoDeTrabajoBBDD.getInstance().addBancoDeTrabajo(Json.fromJson(json, BancoDeTrabajo.class));
+        BancoDeTrabajo banco  = BancoDeTrabajoBBDD.getInstance().addBancoDeTrabajo(Json.fromJson(json, BancoDeTrabajo.class), labID);
         JsonNode jsonObject = Json.toJson(banco );
-        return created(ApplicationUtil.createResponse(jsonObject, true));
+        return created(ApplicationUtil.createResponse(jsonObject, true)).withHeader(LOCATION,banco.getUrl());
     }
 
     public Result update(Http.Request request,int labID,int id) throws SQLException, ClassNotFoundException {
