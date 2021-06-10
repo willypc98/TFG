@@ -187,9 +187,9 @@ public class RecursosBancoDeTrabajoBBDD extends ConexionBBDD{
                 return null;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RecursosBancoDeTrabajoBBDD.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RecursosBancoDeTrabajoBBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
         //System.out.println("El tamaño de la lista es" + mapa.values().size());
         return mapa.values();

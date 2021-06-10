@@ -30,7 +30,7 @@ public class LaboratorioBBDD extends ConexionBBDD{
         if (conector() == true) {
             con.setAutoCommit(false);
             try {
-                
+
                 String nombre = lab.getNombreLab();
                 String descripcion = lab.getDescripcionLab();
                 ArrayList<LocalDateTime> disponibilidad = new ArrayList<>();
@@ -153,11 +153,11 @@ public class LaboratorioBBDD extends ConexionBBDD{
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("Falla esto 3");
-            Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LaboratorioBBDD.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
             System.out.println("Falla esto 4");
-            Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LaboratorioBBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (mapa.values().size() >0){
 
@@ -261,9 +261,9 @@ public class LaboratorioBBDD extends ConexionBBDD{
 
             }
         } catch (SQLException ex) {
-            Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LaboratorioBBDD.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LaboratorioBBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
         return lab;
     }

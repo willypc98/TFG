@@ -78,9 +78,9 @@ public class ReservaBBDD extends ConexionBBDD{
 
             }
         } catch (SQLException ex) {
-            Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ReservaBBDD.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ReservaBBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
         return reserva;
     }
@@ -118,9 +118,9 @@ public class ReservaBBDD extends ConexionBBDD{
                 return reservasLista;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ReservaBBDD.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ReservaBBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
         System.out.println("El tamaño de la lista es" + reservasLista.size());
         return reservasLista;

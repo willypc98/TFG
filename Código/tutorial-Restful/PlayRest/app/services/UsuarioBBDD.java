@@ -77,9 +77,9 @@ public class UsuarioBBDD extends ConexionBBDD{
 
             }
         } catch (SQLException ex) {
-            Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UsuarioBBDD.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UsuarioBBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
         return usu;
     }
@@ -117,9 +117,9 @@ public class UsuarioBBDD extends ConexionBBDD{
                 return usuariosLista;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UsuarioBBDD.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UsuarioBBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
         System.out.println("El tamaño de la lista es" + usuariosLista.size());
         return usuariosLista;
