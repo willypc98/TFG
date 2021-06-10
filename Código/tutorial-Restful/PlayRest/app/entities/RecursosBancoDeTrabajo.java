@@ -7,6 +7,7 @@ public class RecursosBancoDeTrabajo extends RecursoWeb{
 
     private String nombreRecursoBanco;
     private String descripcionRecursoBanco;
+    private int labID;
     private int bancoID;
     private ArrayList<LocalDateTime> listaDisponibilidadRecursos= new ArrayList<>();
 
@@ -14,11 +15,13 @@ public class RecursosBancoDeTrabajo extends RecursoWeb{
         super();
     }
 
-    public RecursosBancoDeTrabajo(int id, String url, String nombreRecursoBanco, String descripcionRecursoBanco, int bancoID ) {
+    public RecursosBancoDeTrabajo(int id, String url, String nombreRecursoBanco, String descripcionRecursoBanco, int bancoID, int labID ) {
         super(id, url);
         this.nombreRecursoBanco=nombreRecursoBanco;
         this.descripcionRecursoBanco=descripcionRecursoBanco;
+        this.labID=labID;
         this.bancoID=bancoID;
+
     }
 
     public String getNombreRecursoBanco() {
@@ -37,9 +40,16 @@ public class RecursosBancoDeTrabajo extends RecursoWeb{
         this.descripcionRecursoBanco = descripcionRecursoBanco;
     }
 
+
+    public int getLabID() { return labID; }
+
+    public void setLabID(int labID) { this.labID = labID; }
+
     public int getBancoID() { return bancoID; }
 
     public void setBancoID(int bancoID) { this.bancoID = bancoID; }
+
+
 
     public ArrayList<LocalDateTime> getListaDisponibilidadRecursos() {
         return listaDisponibilidadRecursos;
@@ -63,6 +73,7 @@ public class RecursosBancoDeTrabajo extends RecursoWeb{
                 ", lista de disponibilidad de los recursos del banco de trabajo='" + listaDisponibilidadRecursos +
                 '}';
     }
+
 
 
 }

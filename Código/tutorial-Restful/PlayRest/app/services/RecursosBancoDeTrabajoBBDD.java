@@ -1,6 +1,8 @@
 package services;
 
 import entities.RecursosBancoDeTrabajo;
+import java.sql.Statement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -20,25 +22,31 @@ public class RecursosBancoDeTrabajoBBDD extends ConexionBBDD{
         return instance;
     }
 
-    public RecursosBancoDeTrabajo addRecursosBancoDeTrabajo(RecursosBancoDeTrabajo recurso) throws SQLException, ClassNotFoundException {
+    /*
+     public BancoDeTrabajo addBancoDeTrabajo(BancoDeTrabajo banco, int labID) throws SQLException, ClassNotFoundException {
+        int identificador= -1;
         if (conector() == true) {
             con.setAutoCommit(false);
             try {
 
-                int id = recurso.getId();
-                String url = recurso.getUrl();
-                String nombre = recurso.getNombreRecursoBanco();
-                String descripcion = recurso.getDescripcionRecursoBanco();
-                int bancoId = recurso.getBancoID();
+
+                String descripcion = banco.getDescripcionBanco();
                 ArrayList<LocalDateTime> disponibilidad = new ArrayList<>();
-                disponibilidad= recurso.getListaDisponibilidadRecursos();
+                disponibilidad= banco.getListaDisponibilidadBanco();
 
-                createStatement.executeUpdate("INSERT INTO RecursosBancoDeTrabajo (id,url,nombre,descripcion,bancoID) VALUES (" + id + " , '" + url+ "' , '" + nombre + "', '" + descripcion + "', " + bancoId+");");
-
+                System.out.println("El identifacdor del laboratorio es: " + labID);
+                createStatement.executeUpdate("INSERT INTO bancoDeTrabajo (descripcion,labid) VALUES ('" + descripcion + "', " + labID+");",Statement.RETURN_GENERATED_KEYS);
+                ResultSet prueba = createStatement.getGeneratedKeys();
+                prueba.next();
+                identificador=prueba.getInt(1);
+                System.out.println("la fila es " + identificador );
+                String patron = "/laboratorios/" + labID + "/bancos/";
+                String url = patron+identificador;
+                createStatement.executeUpdate("UPDATE  BancoDeTrabajo set url ='" + url + "' where id = "+ identificador + ";");
 
                 for (LocalDateTime dis:disponibilidad) {
 
-                    createStatement.executeUpdate("INSERT INTO DisponibilidadRecursosBancoDeTrabajo (recursoid,disponibilidad) VALUES (" + id + ", '" + dis +  "');");
+                    createStatement.executeUpdate("INSERT INTO DisponibilidadBancoDeTrabajo (bancoid,disponibilidad) VALUES (" + identificador + ", '" + dis +  "');");
                 }
                 con.commit();
                 con.setAutoCommit(true);
@@ -49,7 +57,48 @@ public class RecursosBancoDeTrabajoBBDD extends ConexionBBDD{
             }
 
         }
-        return recurso;
+       // return banco;
+        return getBancoDeTrabajo(labID,identificador);
+    }
+     */
+
+
+    public RecursosBancoDeTrabajo addRecursosBancoDeTrabajo(RecursosBancoDeTrabajo recurso, int labID, int bancoID) throws SQLException, ClassNotFoundException {
+        int identificador= -1;
+        if (conector() == true) {
+            con.setAutoCommit(false);
+            try {
+
+
+                String nombre = recurso.getNombreRecursoBanco();
+                String descripcion = recurso.getDescripcionRecursoBanco();
+                ArrayList<LocalDateTime> disponibilidad = new ArrayList<>();
+                disponibilidad= recurso.getListaDisponibilidadRecursos();
+
+                createStatement.executeUpdate("INSERT INTO RecursosBancoDeTrabajo (nombre,descripcion,labID, bancoID) VALUES ('" + nombre + "', '" + descripcion + "', " + labID+ ", "  + bancoID+");",Statement.RETURN_GENERATED_KEYS);
+                ResultSet prueba = createStatement.getGeneratedKeys();
+                prueba.next();
+                identificador=prueba.getInt(1);
+                System.out.println("la fila es " + identificador );
+                String patron = "/laboratorios/" + labID + "/bancos/" + bancoID + "/recursos/";
+                String url = patron+identificador;
+                createStatement.executeUpdate("UPDATE  RecursosBancoDeTrabajo set url ='" + url + "' where id = "+ identificador + ";");
+
+                for (LocalDateTime dis:disponibilidad) {
+
+                    createStatement.executeUpdate("INSERT INTO DisponibilidadRecursosBancoDeTrabajo (recursoid,disponibilidad) VALUES (" + identificador + ", '" + dis +  "');");
+                }
+                con.commit();
+                con.setAutoCommit(true);
+                con.close();
+            }
+            catch(SQLException e){
+                con.rollback();
+            }
+
+        }
+        //return recurso;
+         return getRecursosBancoDeTrabajo(labID, bancoID , identificador);
     }
 
     public RecursosBancoDeTrabajo getRecursosBancoDeTrabajo(int labID, int bancoID , int id) {
@@ -58,7 +107,7 @@ public class RecursosBancoDeTrabajoBBDD extends ConexionBBDD{
         try {
             if(conector()==true){
 
-                String queryBBDD = "select RecursosBancoDeTrabajo.id, RecursosBancoDeTrabajo.url, RecursosBancoDeTrabajo.nombre , RecursosBancoDeTrabajo.descripcion, RecursosBancoDeTrabajo.bancoID, disponibilidadRecursosBancoDeTrabajo.disponibilidad from RecursosBancoDeTrabajo inner join disponibilidadRecursosBancoDeTrabajo on RecursosBancoDeTrabajo.id = disponibilidadRecursosBancoDeTrabajo.recursoID where RecursosBancoDeTrabajo.id =" + id + " AND RecursosBancoDeTrabajo.bancoID= "+ bancoID+" ;";
+                String queryBBDD = "select RecursosBancoDeTrabajo.id, RecursosBancoDeTrabajo.url, RecursosBancoDeTrabajo.nombre , RecursosBancoDeTrabajo.descripcion, RecursosBancoDeTrabajo.labID, RecursosBancoDeTrabajo.bancoID, disponibilidadRecursosBancoDeTrabajo.disponibilidad from RecursosBancoDeTrabajo inner join disponibilidadRecursosBancoDeTrabajo on RecursosBancoDeTrabajo.id = disponibilidadRecursosBancoDeTrabajo.recursoID where RecursosBancoDeTrabajo.id =" + id +" AND RecursosBancoDeTrabajo.labID= " + labID + " AND RecursosBancoDeTrabajo.bancoID= "+ bancoID+" ;";
                 int i=0;
 
                 try {
@@ -88,7 +137,9 @@ public class RecursosBancoDeTrabajoBBDD extends ConexionBBDD{
                                 recurso.setUrl(rS.getString("RecursosBancoDeTrabajo.url"));
                                 recurso.setNombreRecursoBanco(rS.getString("RecursosBancoDeTrabajo.nombre"));
                                 recurso.setDescripcionRecursoBanco(rS.getString("RecursosBancoDeTrabajo.descripcion"));
+                                recurso.setLabID(Integer.parseInt(rS.getString("RecursosBancoDeTrabajo.labID")));
                                 recurso.setBancoID(Integer.parseInt(rS.getString("RecursosBancoDeTrabajo.bancoID")));
+
 
                                 mapa.put(recurso.getId(), recurso);
                             }

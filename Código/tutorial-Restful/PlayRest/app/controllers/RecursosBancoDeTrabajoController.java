@@ -29,8 +29,8 @@ public class RecursosBancoDeTrabajoController extends Controller {
             return badRequest(ApplicationUtil.createResponse("Expecting JSON data", false));
         }
         logger.debug("In RecursosBancoDeTrabajoBBDD.create(), input is: {}", json.toString());
-        RecursosBancoDeTrabajo recurso  = RecursosBancoDeTrabajoBBDD.getInstance().addRecursosBancoDeTrabajo(Json.fromJson(json, RecursosBancoDeTrabajo.class));
-        JsonNode jsonObject = Json.toJson(recurso );
+        RecursosBancoDeTrabajo recurso  = RecursosBancoDeTrabajoBBDD.getInstance().addRecursosBancoDeTrabajo(Json.fromJson(json, RecursosBancoDeTrabajo.class),labID,bancoID);
+        JsonNode jsonObject = Json.toJson(recurso);
         return created(ApplicationUtil.createResponse(jsonObject, true));
     }
 

@@ -20,7 +20,7 @@ public class BancoDeTrabajoBBDD extends ConexionBBDD{
         }
         return instance;
     }
-    
+
 
     public BancoDeTrabajo addBancoDeTrabajo(BancoDeTrabajo banco, int labID) throws SQLException, ClassNotFoundException {
         int identificador= -1;
