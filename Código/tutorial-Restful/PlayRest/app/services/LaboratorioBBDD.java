@@ -3,6 +3,9 @@ package services;
 
 import entities.BancoDeTrabajo;
 import entities.Laboratorio;
+import java.sql.Statement;
+
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -23,37 +26,45 @@ public class LaboratorioBBDD extends ConexionBBDD{
 
 
     public Laboratorio addLaboratorio(Laboratorio lab) throws SQLException, ClassNotFoundException {
+        int identificador= -1;
         if (conector() == true) {
             con.setAutoCommit(false);
             try {
-
-                //con.setAutoCommit(false);
-                int id = lab.getId();
-                String url = lab.getUrl();
+                
                 String nombre = lab.getNombreLab();
                 String descripcion = lab.getDescripcionLab();
                 ArrayList<LocalDateTime> disponibilidad = new ArrayList<>();
                 disponibilidad=  lab.getListaDisponibilidadLaboratorio();
 
 
-                createStatement.executeUpdate("INSERT INTO laboratorio (id,url,nombre,descripcion) VALUES (" + id + ", '" + url + "', '" + nombre + "', '" + descripcion + "')");
-
+                createStatement.executeUpdate("INSERT INTO laboratorio (nombre,descripcion) VALUES ('" + nombre + "', '" + descripcion + "');",Statement.RETURN_GENERATED_KEYS);
+                ResultSet prueba = createStatement.getGeneratedKeys();
+                prueba.next();
+                identificador=prueba.getInt(1);
+                System.out.println("la fila es " + identificador );
+                String patron = "/laboratorios/";
+                String url = patron+identificador;
+                createStatement.executeUpdate("UPDATE  Laboratorio set url ='" + url + "' where id = "+ identificador + ";");
 
                 for (LocalDateTime dis:disponibilidad) {
 
-                    createStatement.executeUpdate("INSERT INTO DisponibilidadLaboratorio (labid,disponibilidad) VALUES (" + id + ", '" + dis +  "')");
+                    createStatement.executeUpdate("INSERT INTO DisponibilidadLaboratorio (labid,disponibilidad) VALUES (" + identificador + ", '" + dis +  "');");
                 }
                 con.commit();
                 con.setAutoCommit(true);
                 con.close();
             }
             catch(SQLException e){
+                e.printStackTrace();
                 con.rollback();
                 }
 
         }
-        return lab;
+        //return lab;
+        return getLaboratorio(identificador);
+        //return url;
     }
+
 
     public Laboratorio getLaboratorio(int id) {
 
@@ -61,24 +72,28 @@ public class LaboratorioBBDD extends ConexionBBDD{
         try {
             if(conector()==true){
 
-                //String queryBBDD = "select * from laboratorio where id=" + id + ";";
-              //  String queryBBDD = "select laboratorio.id, laboratorio.url, laboratorio.nombre, laboratorio.descripcion, disponibilidadlaboratorio.disponibilidad from laboratorio, disponibilidadlaboratorio where laboratorio.id=" + id + " order by laboratorio.id ASC , disponibilidadlaboratorio.disponibilidad ASC;";
-                String queryBBDD = "select laboratorio.id, laboratorio.url, laboratorio.nombre, laboratorio.descripcion, disponibilidadlaboratorio.disponibilidad, bancodetrabajo.id as bancoID from laboratorio inner join disponibilidadlaboratorio on laboratorio.id = disponibilidadlaboratorio.labid LEFT JOIN bancodetrabajo on laboratorio.id = bancodetrabajo.labid where laboratorio.id =" + id + " ;";
+               String queryBBDD= "select laboratorio.id, laboratorio.url, laboratorio.nombre, laboratorio.descripcion, disponibilidadlaboratorio.disponibilidad from laboratorio inner join disponibilidadlaboratorio on laboratorio.id = disponibilidadlaboratorio.labid where laboratorio.id =" +id +  " ;";
+                String queryBBDD1= "select laboratorio.id, laboratorio.url, laboratorio.nombre, laboratorio.descripcion, bancodetrabajo.id as bancoID from laboratorio INNER JOIN bancodetrabajo on laboratorio.id = bancodetrabajo.labid where laboratorio.id =" +id +  " ;";
                 int i=0;
 
                 try {
 
                     rS = createStatement.executeQuery(queryBBDD);
+                    rS1 = createStatement.executeQuery(queryBBDD1);
                 } catch (SQLException ex) {
+                    System.out.println("Falla esto 0");
+                    ex.printStackTrace();
                     Logger.getLogger(LaboratorioBBDD.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 if (rS == null){
+                    System.out.println("la consulta esta vacia");
                     //lab= null;
 
                 }
                 else{
 
                     try {
+
                         while (rS.next()) {
                             Laboratorio lab;
 
@@ -99,27 +114,49 @@ public class LaboratorioBBDD extends ConexionBBDD{
                             lab.annadirListaDisponibilidad(tiempo);
 
 
+                        }
+                        while(rS1.next()){
+                            Laboratorio lab=null;
+                            if (mapa.containsKey(Integer.parseInt(rS1.getString("laboratorio.id")))){
+                                lab=mapa.get(Integer.parseInt(rS1.getString("laboratorio.id")));
+
+                            }
+                            String banco = rS1.getString("bancoID");
+
+                            lab.annadirListaBancosDeTrabajo(banco);
+
 
                         }
                     } catch (SQLException ex) {
+                        System.out.println("Falla esto");
+                        ex.printStackTrace();
+
+
                         Logger.getLogger(LaboratorioBBDD.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     try {
                         i = 0;
                         con.close();
                     } catch (SQLException ex) {
+                        System.out.println("Falla esto 2");
+                        ex.printStackTrace();
                         Logger.getLogger(LaboratorioBBDD.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
 
             }
             else{
+                System.out.println("La conexión ha fallado");
                 //lab=null;
 
             }
         } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Falla esto 3");
             Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+            System.out.println("Falla esto 4");
             Logger.getLogger(EmployeeBBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (mapa.values().size() >0){
@@ -143,37 +180,16 @@ public class LaboratorioBBDD extends ConexionBBDD{
             if(conector()==true){
                // String queryBBDD = "select * from laboratorio;";
                // String queryBBDD = "select laboratorio.id, laboratorio.url, laboratorio.nombre, laboratorio.descripcion, disponibilidadlaboratorio.disponibilidad from laboratorio, disponibilidadlaboratorio order by laboratorio.id ASC , disponibilidadlaboratorio.disponibilidad ASC;";
-                String queryBBDD = "select laboratorio.id, laboratorio.url, laboratorio.nombre, laboratorio.descripcion, disponibilidadlaboratorio.disponibilidad, bancodetrabajo.id as bancoID from laboratorio inner join disponibilidadlaboratorio on laboratorio.id = disponibilidadlaboratorio.labid LEFT JOIN bancodetrabajo on laboratorio.id = bancodetrabajo.labid;";
+                //String queryBBDD = "select laboratorio.id, laboratorio.url, laboratorio.nombre, laboratorio.descripcion, disponibilidadlaboratorio.disponibilidad, bancodetrabajo.id as bancoID from laboratorio inner join disponibilidadlaboratorio on laboratorio.id = disponibilidadlaboratorio.labid LEFT JOIN bancodetrabajo on laboratorio.id = bancodetrabajo.labid;";
+                String queryBBDD= "select id, url, nombre from laboratorio";
                 int i=0;
                 try {
                     rS = createStatement.executeQuery(queryBBDD);
 
                     while (rS.next()) {
 
-                        Laboratorio lab;
-
-                        if (mapa.containsKey(Integer.parseInt(rS.getString("laboratorio.id")))){
-                            lab=mapa.get(Integer.parseInt(rS.getString("laboratorio.id")));
-                        }
-                        else{
-                            lab = new Laboratorio();
-                            lab.setId(Integer.parseInt(rS.getString("laboratorio.id")));
-                            lab.setUrl(rS.getString("laboratorio.url"));
-                            lab.setNombreLab(rS.getString("laboratorio.nombre"));
-                            lab.setDescripcionLab(rS.getString("laboratorio.descripcion"));
-                            //String banco = rS.getString("bancoID");
-                           // lab.annadirListaBancosDeTrabajo(banco);
-                            mapa.put(lab.getId(), lab);
-                        }
-
-
-                        LocalDateTime tiempo = rS.getObject("disponibilidadlaboratorio.disponibilidad",LocalDateTime.class);
-                        lab.annadirListaDisponibilidad(tiempo);
-
-                        String banco = rS.getString("bancoID");
-
-                        lab.annadirListaBancosDeTrabajo(banco);
-
+                        Laboratorio lab= getLaboratorio(Integer.parseInt(rS.getString("id")));
+                        mapa.put(lab.getId(), lab);
 
                     }
                 } catch (SQLException ex) {

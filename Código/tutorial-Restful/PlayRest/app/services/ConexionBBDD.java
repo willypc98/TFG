@@ -22,6 +22,7 @@ public class ConexionBBDD {
     protected Statement createStatement;
 
     protected ResultSet rS;
+    protected ResultSet rS1;
 
     protected boolean conector() throws SQLException, ClassNotFoundException {
         // Reseteamos a null la conexion a la bd

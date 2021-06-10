@@ -29,7 +29,7 @@ public class LaboratorioController extends Controller {
         logger.debug("In LaboratorioBBDD.create(), input is: {}", json.toString());
         Laboratorio lab = LaboratorioBBDD.getInstance().addLaboratorio(Json.fromJson(json, Laboratorio.class));
         JsonNode jsonObject = Json.toJson(lab);
-        return created(ApplicationUtil.createResponse(jsonObject, true));
+        return created(ApplicationUtil.createResponse(jsonObject, true)).withHeader(LOCATION,lab.getUrl());
     }
 
     public Result update(Http.Request request,int id) throws SQLException, ClassNotFoundException {
