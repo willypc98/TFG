@@ -31,7 +31,7 @@ public class RecursosBancoDeTrabajoController extends Controller {
         logger.debug("In RecursosBancoDeTrabajoBBDD.create(), input is: {}", json.toString());
         RecursosBancoDeTrabajo recurso  = RecursosBancoDeTrabajoBBDD.getInstance().addRecursosBancoDeTrabajo(Json.fromJson(json, RecursosBancoDeTrabajo.class),labID,bancoID);
         JsonNode jsonObject = Json.toJson(recurso);
-        return created(ApplicationUtil.createResponse(jsonObject, true));
+        return created(ApplicationUtil.createResponse(jsonObject, true)).withHeader(LOCATION,recurso.getUrl());
     }
 
     public Result update(Http.Request request,int labID, int bancoID,int id) throws SQLException, ClassNotFoundException {
