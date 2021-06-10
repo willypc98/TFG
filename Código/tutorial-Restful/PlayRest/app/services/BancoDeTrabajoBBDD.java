@@ -20,49 +20,7 @@ public class BancoDeTrabajoBBDD extends ConexionBBDD{
         }
         return instance;
     }
-
-    /*
-     public Laboratorio addLaboratorio(Laboratorio lab) throws SQLException, ClassNotFoundException {
-        int identificador= -1;
-        if (conector() == true) {
-            con.setAutoCommit(false);
-            try {
-
-                String nombre = lab.getNombreLab();
-                String descripcion = lab.getDescripcionLab();
-                ArrayList<LocalDateTime> disponibilidad = new ArrayList<>();
-                disponibilidad=  lab.getListaDisponibilidadLaboratorio();
-
-
-                createStatement.executeUpdate("INSERT INTO laboratorio (nombre,descripcion) VALUES ('" + nombre + "', '" + descripcion + "');",Statement.RETURN_GENERATED_KEYS);
-                ResultSet prueba = createStatement.getGeneratedKeys();
-                prueba.next();
-                identificador=prueba.getInt(1);
-                System.out.println("la fila es " + identificador );
-                String patron = "/laboratorios/";
-                String url = patron+identificador;
-                createStatement.executeUpdate("UPDATE  Laboratorio set url ='" + url + "' where id = "+ identificador + ";");
-
-                for (LocalDateTime dis:disponibilidad) {
-
-                    createStatement.executeUpdate("INSERT INTO DisponibilidadLaboratorio (labid,disponibilidad) VALUES (" + identificador + ", '" + dis +  "');");
-                }
-                con.commit();
-                con.setAutoCommit(true);
-                con.close();
-            }
-            catch(SQLException e){
-                e.printStackTrace();
-                con.rollback();
-                }
-
-        }
-        //return lab;
-        return getLaboratorio(identificador);
-        //return url;
-    }
-
-     */
+    
 
     public BancoDeTrabajo addBancoDeTrabajo(BancoDeTrabajo banco, int labID) throws SQLException, ClassNotFoundException {
         int identificador= -1;
