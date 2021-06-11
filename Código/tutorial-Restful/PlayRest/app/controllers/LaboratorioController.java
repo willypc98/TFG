@@ -1,6 +1,7 @@
 package controllers;
 
 import entities.Laboratorio;
+import entities.LaboratorioShort;
 import play.*;
 import play.mvc.Http;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -80,7 +81,7 @@ public class LaboratorioController extends Controller {
 
 
     public Result listLaboratorios() {
-        Collection<Laboratorio> result = LaboratorioBBDD.getInstance().getAllLaboratorios();
+        Collection<LaboratorioShort> result = LaboratorioBBDD.getInstance().getAllLaboratorios();
         logger.debug("In LaboratorioController.listLaboratorios(), result is: {}",result.toString());
         //ObjectMapper mapper = new ObjectMapper();
 

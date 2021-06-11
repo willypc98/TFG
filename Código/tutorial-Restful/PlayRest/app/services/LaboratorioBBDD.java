@@ -3,6 +3,8 @@ package services;
 
 import entities.BancoDeTrabajo;
 import entities.Laboratorio;
+import entities.LaboratorioShort;
+
 import java.sql.Statement;
 
 import java.sql.ResultSet;
@@ -174,9 +176,9 @@ public class LaboratorioBBDD extends ConexionBBDD{
     }
 
 
-    public Collection<Laboratorio> getAllLaboratorios() {
+    public Collection<LaboratorioShort> getAllLaboratorios() {
 
-        HashMap<Integer,Laboratorio> mapa = new HashMap<>();
+        HashMap<Integer,LaboratorioShort> mapa = new HashMap<>();
 
         try {
             if(conector()==true){
@@ -195,13 +197,13 @@ public class LaboratorioBBDD extends ConexionBBDD{
 
  */
                     while(rS.next()){
-                        Laboratorio lab;
+                        LaboratorioShort lab;
 
                         if (mapa.containsKey(Integer.parseInt(rS.getString("id")))){
                             lab=mapa.get(Integer.parseInt(rS.getString("id")));
                         }
                         else{
-                            lab = new Laboratorio();
+                            lab = new LaboratorioShort();
                             lab.setId(Integer.parseInt(rS.getString("id")));
                             lab.setUrl(rS.getString("url"));
                             lab.setNombreLab(rS.getString("nombre"));
@@ -233,7 +235,7 @@ public class LaboratorioBBDD extends ConexionBBDD{
         return mapa.values();
 
     }
-    
+
     public Laboratorio updateLaboratorio(Laboratorio lab, int id) throws SQLException, ClassNotFoundException {
         try {
             if (conector() == true) {
