@@ -77,7 +77,7 @@ public class LaboratorioBBDD extends ConexionBBDD{
                String queryBBDD= "select laboratorio.id, laboratorio.url, laboratorio.nombre, laboratorio.descripcion, disponibilidadlaboratorio.disponibilidad from laboratorio inner join disponibilidadlaboratorio on laboratorio.id = disponibilidadlaboratorio.labid where laboratorio.id =" +id + " ;";
                 String queryBBDD1= "select laboratorio.id, laboratorio.url, laboratorio.nombre, laboratorio.descripcion, bancodetrabajo.id as bancoID from laboratorio INNER JOIN bancodetrabajo on laboratorio.id = bancodetrabajo.labid where laboratorio.id =" +id +  " ;";
                 int i=0;
-/*
+
                 try {
 
                     rS = createStatement.executeQuery(queryBBDD);
@@ -87,7 +87,7 @@ public class LaboratorioBBDD extends ConexionBBDD{
                     ex.printStackTrace();
                     Logger.getLogger(LaboratorioBBDD.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                */
+
 
                 if (rS == null){
                     System.out.println("la consulta esta vacia");
@@ -97,7 +97,7 @@ public class LaboratorioBBDD extends ConexionBBDD{
                 else{
 
                     try {
-                        rS = createStatement.executeQuery(queryBBDD);
+                        //rS = createStatement.executeQuery(queryBBDD);
                         while (rS.next()) {
 
                             Laboratorio lab;
