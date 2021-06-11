@@ -1,6 +1,8 @@
 package services;
 
 import entities.BancoDeTrabajo;
+import entities.Laboratorio;
+
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -66,10 +68,9 @@ public class BancoDeTrabajoBBDD extends ConexionBBDD{
         try {
             if(conector()==true){
 
-                //String queryBBDD = "select * from bancoDeTrabajo where id=" + id + ";";
-                //  String queryBBDD = "select bancoDeTrabajo.id, bancoDeTrabajo.url, bancoDeTrabajo.nombre, bancoDeTrabajo.descripcion, disponibilidadbancoDeTrabajo.disponibilidad from bancoDeTrabajo, disponibilidadbancoDeTrabajo where bancoDeTrabajo.id=" + id + " order by bancoDeTrabajo.id ASC , disponibilidadbancoDeTrabajo.disponibilidad ASC;";
-                String queryBBDD = "select bancoDeTrabajo.id, bancoDeTrabajo.url, bancoDeTrabajo.descripcion, bancodetrabajo.labid, disponibilidadbancoDeTrabajo.disponibilidad , recursosbancodetrabajo.id as recursoID from bancoDeTrabajo inner join disponibilidadbancoDeTrabajo on bancoDeTrabajo.id = disponibilidadbancoDeTrabajo.bancoid LEFT JOIN recursosbancodetrabajo on bancodetrabajo.id = recursosbancodetrabajo.bancoid where bancoDeTrabajo.id =" + id + " AND bancoDetrabajo.labid =" + labID +" ;";
-                int i=0;
+                String queryBBDD = "select bancoDeTrabajo.id, bancoDeTrabajo.url, bancoDeTrabajo.descripcion, bancodetrabajo.labid, disponibilidadbancoDeTrabajo.disponibilidad  from bancoDeTrabajo inner join disponibilidadbancoDeTrabajo on bancoDeTrabajo.id = disponibilidadbancoDeTrabajo.bancoid where bancoDeTrabajo.id =" + id + " AND bancoDetrabajo.labid =" + labID +" ;";
+               String queryBBDD1="select bancoDeTrabajo.id, bancoDeTrabajo.url, bancoDeTrabajo.descripcion, bancodetrabajo.labid , recursosbancodetrabajo.id as recursoID from bancoDeTrabajo INNER JOIN recursosbancodetrabajo on bancodetrabajo.id = recursosbancodetrabajo.bancoid  where bancoDeTrabajo.id =" + id + " AND bancoDetrabajo.labid =" + labID +" ;";
+               int i=0;
 
                 try {
 
@@ -107,11 +108,21 @@ public class BancoDeTrabajoBBDD extends ConexionBBDD{
                             
                             banco.annadirListaDisponibilidad(tiempo);
 
-                            String recurso = rS.getString("recursoID");
+
+
+
+
+                        }
+                        rS1= createStatement.executeQuery(queryBBDD1);
+                        while (rS1.next()) {
+                            BancoDeTrabajo banco=null;
+                            if (mapa.containsKey(Integer.parseInt(rS1.getString("bancodetrabajo.id")))){
+                                banco=mapa.get(Integer.parseInt(rS1.getString("bancodetrabajo.id")));
+
+                            }
+
+                            String recurso = rS1.getString("recursoID");
                             banco.annadirListaRecursosBancoDeTrabajo(recurso);
-
-
-
                         }
                     } catch (SQLException ex) {
                         Logger.getLogger(BancoDeTrabajoBBDD.class.getName()).log(Level.SEVERE, null, ex);
