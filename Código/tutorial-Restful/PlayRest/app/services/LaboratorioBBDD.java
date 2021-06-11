@@ -4,6 +4,7 @@ package services;
 import entities.BancoDeTrabajo;
 import entities.Laboratorio;
 import entities.LaboratorioShort;
+import entities.ModifHoraria;
 
 import java.sql.Statement;
 
@@ -127,6 +128,7 @@ public class LaboratorioBBDD extends ConexionBBDD{
                                 lab=mapa.get(Integer.parseInt(rS1.getString("laboratorio.id")));
 
                             }
+
                             String banco = rS1.getString("bancoID");
 
                             lab.annadirListaBancosDeTrabajo(banco);
@@ -260,6 +262,7 @@ public class LaboratorioBBDD extends ConexionBBDD{
                 }
             }
             else{
+                return null;
 
             }
         } catch (SQLException ex) {
@@ -270,7 +273,33 @@ public class LaboratorioBBDD extends ConexionBBDD{
         return lab;
     }
 
+public  ModifHoraria modifyLaboratorio(ModifHoraria mod, int id) throws SQLException, ClassNotFoundException {
+        try {
+        if (conector() == true) {
+            switch (mod.getType()) {
 
+                case ADD:
+                    //insert tabla disponibilidadLaboratorio con el id y la franja
+                    LocalDateTime franja = mod.getFranja();
+                    createStatement.executeUpdate("INSERT INTO disponibilidadlaboratorio (labid,disponibilidad) VALUES (" + id + ", '" + franja + "');");
+                    break;
+
+                case REMOVE:
+                    //delete tabla disponibilidadLaboratorio con el id y la franja
+                    LocalDateTime franjaRemove = mod.getFranja();
+                    createStatement.executeUpdate("delete from disponibilidadlaboratorio where labid="+id+" AND disponibilidad='" + franjaRemove+ "';");
+                    break;
+
+
+            }
+
+        }
+    } catch (SQLException ex) {
+        Logger.getLogger(LaboratorioBBDD.class.getName()).log(Level.SEVERE, null, ex);
+    }
+
+    return mod;
+}
     public boolean deleteLaboratorio(int id) throws SQLException, ClassNotFoundException {
         boolean valor= false;
         try {

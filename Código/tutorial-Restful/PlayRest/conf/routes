@@ -14,6 +14,7 @@ GET     /laboratorios          controllers.LaboratorioController.listLaboratorio
 GET     /laboratorios/:id      controllers.LaboratorioController.retrieve(id:Int)
 POST    /laboratorios          controllers.LaboratorioController.create(request:Request)
 PUT     /laboratorios/:id      controllers.LaboratorioController.update(request:Request,id:Int)
+PATCH   /laboratorios/:id      controllers.LaboratorioController.modify(request:Request,id:Int)
 DELETE  /laboratorios/:id      controllers.LaboratorioController.delete(id:Int)
 
 GET     /laboratorios/:labID/bancos       controllers.BancoDeTrabajoController.listBancosDeTrabajo(labID:Int)

@@ -12,6 +12,7 @@ public class Laboratorio extends RecursoWeb{
     private ArrayList<LocalDateTime> listaDisponibilidadLaboratorio = new ArrayList<>(); //horas de apertura y cierre 01/01/2021-10:00
    // private ArrayList<BancoDeTrabajo> listaBancosDeTrabajo = new ArrayList<>();
    private ArrayList<String> listaBancosDeTrabajo = new ArrayList<>();
+    //private ArrayList<BancoDeTrabajoShort> listaBancosDeTrabajo = new ArrayList<>();
 
 
     public Laboratorio(){

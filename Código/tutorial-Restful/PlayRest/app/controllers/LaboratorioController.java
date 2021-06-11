@@ -2,6 +2,7 @@ package controllers;
 
 import entities.Laboratorio;
 import entities.LaboratorioShort;
+import entities.ModifHoraria;
 import play.*;
 import play.mvc.Http;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -50,7 +51,23 @@ public class LaboratorioController extends Controller {
         return ok(ApplicationUtil.createResponse(jsonObject, true));
     }
 
+public Result modify(Http.Request request,int id) throws SQLException, ClassNotFoundException{
+    logger.debug("In LaboratorioController.modify()");
+    JsonNode json = request.body().asJson();
+    if (json == null) {
+        return badRequest(ApplicationUtil.createResponse("Expecting Json data", false));
+    }
+    ModifHoraria mod = LaboratorioBBDD.getInstance().modifyLaboratorio(Json.fromJson(json, ModifHoraria.class),id);
 
+    //Laboratorio lab = LaboratorioBBDD.getInstance().modifyLaboratorio(Json.fromJson(json, ModifHoraria.class),id);
+
+    if (mod == null) {
+        return notFound(ApplicationUtil.createResponse("Laboratorio not found", false));
+    }
+
+    JsonNode jsonObject = Json.toJson(mod);
+    return ok(ApplicationUtil.createResponse(jsonObject, true));
+}
 
     //public Result retrieve(int id) {
         // ArrayLis<Laboratorio> result = LaboratorioBBDD.getInstance().getLaboratorio(id);
