@@ -1,6 +1,7 @@
 package services;
 
 import entities.BancoDeTrabajo;
+import entities.BancoDeTrabajoShort;
 import entities.Laboratorio;
 
 import java.sql.Statement;
@@ -158,41 +159,32 @@ public class BancoDeTrabajoBBDD extends ConexionBBDD{
 
     }
 
-    public Collection<BancoDeTrabajo> getAllBancosDeTrabajos(int labID) {
+    public Collection<BancoDeTrabajoShort> getAllBancosDeTrabajos(int labID) {
 
-        HashMap<Integer,BancoDeTrabajo> mapa = new HashMap<>();
+        HashMap<Integer,BancoDeTrabajoShort> mapa = new HashMap<>();
 
         try {
             if(conector()==true){
-                // String queryBBDD = "select * from bancoDeTrabajo;";
-                // String queryBBDD = "select bancoDeTrabajo.id, bancoDeTrabajo.url, bancoDeTrabajo.nombre, bancoDeTrabajo.descripcion, disponibilidadbancoDeTrabajo.disponibilidad from bancoDeTrabajo, disponibilidadbancoDeTrabajo order by bancoDeTrabajo.id ASC , disponibilidadbancoDeTrabajo.disponibilidad ASC;";
-                String queryBBDD = "select bancoDeTrabajo.id, bancoDeTrabajo.url, bancoDeTrabajo.descripcion, bancodetrabajo.labid, disponibilidadbancoDeTrabajo.disponibilidad , recursosbancodetrabajo.id as recursoID from bancoDeTrabajo inner join disponibilidadbancoDeTrabajo on bancoDeTrabajo.id = disponibilidadbancoDeTrabajo.bancoid LEFT JOIN recursosbancodetrabajo on bancodetrabajo.id = recursosbancodetrabajo.bancoid where bancoDeTrabajo.labid =" + labID + " ;";
+                 String queryBBDD = "select id, url, descripcion, labid  from bancoDeTrabajo where labid =" + labID + " ;";
                 int i=0;
                 try {
                     rS = createStatement.executeQuery(queryBBDD);
 
                     while (rS.next()) {
 
-                        BancoDeTrabajo banco;
+                        BancoDeTrabajoShort banco;
 
-                        if (mapa.containsKey(Integer.parseInt(rS.getString("bancoDeTrabajo.id")))){
-                            banco=mapa.get(Integer.parseInt(rS.getString("bancoDeTrabajo.id")));
+                        if (mapa.containsKey(Integer.parseInt(rS.getString("id")))){
+                            banco=mapa.get(Integer.parseInt(rS.getString("id")));
                         }
                         else{
-                            banco = new BancoDeTrabajo();
-                            banco.setId(Integer.parseInt(rS.getString("bancoDeTrabajo.id")));
-                            banco.setUrl(rS.getString("bancoDeTrabajo.url"));
-                            banco.setDescripcionBanco(rS.getString("bancoDeTrabajo.descripcion"));
-                            banco.setLabID(Integer.parseInt(rS.getString("bancodetrabajo.labid")));
+                            banco = new BancoDeTrabajoShort();
+                            banco.setId(Integer.parseInt(rS.getString("id")));
+                            banco.setUrl(rS.getString("url"));
+                            banco.setDescripcionBanco(rS.getString("descripcion"));
+                            banco.setLabID(Integer.parseInt(rS.getString("labid")));
                             mapa.put(banco.getId(), banco);
                         }
-
-
-                        LocalDateTime tiempo = rS.getObject("disponibilidadbancoDeTrabajo.disponibilidad",LocalDateTime.class);
-                        banco.annadirListaDisponibilidad(tiempo);
-
-                        String recurso = rS.getString("recursoID");
-                        banco.annadirListaRecursosBancoDeTrabajo(recurso);
 
                     }
                 } catch (SQLException ex) {
