@@ -1,9 +1,6 @@
 package services;
 
-import entities.BancoDeTrabajo;
-import entities.BancoDeTrabajoShort;
-import entities.Laboratorio;
-import entities.ModifHoraria;
+import entities.*;
 
 import java.sql.Statement;
 import java.sql.ResultSet;
@@ -71,7 +68,7 @@ public class BancoDeTrabajoBBDD extends ConexionBBDD{
             if(conector()==true){
 
                 String queryBBDD = "select bancoDeTrabajo.id, bancoDeTrabajo.url, bancoDeTrabajo.descripcion, bancodetrabajo.labid, disponibilidadbancoDeTrabajo.disponibilidad  from bancoDeTrabajo inner join disponibilidadbancoDeTrabajo on bancoDeTrabajo.id = disponibilidadbancoDeTrabajo.bancoid where bancoDeTrabajo.id =" + id + " AND bancoDetrabajo.labid =" + labID +" ;";
-               String queryBBDD1="select bancoDeTrabajo.id, bancoDeTrabajo.url, bancoDeTrabajo.descripcion, bancodetrabajo.labid , recursosbancodetrabajo.id as recursoID from bancoDeTrabajo INNER JOIN recursosbancodetrabajo on bancodetrabajo.id = recursosbancodetrabajo.bancoid  where bancoDeTrabajo.id =" + id + " AND bancoDetrabajo.labid =" + labID +" ;";
+               String queryBBDD1="select bancoDeTrabajo.id, bancoDeTrabajo.url, bancoDeTrabajo.descripcion, bancodetrabajo.labid , recursosbancodetrabajo.id as recursoID , recursosbancodetrabajo.url as recursoURL, recursosbancodetrabajo.nombre as recursoNombre, recursosbancodetrabajo.descripcion as recursoDescripcion, recursosbancodetrabajo.labid as recursoLabID, recursosbancodetrabajo.bancoID as recursoBancoID from bancoDeTrabajo INNER JOIN recursosbancodetrabajo on bancodetrabajo.id = recursosbancodetrabajo.bancoid  where bancoDeTrabajo.id =" + id + " AND bancoDetrabajo.labid =" + labID +" ;";
                int i=0;
 
                 try {
@@ -123,7 +120,15 @@ public class BancoDeTrabajoBBDD extends ConexionBBDD{
 
                             }
 
-                            String recurso = rS1.getString("recursoID");
+                            RecursosBancoDeTrabajoShort recurso = new RecursosBancoDeTrabajoShort();
+
+                            recurso.setId(Integer.parseInt(rS1.getString("recursoID")));
+                            recurso.setUrl(rS1.getString("recursoURL"));
+                            recurso.setNombreRecursoBanco(rS1.getString("recursoNombre"));
+                            recurso.setDescripcionRecursoBanco(rS1.getString("recursoDescripcion"));
+                            recurso.setLabID(Integer.parseInt(rS1.getString("recursolabID")));
+                            recurso.setBancoID(Integer.parseInt(rS1.getString("recursoBancoID")));
+
                             banco.annadirListaRecursosBancoDeTrabajo(recurso);
                         }
                     } catch (SQLException ex) {

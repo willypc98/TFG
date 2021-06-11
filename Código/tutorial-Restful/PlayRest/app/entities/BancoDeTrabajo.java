@@ -8,7 +8,8 @@ public class BancoDeTrabajo extends RecursoWeb{
     private String descripcionBanco;
     private int labID;
     private ArrayList<LocalDateTime> listaDisponibilidadBanco= new ArrayList<>();
-    private ArrayList<String> listaRecursosBanco= new ArrayList<>();
+    private ArrayList<RecursosBancoDeTrabajoShort> listaRecursosBanco= new ArrayList<>();
+
 
     public BancoDeTrabajo(){
         super();
@@ -37,11 +38,11 @@ public class BancoDeTrabajo extends RecursoWeb{
     public void setLabID(int labID) {
         this.labID = labID;
     }
-    public ArrayList<String> getListaRecursosBanco() {
+    public ArrayList<RecursosBancoDeTrabajoShort> getListaRecursosBanco() {
         return listaRecursosBanco;
     }
 
-    public void setListaRecursosBanco(ArrayList<String> listaRecursosBanco) {
+    public void setListaRecursosBanco(ArrayList<RecursosBancoDeTrabajoShort> listaRecursosBanco) {
         this.listaRecursosBanco = listaRecursosBanco;
     }
 
@@ -58,7 +59,7 @@ public class BancoDeTrabajo extends RecursoWeb{
         listaDisponibilidadBanco.add(horario);
     }
 
-    public void annadirListaRecursosBancoDeTrabajo(String recurso) {
+    public void annadirListaRecursosBancoDeTrabajo(RecursosBancoDeTrabajoShort recurso) {
 
         listaRecursosBanco.add(recurso);
     }
