@@ -1,5 +1,6 @@
 package services;
 
+import entities.ModifHoraria;
 import entities.RecursosBancoDeTrabajo;
 import entities.RecursosBancoDeTrabajoShort;
 
@@ -279,6 +280,34 @@ public class RecursosBancoDeTrabajoBBDD extends ConexionBBDD{
         return recurso;
     }
 
+
+    public ModifHoraria modifyRecurso(ModifHoraria mod, int labID, int bancoID, int id) throws SQLException, ClassNotFoundException {
+        try {
+            if (conector() == true) {
+                switch (mod.getType()) {
+
+                    case ADD:
+                        //insert tabla disponibilidadBancoDeTrabajo con el id y la franja
+                        LocalDateTime franja = mod.getFranja();
+                        createStatement.executeUpdate("INSERT INTO disponibilidadrecursosbancodetrabajo (recursoID,disponibilidad) VALUES (" + id + ", '" + franja + "');");
+                        break;
+
+                    case REMOVE:
+                        //delete tabla disponibilidadLaboratorio con el id y la franja
+                        LocalDateTime franjaRemove = mod.getFranja();
+                        createStatement.executeUpdate("delete from disponibilidadrecursosbancodetrabajo where recursoID="+id+" AND disponibilidad='" + franjaRemove+ "';");
+                        break;
+
+
+                }
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LaboratorioBBDD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return mod;
+    }
 
     public boolean deleteRecursosBancoDeTrabajo(int labID, int bancoID, int id) throws SQLException, ClassNotFoundException {
         boolean valor= false;

@@ -61,7 +61,7 @@ public class BancoDeTrabajoController extends Controller {
         ModifHoraria mod = BancoDeTrabajoBBDD.getInstance().modifyBanco(Json.fromJson(json, ModifHoraria.class),labID,id);
 
         if (mod == null) {
-            return notFound(ApplicationUtil.createResponse("Laboratorio not found", false));
+            return notFound(ApplicationUtil.createResponse("Banco not found", false));
         }
 
         JsonNode jsonObject = Json.toJson(mod);

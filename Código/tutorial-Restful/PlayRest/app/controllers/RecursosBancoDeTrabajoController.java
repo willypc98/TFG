@@ -1,5 +1,6 @@
 package controllers;
 
+import entities.ModifHoraria;
 import entities.RecursosBancoDeTrabajo;
 import entities.RecursosBancoDeTrabajoShort;
 import play.*;
@@ -12,6 +13,7 @@ import play.libs.Json;
 import play.api.libs.json.*;
 import play.mvc.Controller;
 import play.mvc.Result;
+import services.BancoDeTrabajoBBDD;
 import services.RecursosBancoDeTrabajoBBDD;
 import utils.ApplicationUtil;
 import java.sql.SQLException;
@@ -77,6 +79,22 @@ public class RecursosBancoDeTrabajoController extends Controller {
         //JsonNode jsonData = mapper.convertValue(result, JsonNode.class);
         return ok(ApplicationUtil.createResponse(jsonData, true));
 
+    }
+
+    public Result modify(Http.Request request,int labID, int bancoID,int id) throws SQLException, ClassNotFoundException{
+        logger.debug("In RecursosBancoDeTrabajoController.modify()");
+        JsonNode json = request.body().asJson();
+        if (json == null) {
+            return badRequest(ApplicationUtil.createResponse("Expecting Json data", false));
+        }
+        ModifHoraria mod = RecursosBancoDeTrabajoBBDD.getInstance().modifyRecurso(Json.fromJson(json, ModifHoraria.class),labID,bancoID,id);
+
+        if (mod == null) {
+            return notFound(ApplicationUtil.createResponse("Recurso not found", false));
+        }
+
+        JsonNode jsonObject = Json.toJson(mod);
+        return ok(ApplicationUtil.createResponse(jsonObject, true));
     }
 
     public Result delete(int labID, int bancoID,int id) throws SQLException, ClassNotFoundException {

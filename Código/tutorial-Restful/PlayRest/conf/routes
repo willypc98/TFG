@@ -28,6 +28,7 @@ GET     /laboratorios/:labID/bancos/:bancoID/recursos          controllers.Recur
 GET     /laboratorios/:labID/bancos/:bancoID/recursos/:id      controllers.RecursosBancoDeTrabajoController.retrieve(labID:Int,bancoID:Int,id:Int)
 POST    /laboratorios/:labID/bancos/:bancoID/recursos          controllers.RecursosBancoDeTrabajoController.create(request:Request,labID:Int,bancoID:Int)
 PUT     /laboratorios/:labID/bancos/:bancoID/recursos/:id      controllers.RecursosBancoDeTrabajoController.update(request:Request,labID:Int,bancoID:Int,id:Int)
+PATCH   /laboratorios/:labID/bancos/:bancoID/recursos/:id      controllers.RecursosBancoDeTrabajoController.modify(request:Request,labID:Int,bancoID:Int,id:Int)
 DELETE  /laboratorios/:labID/bancos/:bancoID/recursos/:id      controllers.RecursosBancoDeTrabajoController.delete(labID:Int,bancoID:Int,id:Int)
 
 
