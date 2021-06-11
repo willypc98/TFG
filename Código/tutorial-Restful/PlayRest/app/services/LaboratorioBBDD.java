@@ -1,10 +1,7 @@
 package services;
 
 
-import entities.BancoDeTrabajo;
-import entities.Laboratorio;
-import entities.LaboratorioShort;
-import entities.ModifHoraria;
+import entities.*;
 
 import java.sql.Statement;
 
@@ -76,7 +73,7 @@ public class LaboratorioBBDD extends ConexionBBDD{
             if(conector()==true){
 
                String queryBBDD= "select laboratorio.id, laboratorio.url, laboratorio.nombre, laboratorio.descripcion, disponibilidadlaboratorio.disponibilidad from laboratorio inner join disponibilidadlaboratorio on laboratorio.id = disponibilidadlaboratorio.labid where laboratorio.id =" +id + " ;";
-                String queryBBDD1= "select laboratorio.id, laboratorio.url, laboratorio.nombre, laboratorio.descripcion, bancodetrabajo.id as bancoID from laboratorio INNER JOIN bancodetrabajo on laboratorio.id = bancodetrabajo.labid where laboratorio.id =" +id +  " ;";
+                String queryBBDD1= "select laboratorio.id, laboratorio.url, laboratorio.nombre, laboratorio.descripcion, bancodetrabajo.id as bancoID, bancodetrabajo.url as bancoURL, bancodetrabajo.descripcion as bancoDescripcion, bancodetrabajo.labid as bancoLabID from laboratorio INNER JOIN bancodetrabajo on laboratorio.id = bancodetrabajo.labid where laboratorio.id =" +id +  " ;";
                 int i=0;
 
                 try {
@@ -128,8 +125,11 @@ public class LaboratorioBBDD extends ConexionBBDD{
                                 lab=mapa.get(Integer.parseInt(rS1.getString("laboratorio.id")));
 
                             }
-
-                            String banco = rS1.getString("bancoID");
+                            BancoDeTrabajoShort banco = new BancoDeTrabajoShort();
+                            banco.setId(Integer.parseInt(rS1.getString("bancoID")));
+                            banco.setUrl(rS1.getString("bancoURL"));
+                            banco.setDescripcionBanco(rS1.getString("bancoDescripcion"));
+                            banco.setLabID(Integer.parseInt(rS1.getString("bancolabID")));
 
                             lab.annadirListaBancosDeTrabajo(banco);
 
