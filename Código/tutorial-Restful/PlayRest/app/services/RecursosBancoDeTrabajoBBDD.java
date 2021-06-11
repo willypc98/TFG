@@ -1,6 +1,8 @@
 package services;
 
 import entities.RecursosBancoDeTrabajo;
+import entities.RecursosBancoDeTrabajoShort;
+
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -188,38 +190,34 @@ public class RecursosBancoDeTrabajoBBDD extends ConexionBBDD{
 
     }
 
-    public Collection<RecursosBancoDeTrabajo> getAllRecursosBancosDeTrabajos(int labID, int bancoID) {
+    public Collection<RecursosBancoDeTrabajoShort> getAllRecursosBancosDeTrabajos(int labID, int bancoID) {
 
-        HashMap<Integer,RecursosBancoDeTrabajo> mapa = new HashMap<>();
+        HashMap<Integer,RecursosBancoDeTrabajoShort> mapa = new HashMap<>();
 
         try {
             if(conector()==true){
-                 String queryBBDD = "select RecursosBancoDeTrabajo.id, RecursosBancoDeTrabajo.url, RecursosBancoDeTrabajo.nombre , RecursosBancoDeTrabajo.descripcion, RecursosBancoDeTrabajo.labID , RecursosBancoDeTrabajo.bancoID, disponibilidadRecursosBancoDeTrabajo.disponibilidad from RecursosBancoDeTrabajo inner join disponibilidadRecursosBancoDeTrabajo on RecursosBancoDeTrabajo.id = disponibilidadRecursosBancoDeTrabajo.recursoID WHERE RecursosBancoDeTrabajo.bancoID= "+ bancoID+ " AND RecursosBancoDeTrabajo.labID= " + labID + ";";
+                 String queryBBDD = "select id, url, nombre ,descripcion, labID ,bancoID from RecursosBancoDeTrabajo  WHERE RecursosBancoDeTrabajo.bancoID= "+ bancoID+ " AND RecursosBancoDeTrabajo.labID= " + labID + ";";
                 int i=0;
                 try {
                     rS = createStatement.executeQuery(queryBBDD);
 
                     while (rS.next()) {
 
-                        RecursosBancoDeTrabajo recurso;
+                        RecursosBancoDeTrabajoShort recurso;
 
-                        if (mapa.containsKey(Integer.parseInt(rS.getString("RecursosBancoDeTrabajo.id")))){
-                            recurso=mapa.get(Integer.parseInt(rS.getString("RecursosBancoDeTrabajo.id")));
+                        if (mapa.containsKey(Integer.parseInt(rS.getString("id")))){
+                            recurso=mapa.get(Integer.parseInt(rS.getString("id")));
                         }
                         else{
-                            recurso = new RecursosBancoDeTrabajo();
-                            recurso.setId(Integer.parseInt(rS.getString("RecursosBancoDeTrabajo.id")));
-                            recurso.setUrl(rS.getString("RecursosBancoDeTrabajo.url"));
-                            recurso.setNombreRecursoBanco(rS.getString("RecursosBancoDeTrabajo.nombre"));
-                            recurso.setDescripcionRecursoBanco(rS.getString("RecursosBancoDeTrabajo.descripcion"));
-                            recurso.setLabID(Integer.parseInt(rS.getString("RecursosBancoDeTrabajo.labID")));
-                            recurso.setBancoID(Integer.parseInt(rS.getString("RecursosBancoDeTrabajo.bancoID")));
+                            recurso = new RecursosBancoDeTrabajoShort();
+                            recurso.setId(Integer.parseInt(rS.getString("id")));
+                            recurso.setUrl(rS.getString("url"));
+                            recurso.setNombreRecursoBanco(rS.getString("nombre"));
+                            recurso.setDescripcionRecursoBanco(rS.getString("descripcion"));
+                            recurso.setLabID(Integer.parseInt(rS.getString("labID")));
+                            recurso.setBancoID(Integer.parseInt(rS.getString("bancoID")));
                             mapa.put(recurso.getId(), recurso);
                         }
-
-
-                        LocalDateTime tiempo = rS.getObject("disponibilidadRecursosBancoDeTrabajo.disponibilidad",LocalDateTime.class);
-                        recurso.annadirListaDisponibilidad(tiempo);
 
 
                     }

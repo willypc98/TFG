@@ -1,6 +1,7 @@
 package controllers;
 
 import entities.RecursosBancoDeTrabajo;
+import entities.RecursosBancoDeTrabajoShort;
 import play.*;
 import play.mvc.Http;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -68,7 +69,7 @@ public class RecursosBancoDeTrabajoController extends Controller {
 
 
     public Result listRecursosBancosDeTrabajo(int labID, int bancoID) {
-        Collection<RecursosBancoDeTrabajo> result = RecursosBancoDeTrabajoBBDD.getInstance().getAllRecursosBancosDeTrabajos(labID,bancoID);
+        Collection<RecursosBancoDeTrabajoShort> result = RecursosBancoDeTrabajoBBDD.getInstance().getAllRecursosBancosDeTrabajos(labID,bancoID);
         logger.debug("In RecursosBancoDeTrabajoController.listRecursosBancoDeTrabajos(), result is: {}",result.toString());
         //ObjectMapper mapper = new ObjectMapper();
 
