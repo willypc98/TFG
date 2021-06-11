@@ -72,14 +72,14 @@ public class LaboratorioBBDD extends ConexionBBDD{
         try {
             if(conector()==true){
 
-               String queryBBDD= "select laboratorio.id, laboratorio.url, laboratorio.nombre, laboratorio.descripcion, disponibilidadlaboratorio.disponibilidad from laboratorio inner join disponibilidadlaboratorio on laboratorio.id = disponibilidadlaboratorio.labid where laboratorio.id =" +id +  " ;";
+               String queryBBDD= "select laboratorio.id, laboratorio.url, laboratorio.nombre, laboratorio.descripcion, disponibilidadlaboratorio.disponibilidad from laboratorio inner join disponibilidadlaboratorio on laboratorio.id = disponibilidadlaboratorio.labid where laboratorio.id =" +id + " ;";
                 String queryBBDD1= "select laboratorio.id, laboratorio.url, laboratorio.nombre, laboratorio.descripcion, bancodetrabajo.id as bancoID from laboratorio INNER JOIN bancodetrabajo on laboratorio.id = bancodetrabajo.labid where laboratorio.id =" +id +  " ;";
                 int i=0;
 
                 try {
 
                     rS = createStatement.executeQuery(queryBBDD);
-                    rS1 = createStatement.executeQuery(queryBBDD1);
+
                 } catch (SQLException ex) {
                     System.out.println("Falla esto 0");
                     ex.printStackTrace();
@@ -95,6 +95,7 @@ public class LaboratorioBBDD extends ConexionBBDD{
                     try {
 
                         while (rS.next()) {
+
                             Laboratorio lab;
 
                             if (mapa.containsKey(Integer.parseInt(rS.getString("laboratorio.id")))){
@@ -115,6 +116,7 @@ public class LaboratorioBBDD extends ConexionBBDD{
 
 
                         }
+                        rS1 = createStatement.executeQuery(queryBBDD1);
                         while(rS1.next()){
                             Laboratorio lab=null;
                             if (mapa.containsKey(Integer.parseInt(rS1.getString("laboratorio.id")))){
@@ -134,6 +136,7 @@ public class LaboratorioBBDD extends ConexionBBDD{
 
                         Logger.getLogger(LaboratorioBBDD.class.getName()).log(Level.SEVERE, null, ex);
                     }
+
                     try {
                         i = 0;
                         con.close();
@@ -142,6 +145,8 @@ public class LaboratorioBBDD extends ConexionBBDD{
                         ex.printStackTrace();
                         Logger.getLogger(LaboratorioBBDD.class.getName()).log(Level.SEVERE, null, ex);
                     }
+
+
                 }
 
             }
@@ -171,6 +176,7 @@ public class LaboratorioBBDD extends ConexionBBDD{
 
 
     }
+
 
     public Collection<Laboratorio> getAllLaboratorios() {
 
