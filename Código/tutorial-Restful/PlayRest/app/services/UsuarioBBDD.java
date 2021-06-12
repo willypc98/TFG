@@ -2,7 +2,9 @@ package services;
 
 import entities.Usuario;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,19 +20,29 @@ public class UsuarioBBDD extends ConexionBBDD{
     }
 
     public Usuario addUsuario(Usuario usu) throws SQLException, ClassNotFoundException {
+        int identificador= -1;
+
         if (conector() == true) {
 
-            int id = usu.getId();
-            String url = usu.getUrl();
+
             String nombre= usu.getNombre();
             String grado= usu.getGrado();
 
 
-            createStatement.executeUpdate("INSERT INTO usuario (id,url,nombre,grado) VALUES ("+id+", '" + url + "', '" + nombre + "', '" + grado + "')");
+            createStatement.executeUpdate("INSERT INTO usuario (nombre,grado) VALUES ('" + nombre + "', '" + grado + "');" , Statement.RETURN_GENERATED_KEYS);
+            ResultSet prueba = createStatement.getGeneratedKeys();
+            prueba.next();
+            identificador=prueba.getInt(1);
+            System.out.println("la fila es " + identificador );
+            String patron = "/usuarios/";
+            String url = patron+identificador;
+            createStatement.executeUpdate("UPDATE  usuario set url ='" + url + "' where id = "+ identificador + ";");
+
+
             con.close();
 
         }
-        return usu;
+        return getUsuario(identificador);
     }
 
     public Usuario getUsuario(int id) {

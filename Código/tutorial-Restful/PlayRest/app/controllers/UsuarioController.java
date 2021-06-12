@@ -29,7 +29,7 @@ public class UsuarioController extends Controller{
         logger.debug("In UsuarioController.create(), input is: {}", json.toString());
         Usuario usu = UsuarioBBDD.getInstance().addUsuario(Json.fromJson(json, Usuario.class));
         JsonNode jsonObject = Json.toJson(usu);
-        return created(ApplicationUtil.createResponse(jsonObject, true));
+        return created(ApplicationUtil.createResponse(jsonObject, true)).withHeader(LOCATION,usu.getUrl());
     }
 
     public Result update(Http.Request request,int id) throws SQLException, ClassNotFoundException {
