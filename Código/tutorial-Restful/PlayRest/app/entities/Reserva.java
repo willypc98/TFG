@@ -8,8 +8,8 @@ public class Reserva extends RecursoWeb{
     private Usuario usu;
     private Laboratorio lab;
     private BancoDeTrabajo ban;
+    private LocalDateTime DisponibilidadReserva;
     private ArrayList<RecursosBancoDeTrabajo> listaRecursos;
-    private ArrayList<LocalDateTime> listaDisponibilidadReserva;
 
     public Reserva(){
         super();
@@ -46,6 +46,14 @@ public class Reserva extends RecursoWeb{
         this.ban = ban;
     }
 
+    public LocalDateTime getDisponibilidadReserva() {
+        return DisponibilidadReserva;
+    }
+
+    public void setDisponibilidadReserva(LocalDateTime disponibilidadReserva) {
+        DisponibilidadReserva = disponibilidadReserva;
+    }
+
     public ArrayList<RecursosBancoDeTrabajo> getListaRecursos() {
         return listaRecursos;
     }
@@ -54,15 +62,11 @@ public class Reserva extends RecursoWeb{
         this.listaRecursos = listaRecursos;
     }
 
-    public ArrayList<LocalDateTime> getListaDisponibilidadReserva() {
-        return listaDisponibilidadReserva;
-    }
 
-    public void setListaDisponibilidadReserva(ArrayList<LocalDateTime> listaDisponibilidadReserva) {
-        this.listaDisponibilidadReserva = listaDisponibilidadReserva;
-    }
 
     public void annadirListaRecursos(RecursosBancoDeTrabajo recurso){
         listaRecursos.add(recurso);
     }
+
+
 }

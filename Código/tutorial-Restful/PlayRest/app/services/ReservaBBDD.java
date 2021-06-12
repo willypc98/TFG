@@ -35,7 +35,7 @@ public class ReservaBBDD extends ConexionBBDD{
                labID= lab.getId();
                bancoID= ban.getId();
 
-              LocalDateTime horario= reserva.getHorario();
+              LocalDateTime horario= reserva.getDisponibilidadReserva();
 
 
               ArrayList<RecursosBancoDeTrabajo> recursos= new ArrayList<>();
