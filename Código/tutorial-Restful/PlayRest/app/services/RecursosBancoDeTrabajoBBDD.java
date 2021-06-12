@@ -277,7 +277,7 @@ public class RecursosBancoDeTrabajoBBDD extends ConexionBBDD{
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(RecursosBancoDeTrabajoBBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return recurso;
+        return getRecursosBancoDeTrabajo(labID, bancoID, id);
     }
 
 
