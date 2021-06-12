@@ -249,7 +249,7 @@ public class BancoDeTrabajoBBDD extends ConexionBBDD{
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(BancoDeTrabajoBBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return banco;
+        return getBancoDeTrabajo(labID, id);
     }
     public ModifHoraria modifyBanco(ModifHoraria mod,int labID, int id) throws SQLException, ClassNotFoundException {
         try {
