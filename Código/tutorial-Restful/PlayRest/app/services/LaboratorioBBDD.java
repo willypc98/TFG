@@ -270,7 +270,7 @@ public class LaboratorioBBDD extends ConexionBBDD{
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(LaboratorioBBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return lab;
+        return getLaboratorio(id);
     }
 
 public  ModifHoraria modifyLaboratorio(ModifHoraria mod, int id) throws SQLException, ClassNotFoundException {
