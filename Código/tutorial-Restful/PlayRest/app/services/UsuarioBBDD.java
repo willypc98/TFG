@@ -168,7 +168,7 @@ public class UsuarioBBDD extends ConexionBBDD{
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(UsuarioBBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return usu;
+        return getUsuario(id);
     }
 
 
