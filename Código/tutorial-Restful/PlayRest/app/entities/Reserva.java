@@ -61,4 +61,8 @@ public class Reserva extends RecursoWeb{
     public void setListaDisponibilidadReserva(ArrayList<LocalDateTime> listaDisponibilidadReserva) {
         this.listaDisponibilidadReserva = listaDisponibilidadReserva;
     }
+
+    public void annadirListaRecursos(RecursosBancoDeTrabajo recurso){
+        listaRecursos.add(recurso);
+    }
 }
