@@ -24,7 +24,7 @@ public class ReservaBBDD extends ConexionBBDD{
 
     public Reserva addReserva(Reserva reserva) throws SQLException, ClassNotFoundException {
         int usuID=0;  int labID =0; int bancoID=0;
-        int identificador= -1; int numberRow=-1; int contadorRecursos=0;
+        int identificador= -1; int numberRow=-1;int numberRowLab= -1; int contadorRecursos=0;
         if (conector() == true) {
             con.setAutoCommit(false);
             try {
@@ -49,7 +49,7 @@ public class ReservaBBDD extends ConexionBBDD{
                 System.out.println("El tamaño de la lista de recursos es: " + recursos.size());
 
               String queryBBDD1=("select count(*) from Usuario where id="+ usuID +";");
-              String queryBBDD2=("delete from DisponibilidadLaboratorio where labID="+ labID +" AND disponibilidad = '"+ horario + "';");
+              String queryBBDD2=("select count(*) from DisponibilidadLaboratorio where labID="+ labID +" AND disponibilidad = '"+ horario + "';");
               String queryBBDD3=("delete from DisponibilidadBancoDeTrabajo where bancoID="+ bancoID +" AND disponibilidad = '"+ horario + "';");
 
                 rS=createStatement.executeQuery(queryBBDD1);
@@ -58,8 +58,11 @@ public class ReservaBBDD extends ConexionBBDD{
                 }
                 if(numberRow==1){
                     System.out.println("El usuario está bien");
-                    createStatement.executeUpdate(queryBBDD2);
-                    if(createStatement.getUpdateCount()==1){
+                    rS=createStatement.executeQuery(queryBBDD2);
+                    while (rS.next()){
+                        numberRowLab =rS.getInt("count(*)");
+                    }
+                    if(numberRowLab==1){
                         System.out.println("El laboratorio está bien");
                         createStatement.executeUpdate(queryBBDD3);
                         if(createStatement.getUpdateCount()==1){
@@ -138,8 +141,8 @@ public class ReservaBBDD extends ConexionBBDD{
             }
 
         }
-        return reserva;
-        //return getReserva(identificador);
+        //return reserva;
+        return getReserva(identificador);
     }
 
     public Reserva getReserva(int id) {
@@ -355,7 +358,6 @@ public class ReservaBBDD extends ConexionBBDD{
     }
 
 
-/*
     public boolean deleteReserva(int id){
 
         boolean valor= false;
@@ -429,7 +431,7 @@ public class ReservaBBDD extends ConexionBBDD{
         return valor;
     }
 
-*/
+
 
 
     }
