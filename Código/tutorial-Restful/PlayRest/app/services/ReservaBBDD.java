@@ -23,7 +23,7 @@ public class ReservaBBDD extends ConexionBBDD{
 
     public Reserva addReserva(Reserva reserva) throws SQLException, ClassNotFoundException {
         int usuID=0;  int labID =0; int bancoID=0;
-        int identificador= -1;
+        int identificador= -1; int numberRow=-1; int contadorRecursos=0;
         if (conector() == true) {
             con.setAutoCommit(false);
             try {
@@ -43,35 +43,43 @@ public class ReservaBBDD extends ConexionBBDD{
 
 
               ArrayList<RecursosBancoDeTrabajoShort> recursos= new ArrayList<>();
+                System.out.println("El tamaño de la lista de recursos es: " + recursos.size());
               recursos = reserva.getListaRecursos();
+                System.out.println("El tamaño de la lista de recursos es: " + recursos.size());
 
-              String queryBBDD1=("select nombre from Usuario where id="+ usuID +";");
-              String queryBBDD2=("delete from DisponibilidadLaboratorio where id="+ labID +" AND disponibilidad = '"+ horario + "';");
-              String queryBBDD3=("delete from DisponibilidadBancoDeTrabajo where id="+ bancoID +" AND disponibilidad = '"+ horario + "';");
-             // String queryBBDD4=("delete from DisponibilidadRecursosBancoDeTrabajo where id="+ labID +" AND disponibilidad = '"+ horario + "';");
+              String queryBBDD1=("select count(*) from Usuario where id="+ usuID +";");
+              String queryBBDD2=("delete from DisponibilidadLaboratorio where labID="+ labID +" AND disponibilidad = '"+ horario + "';");
+              String queryBBDD3=("delete from DisponibilidadBancoDeTrabajo where bancoID="+ bancoID +" AND disponibilidad = '"+ horario + "';");
 
-                /*
-                createStatement.executeUpdate(queryBBDD1);
-                if(createStatement.getUpdateCount()==1){
+                rS=createStatement.executeQuery(queryBBDD1);
+                while (rS.next()){
+                    numberRow =rS.getInt("count(*)");
+                }
+                if(numberRow==1){
+                    System.out.println("El usuario está bien");
                     createStatement.executeUpdate(queryBBDD2);
                     if(createStatement.getUpdateCount()==1){
+                        System.out.println("El laboratorio está bien");
                         createStatement.executeUpdate(queryBBDD3);
                         if(createStatement.getUpdateCount()==1){
-
+                            System.out.println("El banco de trabajo está bien");
                             for (RecursosBancoDeTrabajoShort recurso:recursos) {
                                 int recursoID= recurso.getId();
-                                createStatement.executeUpdate("delete from DisponibilidadRecursosBancoDeTrabajo where id="+ recursoID +" AND disponibilidad = '"+ horario + "';");
+                                System.out.println("El tamaño de la lista de recursos es: " + recursos.size());
+                                System.out.println("El ID del recurso es el siguiente " + recursoID );
+                                createStatement.executeUpdate("delete from DisponibilidadRecursosBancoDeTrabajo where recursoID="+ recursoID +" AND disponibilidad = '"+ horario + "';");
+                                contadorRecursos++;
+                                System.out.println("el tamaño del contador es " + contadorRecursos);
                             }
-                            if(createStatement.getUpdateCount()==recursos.size()){
+                            if(contadorRecursos==recursos.size()){
 
 
-                 */
+
                                 createStatement.executeUpdate("INSERT INTO Reserva (usuarioID,labID,bancoID, disponibilidad) VALUES (" + usuID + ", " + labID+ ", "  + bancoID+" ,'" + horario+ "' );", Statement.RETURN_GENERATED_KEYS);
                                 ResultSet prueba = createStatement.getGeneratedKeys();
                                 prueba.next();
                                 identificador=prueba.getInt(1);
                                 System.out.println("la fila es " + identificador );
-                                //String patron = "/laboratorios/" + labID + "/bancos/" + bancoID + "/recursos/";
                                 String url = "/reservas/"+identificador;
                                 createStatement.executeUpdate("UPDATE  Reserva set url ='" + url + "' where id = "+ identificador + ";");
 
@@ -86,7 +94,7 @@ public class ReservaBBDD extends ConexionBBDD{
 
 
 
-/*
+
                             }
                             else {
                                 reserva=null;
@@ -118,7 +126,7 @@ public class ReservaBBDD extends ConexionBBDD{
 
 
 
-*/
+
             }
 
             catch(SQLException e){
