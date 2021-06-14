@@ -20,7 +20,7 @@ public class ReservaBBDD extends ConexionBBDD{
         }
         return instance;
     }
-    /*
+
     public Reserva addReserva(Reserva reserva) throws SQLException, ClassNotFoundException {
         int usuID=0;  int labID =0; int bancoID=0;
         int identificador= -1;
@@ -29,46 +29,108 @@ public class ReservaBBDD extends ConexionBBDD{
             try {
 
                Usuario usu = reserva.getUsu();
-               Laboratorio lab= reserva.getLab();
-               BancoDeTrabajo ban =  reserva.getBan();
+               LaboratorioShort lab= reserva.getLab();
+               BancoDeTrabajoShort ban =  reserva.getBan();
                usuID= usu.getId();
+               System.out.println("El ID del Usuario es el siguiente" +usuID);
                labID= lab.getId();
+               System.out.println("El ID del Laboratorio es el siguiente" +labID);
                bancoID= ban.getId();
+               System.out.println("El ID del Banco es el siguiente" +bancoID);
 
               LocalDateTime horario= reserva.getDisponibilidadReserva();
+              System.out.println("El horario de la reserva es el siguiente" +horario);
 
 
-              ArrayList<RecursosBancoDeTrabajo> recursos= new ArrayList<>();
+              ArrayList<RecursosBancoDeTrabajoShort> recursos= new ArrayList<>();
               recursos = reserva.getListaRecursos();
 
+              String queryBBDD1=("select nombre from Usuario where id="+ usuID +";");
+              String queryBBDD2=("delete from DisponibilidadLaboratorio where id="+ labID +" AND disponibilidad = '"+ horario + "';");
+              String queryBBDD3=("delete from DisponibilidadBancoDeTrabajo where id="+ bancoID +" AND disponibilidad = '"+ horario + "';");
+             // String queryBBDD4=("delete from DisponibilidadRecursosBancoDeTrabajo where id="+ labID +" AND disponibilidad = '"+ horario + "';");
 
-                createStatement.executeUpdate("INSERT INTO Reserva (usuID,labID,bancoID, horario) VALUES (" + usuID + ", " + labID+ ", "  + bancoID+" ,'" + horario+ " );", Statement.RETURN_GENERATED_KEYS);
-                ResultSet prueba = createStatement.getGeneratedKeys();
-                prueba.next();
-                identificador=prueba.getInt(1);
-                System.out.println("la fila es " + identificador );
-                //String patron = "/laboratorios/" + labID + "/bancos/" + bancoID + "/recursos/";
-                String url = "/reservas/"+identificador;
-                createStatement.executeUpdate("UPDATE  Reserva set url ='" + url + "' where id = "+ identificador + ";");
+                /*
+                createStatement.executeUpdate(queryBBDD1);
+                if(createStatement.getUpdateCount()==1){
+                    createStatement.executeUpdate(queryBBDD2);
+                    if(createStatement.getUpdateCount()==1){
+                        createStatement.executeUpdate(queryBBDD3);
+                        if(createStatement.getUpdateCount()==1){
 
-                for (RecursosBancoDeTrabajo recurso:recursos) {
-                       int recursoID= recurso.getId();
-                    createStatement.executeUpdate("INSERT INTO reservarecursos (reservaID,recursoID) VALUES (" + identificador + ", '" + recursoID +  "');");
+                            for (RecursosBancoDeTrabajoShort recurso:recursos) {
+                                int recursoID= recurso.getId();
+                                createStatement.executeUpdate("delete from DisponibilidadRecursosBancoDeTrabajo where id="+ recursoID +" AND disponibilidad = '"+ horario + "';");
+                            }
+                            if(createStatement.getUpdateCount()==recursos.size()){
+
+
+                 */
+                                createStatement.executeUpdate("INSERT INTO Reserva (usuarioID,labID,bancoID, disponibilidad) VALUES (" + usuID + ", " + labID+ ", "  + bancoID+" ,'" + horario+ "' );", Statement.RETURN_GENERATED_KEYS);
+                                ResultSet prueba = createStatement.getGeneratedKeys();
+                                prueba.next();
+                                identificador=prueba.getInt(1);
+                                System.out.println("la fila es " + identificador );
+                                //String patron = "/laboratorios/" + labID + "/bancos/" + bancoID + "/recursos/";
+                                String url = "/reservas/"+identificador;
+                                createStatement.executeUpdate("UPDATE  Reserva set url ='" + url + "' where id = "+ identificador + ";");
+
+                                for (RecursosBancoDeTrabajoShort recurso:recursos) {
+                                    int recursoID= recurso.getId();
+                                    createStatement.executeUpdate("INSERT INTO reservarecursos (reservaID,recursoID) VALUES (" + identificador + ", " + recursoID +  ");");
+                                }
+
+                                con.commit();
+                                con.setAutoCommit(true);
+                                con.close();
+
+
+
+/*
+                            }
+                            else {
+                                reserva=null;
+                                System.out.println("Algún recurso del banco de trabajo o la disponibilidad que busca no existe");
+                                con.rollback();
+                            }
+
+                        }
+                        else {
+                            reserva=null;
+                            System.out.println("El banco de trabajo o la disponibilidad que busca no existe");
+                            con.rollback();
+                        }
+                    }
+                    else {
+                        reserva=null;
+                        System.out.println("El laboratorio o la disponibilidad que busca no existe");
+                        con.rollback();
+                    }
+
+                }
+                else {
+
+                    reserva=null;
+                    System.out.println("El usuario que busca no existe");
+                    con.rollback();
                 }
 
-                con.commit();
-                con.setAutoCommit(true);
-                con.close();
+
+
+
+*/
             }
+
             catch(SQLException e){
+                e.printStackTrace();
                 con.rollback();
             }
 
         }
-        //return recurso;
-        return getReserva(usuID,labID, bancoID , identificador);
+        return reserva;
+        //return getReserva(usuID,labID, bancoID , identificador);
     }
-
+/*
     public Reserva getReserva(int usuID, int labID, int bancoID , int id) {
 
         HashMap<Integer,Reserva> mapa = new HashMap<>();

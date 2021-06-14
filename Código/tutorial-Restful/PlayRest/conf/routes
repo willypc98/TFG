@@ -3,6 +3,7 @@
 # ~~~~
  
 # APIs in Controller
+POST    /reservas              controllers.ReservaController.create(request:Request)
 
 GET     /usuarios              controllers.UsuarioController.listUsuarios()
 GET     /usuarios/:id          controllers.UsuarioController.retrieve(id:Int)
@@ -30,6 +31,7 @@ POST    /laboratorios/:labID/bancos/:bancoID/recursos          controllers.Recur
 PUT     /laboratorios/:labID/bancos/:bancoID/recursos/:id      controllers.RecursosBancoDeTrabajoController.update(request:Request,labID:Int,bancoID:Int,id:Int)
 PATCH   /laboratorios/:labID/bancos/:bancoID/recursos/:id      controllers.RecursosBancoDeTrabajoController.modify(request:Request,labID:Int,bancoID:Int,id:Int)
 DELETE  /laboratorios/:labID/bancos/:bancoID/recursos/:id      controllers.RecursosBancoDeTrabajoController.delete(labID:Int,bancoID:Int,id:Int)
+
 
 
 # Map static resources from the /public folder to the /assets URL path

@@ -6,15 +6,15 @@ import java.util.ArrayList;
 public class Reserva extends RecursoWeb{
 
     private Usuario usu;
-    private Laboratorio lab;
-    private BancoDeTrabajo ban;
+    private LaboratorioShort lab;
+    private BancoDeTrabajoShort ban;
     private LocalDateTime DisponibilidadReserva;
-    private ArrayList<RecursosBancoDeTrabajo> listaRecursos;
+    private ArrayList<RecursosBancoDeTrabajoShort> listaRecursos;
 
     public Reserva(){
         super();
     }
-    public Reserva(int id, String url, Usuario usu, Laboratorio lab, BancoDeTrabajo ban ) {
+    public Reserva(int id, String url, Usuario usu, LaboratorioShort lab, BancoDeTrabajoShort ban ) {
         super(id, url);
         this.usu=usu;
         this.lab=lab;
@@ -30,19 +30,19 @@ public class Reserva extends RecursoWeb{
         this.usu = usu;
     }
 
-    public Laboratorio getLab() {
+    public LaboratorioShort getLab() {
         return lab;
     }
 
-    public void setLab(Laboratorio lab) {
+    public void setLab(LaboratorioShort lab) {
         this.lab = lab;
     }
 
-    public BancoDeTrabajo getBan() {
+    public BancoDeTrabajoShort getBan() {
         return ban;
     }
 
-    public void setBan(BancoDeTrabajo ban) {
+    public void setBan(BancoDeTrabajoShort ban) {
         this.ban = ban;
     }
 
@@ -54,17 +54,17 @@ public class Reserva extends RecursoWeb{
         DisponibilidadReserva = disponibilidadReserva;
     }
 
-    public ArrayList<RecursosBancoDeTrabajo> getListaRecursos() {
+    public ArrayList<RecursosBancoDeTrabajoShort> getListaRecursos() {
         return listaRecursos;
     }
 
-    public void setListaRecursos(ArrayList<RecursosBancoDeTrabajo> listaRecursos) {
+    public void setListaRecursos(ArrayList<RecursosBancoDeTrabajoShort> listaRecursos) {
         this.listaRecursos = listaRecursos;
     }
 
 
 
-    public void annadirListaRecursos(RecursosBancoDeTrabajo recurso){
+    public void annadirListaRecursos(RecursosBancoDeTrabajoShort recurso){
         listaRecursos.add(recurso);
     }
 
