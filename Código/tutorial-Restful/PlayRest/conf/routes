@@ -3,6 +3,8 @@
 # ~~~~
  
 # APIs in Controller
+GET     /reservas              controllers.ReservaController.listReservas()
+GET     /reservas/:id          controllers.ReservaController.retrieve(id:Int)
 POST    /reservas              controllers.ReservaController.create(request:Request)
 
 GET     /usuarios              controllers.UsuarioController.listUsuarios()

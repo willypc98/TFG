@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -68,7 +69,9 @@ public class ReservaBBDD extends ConexionBBDD{
                                 System.out.println("El tamaño de la lista de recursos es: " + recursos.size());
                                 System.out.println("El ID del recurso es el siguiente " + recursoID );
                                 createStatement.executeUpdate("delete from DisponibilidadRecursosBancoDeTrabajo where recursoID="+ recursoID +" AND disponibilidad = '"+ horario + "';");
-                                contadorRecursos++;
+                               if(createStatement.getUpdateCount()==1){
+                                   contadorRecursos++;
+                               }
                                 System.out.println("el tamaño del contador es " + contadorRecursos);
                             }
                             if(contadorRecursos==recursos.size()){
@@ -136,23 +139,26 @@ public class ReservaBBDD extends ConexionBBDD{
 
         }
         return reserva;
-        //return getReserva(usuID,labID, bancoID , identificador);
+        //return getReserva(identificador);
     }
-/*
-    public Reserva getReserva(int usuID, int labID, int bancoID , int id) {
+
+    public Reserva getReserva(int id) {
+    int usuarioID = 0; int labID=0; int bancoID=0; int recursoID=0;
+
 
         HashMap<Integer,Reserva> mapa = new HashMap<>();
         try {
             if(conector()==true){
 
-                String queryBBDD = "select Reserva.id, Reserva.url, Reserva.usuID , Reserva.labID, Reserva.bancoID, reservarecursos.recursoID as recursosID from Reserva inner join reservarecursos on Reserva.id = reservarecursos.recursoID where Reserva.id =" + id +" AND Reserva.usuID= " + usuID + " AND Reserva.labID= " + labID + " AND Reserva.bancoID= "+ bancoID+" ;";
+               // String queryBBDD = "select Reserva.id, Reserva.url, Reserva.usuarioID , Reserva.labID, Reserva.bancoID,Reserva.disponibilidad, reservarecursos.recursoID as recursosID from Reserva inner join reservarecursos on Reserva.id = reservarecursos.recursoID where Reserva.id =" + id +" AND Reserva.usuarioID= " + usuID + " AND Reserva.labID= " + labID + " AND Reserva.bancoID= "+ bancoID+" ;";
+               String queryBBDD= "select Reserva.id, Reserva.url, Reserva.usuarioID , Reserva.labID, Reserva.bancoID,Reserva.disponibilidad, reservarecursos.recursoID as recursosID from Reserva inner join reservarecursos on Reserva.id = reservarecursos.reservaID where Reserva.id =" + id +" ;";
                 int i=0;
 
                 try {
 
                     rS = createStatement.executeQuery(queryBBDD);
                 } catch (SQLException ex) {
-                    Logger.getLogger(RecursosBancoDeTrabajoBBDD.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ReservaBBDD.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 if (rS == null){
                     //banco= null;
@@ -171,19 +177,31 @@ public class ReservaBBDD extends ConexionBBDD{
                             else{
 
                                 reserva = new Reserva();
+                                Usuario usu = new Usuario();
+                                LaboratorioShort lab= new LaboratorioShort();
+                                BancoDeTrabajoShort banco=new BancoDeTrabajoShort();
+
                                 reserva.setId(Integer.parseInt(rS.getString("Reserva.id")));
                                 reserva.setUrl(rS.getString("Reserva.url"));
+                                usuarioID=Integer.parseInt(rS.getString("Reserva.usuarioID"));
+                                usu.setId(usuarioID);
+                                reserva.setUsu(usu);
 
-                                reserva.setUsu(rS.getString("Reserva.usuID"));
-                                reserva.setLab(Integer.parseInt(rS.getString("Reserva.labID")));
-                                reserva.setBan(Integer.parseInt(rS.getString("Reserva.bancoID")));
+                                labID=Integer.parseInt(rS.getString("Reserva.labID"));
+                                lab.setId(labID);
+                                reserva.setLab(lab);
+                                bancoID=Integer.parseInt(rS.getString("Reserva.bancoID"));
+                                banco.setId(bancoID);
+                                reserva.setBan(banco);
+                                LocalDateTime horario=rS.getObject("Reserva.disponibilidad",LocalDateTime.class);
+                                reserva.setDisponibilidadReserva(horario);
 
 
                                 mapa.put(reserva.getId(), reserva);
                             }
 
 
-                            RecursosBancoDeTrabajo recurso = new RecursosBancoDeTrabajo();
+                            RecursosBancoDeTrabajoShort recurso = new RecursosBancoDeTrabajoShort();
                             recurso.setId(Integer.parseInt(rS1.getString("recursosID")));
 
 
@@ -195,25 +213,25 @@ public class ReservaBBDD extends ConexionBBDD{
 
                         }
                     } catch (SQLException ex) {
-                        Logger.getLogger(RecursosBancoDeTrabajoBBDD.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(ReservaBBDD.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     try {
                         i = 0;
                         con.close();
                     } catch (SQLException ex) {
-                        Logger.getLogger(RecursosBancoDeTrabajoBBDD.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(ReservaBBDD.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
 
             }
             else{
-                //banco=null;
+               //reserva=null;
 
             }
         } catch (SQLException ex) {
-            Logger.getLogger(RecursosBancoDeTrabajoBBDD.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ReservaBBDD.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(RecursosBancoDeTrabajoBBDD.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ReservaBBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (mapa.values().size() >0){
 
@@ -228,6 +246,104 @@ public class ReservaBBDD extends ConexionBBDD{
 
     }
 
+    public Collection<Reserva> getAllReservas() {
+        int usuarioID = 0; int labID=0; int bancoID=0; int recursoID=0;
+
+
+        HashMap<Integer,Reserva> mapa = new HashMap<>();
+        try {
+            if(conector()==true){
+
+                // String queryBBDD = "select Reserva.id, Reserva.url, Reserva.usuarioID , Reserva.labID, Reserva.bancoID,Reserva.disponibilidad, reservarecursos.recursoID as recursosID from Reserva inner join reservarecursos on Reserva.id = reservarecursos.recursoID where Reserva.id =" + id +" AND Reserva.usuarioID= " + usuID + " AND Reserva.labID= " + labID + " AND Reserva.bancoID= "+ bancoID+" ;";
+                String queryBBDD= "select Reserva.id, Reserva.url, Reserva.usuarioID , Reserva.labID, Reserva.bancoID,Reserva.disponibilidad, reservarecursos.recursoID as recursosID from Reserva inner join reservarecursos on Reserva.id = reservarecursos.reservaID ;";
+                int i=0;
+
+                try {
+
+                    rS = createStatement.executeQuery(queryBBDD);
+                } catch (SQLException ex) {
+                    Logger.getLogger(ReservaBBDD.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                if (rS == null){
+                    //banco= null;
+
+                }
+                else{
+
+                    try {
+                        while (rS.next()) {
+                            Reserva reserva;
+
+                            if (mapa.containsKey(Integer.parseInt(rS.getString("Reserva.id")))){
+                                reserva=mapa.get(Integer.parseInt(rS.getString("Reserva.id")));
+
+                            }
+                            else{
+
+                                reserva = new Reserva();
+                                Usuario usu = new Usuario();
+                                LaboratorioShort lab= new LaboratorioShort();
+                                BancoDeTrabajoShort banco=new BancoDeTrabajoShort();
+
+                                reserva.setId(Integer.parseInt(rS.getString("Reserva.id")));
+                                reserva.setUrl(rS.getString("Reserva.url"));
+                                usuarioID=Integer.parseInt(rS.getString("Reserva.usuarioID"));
+                                usu.setId(usuarioID);
+                                reserva.setUsu(usu);
+
+                                labID=Integer.parseInt(rS.getString("Reserva.labID"));
+                                lab.setId(labID);
+                                reserva.setLab(lab);
+                                bancoID=Integer.parseInt(rS.getString("Reserva.bancoID"));
+                                banco.setId(bancoID);
+                                reserva.setBan(banco);
+                                LocalDateTime horario=rS.getObject("Reserva.disponibilidad",LocalDateTime.class);
+                                reserva.setDisponibilidadReserva(horario);
+
+
+                                mapa.put(reserva.getId(), reserva);
+                            }
+
+
+                            RecursosBancoDeTrabajoShort recurso = new RecursosBancoDeTrabajoShort();
+                            recurso.setId(Integer.parseInt(rS1.getString("recursosID")));
+
+
+                            reserva.annadirListaRecursos(recurso);
+
+
+
+
+
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(ReservaBBDD.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    try {
+                        i = 0;
+                        con.close();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(ReservaBBDD.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+
+            }
+            else{
+                //reserva=null;
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ReservaBBDD.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ReservaBBDD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return mapa.values();
+
+
+    }
+
+
+/*
     public boolean deleteReserva(int id){
 
         boolean valor= false;
