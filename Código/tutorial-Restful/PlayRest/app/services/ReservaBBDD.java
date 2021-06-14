@@ -375,42 +375,56 @@ public class ReservaBBDD extends ConexionBBDD{
                 reserva=getReserva(id);
 
 
+
                 usu = reserva.getUsu();
+                System.out.println("El ID del recurso " +usu.getId());
                 lab= reserva.getLab();
                 int labID= lab.getId();
+                System.out.println("El ID del lab " + labID);
                 banco =  reserva.getBan();
                 int bancoID= banco.getId();
+                System.out.println("El ID del recurso" + bancoID);
                 ArrayList<RecursosBancoDeTrabajoShort> recursos= new ArrayList<>();
                 recursos = reserva.getListaRecursos();
+                System.out.println("El tamaño de la lista de recursos es " + recursos.size());
                 LocalDateTime horario = reserva.getDisponibilidadReserva();
+                System.out.println("El horario de la reserva" + horario);
 
 
 
 
-                String queryBBDD = "INSERT INTO disponibilidadlaboratorio (labID,disponibilidad) VALUES (" + labID + ", '" + horario + "');";
+              //  String queryBBDD = "INSERT INTO disponibilidadlaboratorio (labID,disponibilidad) VALUES (" + labID + ", '" + horario + "');";
                 String queryBBDD1= "INSERT INTO disponibilidadBancoDeTrabajo (bancoID,disponibilidad) VALUES (" + bancoID + ", '" + horario + "');";
 
+                System.out.println(queryBBDD1);
                 String queryBBDD2 = "delete from reserva where id="+id+";";
+                System.out.println(queryBBDD2);
 
-                try {
-                    createStatement.executeUpdate(queryBBDD);
-                    createStatement.executeUpdate(queryBBDD1);
-                    for (RecursosBancoDeTrabajoShort recurso:recursos) {
-                        int recursoID= recurso.getId();
-                        createStatement.executeUpdate("INSERT INTO disponibilidadlaboratorioRecursosBancoDeTRabajo (recursoID,disponibilidad) VALUES (" + recursoID + ", '" + horario + "');");
+                if(conector()==true) {
+                    try {
+                        con.setAutoCommit(false);
+
+                        System.out.println("Antes de la query");
+                        createStatement.executeUpdate(queryBBDD1);
+                        System.out.println("Después de la query");
+                        for (RecursosBancoDeTrabajoShort recurso : recursos) {
+                            int recursoID = recurso.getId();
+                            System.out.println("El ID del recurso" + recursoID);
+                            createStatement.executeUpdate("INSERT INTO disponibilidadRecursosBancoDeTRabajo (recursoID,disponibilidad) VALUES (" + recursoID + ", '" + horario + "');");
+                        }
+                        createStatement.executeUpdate(queryBBDD2);
+
+                        con.commit();
+                        con.setAutoCommit(true);
+                        con.close();
+                        valor = true;
+                        //return valor;
+
+
+                    } catch (SQLException ex) {
+                        Logger.getLogger(ReservaBBDD.class.getName()).log(Level.SEVERE, null, ex);
+                        con.rollback();
                     }
-                    createStatement.executeUpdate(queryBBDD2);
-
-                    con.commit();
-                    con.setAutoCommit(true);
-                    con.close();
-                    valor = true;
-                    return valor;
-
-
-                } catch (SQLException ex) {
-                    Logger.getLogger(ReservaBBDD.class.getName()).log(Level.SEVERE, null, ex);
-                    con.rollback();
                 }
 
                 try {
@@ -419,6 +433,7 @@ public class ReservaBBDD extends ConexionBBDD{
                 } catch (SQLException ex) {
                     Logger.getLogger(ReservaBBDD.class.getName()).log(Level.SEVERE, null, ex);
                 }
+
             }
             else{
 
