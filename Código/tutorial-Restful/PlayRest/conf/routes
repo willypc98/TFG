@@ -6,6 +6,7 @@
 GET     /reservas              controllers.ReservaController.listReservas()
 GET     /reservas/:id          controllers.ReservaController.retrieve(id:Int)
 POST    /reservas              controllers.ReservaController.create(request:Request)
+DELETE  /reservas/:id          controllers.ReservaController.delete(id:Int)
 
 GET     /usuarios              controllers.UsuarioController.listUsuarios()
 GET     /usuarios/:id          controllers.UsuarioController.retrieve(id:Int)

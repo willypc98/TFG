@@ -48,12 +48,17 @@ public class ReservaController extends Controller {
      */
     public Result retrieve(int id) {
         logger.debug("In ReservaController.retrieve(), retrieve Reserva with id: {}",id);
+        System.out.println("In ReservaController.retrieve(), retrieve Reserva with id: {}" + id);
+
         if (ReservaBBDD.getInstance().getReserva(id) == null) {
-            return notFound(ApplicationUtil.createResponse("BancoDeTrabajo with id:" + id + " not found", false));
+
+            return notFound(ApplicationUtil.createResponse("Reserva with id:" + id + " not found", false));
         }
-        ObjectMapper mapper = new ObjectMapper();
-        //JsonNode jsonObjects = Json.toJson(ReservaBBDD.getInstance().getReserva(id));
-         JsonNode jsonObjects = mapper.convertValue(ReservaBBDD.getInstance().getReserva(id),JsonNode.class);
+
+       // ObjectMapper mapper = new ObjectMapper();
+        JsonNode jsonObjects = Json.toJson(ReservaBBDD.getInstance().getReserva(id));
+
+         //JsonNode jsonObjects = mapper.convertValue(ReservaBBDD.getInstance().getReserva(id),JsonNode.class);
 
         logger.debug("In ReservaController.retrieve(), result is: {}",jsonObjects.toString());
         return ok(ApplicationUtil.createResponse(jsonObjects, true));
@@ -62,12 +67,20 @@ public class ReservaController extends Controller {
     public Result listReservas() {
         Collection<Reserva> result = ReservaBBDD.getInstance().getAllReservas();
         logger.debug("In ReservaController.listReservas(), result is: {}",result.toString());
-        ObjectMapper mapper = new ObjectMapper();
+       // ObjectMapper mapper = new ObjectMapper();
 
-        //JsonNode jsonData = Json.toJson(result);
-        JsonNode jsonData = mapper.convertValue(result, JsonNode.class);
+        JsonNode jsonData = Json.toJson(result);
+        //JsonNode jsonData = mapper.convertValue(result, JsonNode.class);
         return ok(ApplicationUtil.createResponse(jsonData, true));
 
+    }
+
+    public Result delete(int id) throws SQLException, ClassNotFoundException {
+        logger.debug("In ReservaController.delete(), delete banco de trabajo with id: {}",id);
+        if (!ReservaBBDD.getInstance().deleteReserva(id)) {
+            return notFound(ApplicationUtil.createResponse("Reserva with id:" + id + " not found", false));
+        }
+        return ok(ApplicationUtil.createResponse("Reserva with id:" + id + " deleted", true));
     }
 
 }

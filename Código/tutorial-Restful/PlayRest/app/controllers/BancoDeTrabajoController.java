@@ -95,7 +95,7 @@ public class BancoDeTrabajoController extends Controller {
     }
 
     public Result delete(int labID,int id) throws SQLException, ClassNotFoundException {
-        logger.debug("In BancoDeTrabajoController.retrieve(), delete banco de trabajo with id: {}",id);
+        logger.debug("In BancoDeTrabajoController.delete(), delete banco de trabajo with id: {}",id);
         if (!BancoDeTrabajoBBDD.getInstance().deleteBancoDeTrabajo(labID,id)) {
             return notFound(ApplicationUtil.createResponse("BancoDeTrabajo with id:" + id + " not found", false));
         }
