@@ -1,9 +1,12 @@
 package entities;
 
+import java.util.ArrayList;
+
 public class Usuario extends RecursoWeb{
 
     private String nombre;
     private String grado;
+    private ArrayList<ReservaShort> listaReservas = new ArrayList<>();
 
    public Usuario(){
         super();
@@ -32,6 +35,10 @@ public class Usuario extends RecursoWeb{
         this.grado = grado;
     }
 
+    public void annadirReservas(ReservaShort reserva){
+        getListaReservas().add(reserva);
+    }
+
     @Override
     public String toString() {
         return "Usuario{" +
@@ -42,5 +49,12 @@ public class Usuario extends RecursoWeb{
     }
 
 
+    public ArrayList<ReservaShort> getListaReservas() {
+        return listaReservas;
+    }
+
+    public void setListaReservas(ArrayList<ReservaShort> listaReservas) {
+        this.listaReservas = listaReservas;
+    }
 }
 

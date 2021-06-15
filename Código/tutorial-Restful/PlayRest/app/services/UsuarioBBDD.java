@@ -1,11 +1,13 @@
 package services;
 
-import entities.Usuario;
+import entities.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -46,11 +48,12 @@ public class UsuarioBBDD extends ConexionBBDD{
     }
 
     public Usuario getUsuario(int id) {
-        Usuario usu = new Usuario();
+        //Usuario usu = new Usuario();
+        HashMap<Integer,Usuario> mapa = new HashMap<>();
         try {
             if(conector()==true){
-
-                String queryBBDD = "select * from usuario where id=" + id + ";";
+                System.out.println("Antes de guardar la query");
+                String queryBBDD = "select usuario.id, usuario.url,usuario.nombre, usuario.grado, reserva.id as ReservaID, reserva.url as ReservaURL, reserva.disponibilidad as Disponibilidad from usuario inner join reserva on usuario.id = reserva.usuarioID where usuario.id=" + id + ";";
                 int i=0;
                 try {
                     rS = createStatement.executeQuery(queryBBDD);
@@ -58,17 +61,40 @@ public class UsuarioBBDD extends ConexionBBDD{
                     Logger.getLogger(UsuarioBBDD.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 if (rS == null){
-                    usu= null;
+                   // usu= null;
 
                 }
                 else{
 
                     try {
                         while (rS.next()) {
-                            usu.setId(rS.getInt("id"));
-                            usu.setUrl(rS.getString("url"));
-                            usu.setNombre(rS.getString("nombre"));
-                            usu.setGrado(rS.getString("grado"));
+                            Usuario usu;
+                            if (mapa.containsKey(Integer.parseInt(rS.getString("usuario.id")))){
+                                usu=mapa.get(Integer.parseInt(rS.getString("usuario.id")));
+                            }
+                            else{
+
+                                usu = new Usuario();
+                                usu.setId(rS.getInt("usuario.id"));
+
+                                usu.setUrl(rS.getString("usuario.url"));
+
+                                usu.setNombre(rS.getString("usuario.nombre"));
+
+                                usu.setGrado(rS.getString("usuario.grado"));
+
+                                mapa.put(usu.getId(), usu);
+                            }
+
+                            ReservaShort reserva = new ReservaShort();
+                            reserva.setId(Integer.parseInt(rS.getString("ReservaID")));
+                            reserva.setUrl(rS.getString("ReservaURL"));
+                            reserva.setDisponibilidadReserva(rS.getObject("Disponibilidad",LocalDateTime.class));
+
+                            usu.annadirReservas(reserva);
+
+
+
 
 
                         }
@@ -85,7 +111,7 @@ public class UsuarioBBDD extends ConexionBBDD{
 
             }
             else{
-                usu=null;
+               // usu=null;
 
             }
         } catch (SQLException ex) {
@@ -93,7 +119,15 @@ public class UsuarioBBDD extends ConexionBBDD{
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(UsuarioBBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return usu;
+        if (mapa.values().size() >0){
+
+
+            return new ArrayList<>(mapa.values()).get(0);
+
+        }
+        else {
+            return null;
+        }
     }
 
     public ArrayList<Usuario> getAllUsuarios() {
