@@ -3,6 +3,9 @@ package controllers;
 import entities.BancoDeTrabajo;
 import entities.BancoDeTrabajoShort;
 import entities.ModifHoraria;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateExceptionHandler;
 import play.*;
 import play.mvc.Http;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -16,9 +19,13 @@ import play.mvc.Result;
 import services.BancoDeTrabajoBBDD;
 import services.LaboratorioBBDD;
 import utils.ApplicationUtil;
+
+import java.io.StringWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class BancoDeTrabajoController extends Controller {
 
@@ -70,18 +77,47 @@ public class BancoDeTrabajoController extends Controller {
 
 
     public Result retrieve(Http.Request request,int labID,int id) {
-        logger.debug("In BancoDeTrabajoController.retrieve(), retrieve usuario with id: {}",id);
-        if (BancoDeTrabajoBBDD.getInstance().getBancoDeTrabajo(labID,id) == null) {
+        logger.debug("In BancoDeTrabajoController.retrieve(), retrieve usuario with id: {}", id);
+        if (BancoDeTrabajoBBDD.getInstance().getBancoDeTrabajo(labID, id) == null) {
             return notFound(ApplicationUtil.createResponse("BancoDeTrabajo with id:" + id + " not found", false));
         }
-        //ObjectMapper mapper = new ObjectMapper();
-        JsonNode jsonObjects = Json.toJson(BancoDeTrabajoBBDD.getInstance().getBancoDeTrabajo(labID,id));
-        // JsonNode jsonObjects = mapper.convertValue(BancoDeTrabajoBBDD.getInstance().getBancoDeTrabajo(id),JsonNode.class);
+        BancoDeTrabajo result = BancoDeTrabajoBBDD.getInstance().getBancoDeTrabajo(labID, id);
 
-        logger.debug("In BancoDeTrabajoController.retrieve(), result is: {}",jsonObjects.toString());
-        return ok(ApplicationUtil.createResponse(jsonObjects, true));
+        if (request.accepts("text/html")) {
+            String output = "error";
+            try {
+
+
+                Configuration cfg = new Configuration(Configuration.VERSION_2_3_30);
+                cfg.setClassLoaderForTemplateLoading(this.getClass().getClassLoader(), "/templates/");
+                cfg.setDefaultEncoding("UTF-8");
+                cfg.setTemplateExceptionHandler(TemplateExceptionHandler.HTML_DEBUG_HANDLER);
+                cfg.setLogTemplateExceptions(false);
+
+                cfg.setWrapUncheckedExceptions(true);
+                cfg.setFallbackOnNullLoopVariable(false);
+                cfg.setNumberFormat("computer");
+
+                Template template = cfg.getTemplate("banco.ftl");
+                StringWriter sw = new StringWriter();
+                Map<String, Object> mapa = new TreeMap<String, Object>();
+                mapa.put("banco", result);
+                template.process(mapa, sw);
+                output = sw.toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return ok(output).as("text/html");
+
+        } else {
+            //ObjectMapper mapper = new ObjectMapper();
+            JsonNode jsonObjects = Json.toJson(BancoDeTrabajoBBDD.getInstance().getBancoDeTrabajo(labID, id));
+            // JsonNode jsonObjects = mapper.convertValue(BancoDeTrabajoBBDD.getInstance().getBancoDeTrabajo(id),JsonNode.class);
+
+            logger.debug("In BancoDeTrabajoController.retrieve(), result is: {}", jsonObjects.toString());
+            return ok(ApplicationUtil.createResponse(jsonObjects, true));
+        }
     }
-
 
     public Result listBancosDeTrabajo(Http.Request request,int labID) {
         Collection<BancoDeTrabajoShort> result = BancoDeTrabajoBBDD.getInstance().getAllBancosDeTrabajos(labID);
