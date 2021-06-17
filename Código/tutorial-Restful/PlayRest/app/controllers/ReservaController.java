@@ -46,7 +46,7 @@ public class ReservaController extends Controller {
 
 
      */
-    public Result retrieve(int id) {
+    public Result retrieve(Http.Request request,int id) {
         logger.debug("In ReservaController.retrieve(), retrieve Reserva with id: {}",id);
         System.out.println("In ReservaController.retrieve(), retrieve Reserva with id: {}" + id);
 
@@ -64,7 +64,7 @@ public class ReservaController extends Controller {
         return ok(ApplicationUtil.createResponse(jsonObjects, true));
     }
 
-    public Result listReservas() {
+    public Result listReservas(Http.Request request) {
         Collection<Reserva> result = ReservaBBDD.getInstance().getAllReservas();
         logger.debug("In ReservaController.listReservas(), result is: {}",result.toString());
        // ObjectMapper mapper = new ObjectMapper();
@@ -75,7 +75,7 @@ public class ReservaController extends Controller {
 
     }
 
-    public Result delete(int id) throws SQLException, ClassNotFoundException {
+    public Result delete(Http.Request request,int id) throws SQLException, ClassNotFoundException {
         logger.debug("In ReservaController.delete(), delete banco de trabajo with id: {}",id);
         if (!ReservaBBDD.getInstance().deleteReserva(id)) {
             return notFound(ApplicationUtil.createResponse("Reserva with id:" + id + " not found", false));

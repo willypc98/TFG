@@ -114,7 +114,6 @@ public Result modify(Http.Request request,int id) throws SQLException, ClassNotF
                  StringWriter sw = new StringWriter();
                  Map<String, Object> mapa = new TreeMap<String, Object>();
                  mapa.put("laboratorio", result);
-                 mapa.put("user", "Manolo");
                  template.process(mapa, sw);
                  output=sw.toString();
              }
@@ -161,7 +160,6 @@ public Result modify(Http.Request request,int id) throws SQLException, ClassNotF
                 StringWriter sw = new StringWriter();
                 Map<String, Object> mapa = new TreeMap<String, Object>();
                 mapa.put("laboratorios", result);
-                mapa.put("user", "Manolo");
                 template.process(mapa, sw);
             output=sw.toString();
             }
@@ -178,7 +176,7 @@ public Result modify(Http.Request request,int id) throws SQLException, ClassNotF
         }
     }
 
-    public Result delete(int id) throws SQLException, ClassNotFoundException {
+    public Result delete(Http.Request request,int id) throws SQLException, ClassNotFoundException {
         logger.debug("In LaboratorioController.retrieve(), delete laboratorio with id: {}",id);
         if (!LaboratorioBBDD.getInstance().deleteLaboratorio(id)) {
             return notFound(ApplicationUtil.createResponse("Laboratorio with id:" + id + " not found", false));

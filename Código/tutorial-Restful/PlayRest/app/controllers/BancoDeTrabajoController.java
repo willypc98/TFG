@@ -69,7 +69,7 @@ public class BancoDeTrabajoController extends Controller {
     }
 
 
-    public Result retrieve(int labID,int id) {
+    public Result retrieve(Http.Request request,int labID,int id) {
         logger.debug("In BancoDeTrabajoController.retrieve(), retrieve usuario with id: {}",id);
         if (BancoDeTrabajoBBDD.getInstance().getBancoDeTrabajo(labID,id) == null) {
             return notFound(ApplicationUtil.createResponse("BancoDeTrabajo with id:" + id + " not found", false));
@@ -83,7 +83,7 @@ public class BancoDeTrabajoController extends Controller {
     }
 
 
-    public Result listBancosDeTrabajo(int labID) {
+    public Result listBancosDeTrabajo(Http.Request request,int labID) {
         Collection<BancoDeTrabajoShort> result = BancoDeTrabajoBBDD.getInstance().getAllBancosDeTrabajos(labID);
         logger.debug("In BancoDeTrabajoController.listBancoDeTrabajos(), result is: {}",result.toString());
         //ObjectMapper mapper = new ObjectMapper();
@@ -94,7 +94,7 @@ public class BancoDeTrabajoController extends Controller {
 
     }
 
-    public Result delete(int labID,int id) throws SQLException, ClassNotFoundException {
+    public Result delete(Http.Request request,int labID,int id) throws SQLException, ClassNotFoundException {
         logger.debug("In BancoDeTrabajoController.delete(), delete banco de trabajo with id: {}",id);
         if (!BancoDeTrabajoBBDD.getInstance().deleteBancoDeTrabajo(labID,id)) {
             return notFound(ApplicationUtil.createResponse("BancoDeTrabajo with id:" + id + " not found", false));

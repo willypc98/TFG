@@ -3,6 +3,9 @@ package controllers;
 import entities.ModifHoraria;
 import entities.RecursosBancoDeTrabajo;
 import entities.RecursosBancoDeTrabajoShort;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateExceptionHandler;
 import play.*;
 import play.mvc.Http;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -16,9 +19,13 @@ import play.mvc.Result;
 import services.BancoDeTrabajoBBDD;
 import services.RecursosBancoDeTrabajoBBDD;
 import utils.ApplicationUtil;
+
+import java.io.StringWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class RecursosBancoDeTrabajoController extends Controller {
 
@@ -56,21 +63,51 @@ public class RecursosBancoDeTrabajoController extends Controller {
 
 
 
-    public Result retrieve(int labID, int bancoID,int id) {
-        logger.debug("In RecursosBancoDeTrabajoController.retrieve(), retrieve usuario with id: {}",id);
-        if (RecursosBancoDeTrabajoBBDD.getInstance().getRecursosBancoDeTrabajo(labID,bancoID, id) == null) {
+    public Result retrieve(Http.Request request,int labID, int bancoID,int id) {
+        logger.debug("In RecursosBancoDeTrabajoController.retrieve(), retrieve usuario with id: {}", id);
+        if (RecursosBancoDeTrabajoBBDD.getInstance().getRecursosBancoDeTrabajo(labID, bancoID, id) == null) {
             return notFound(ApplicationUtil.createResponse("RecursosBancoDeTrabajo with id:" + id + " not found", false));
         }
-        //ObjectMapper mapper = new ObjectMapper();
-        JsonNode jsonObjects = Json.toJson(RecursosBancoDeTrabajoBBDD.getInstance().getRecursosBancoDeTrabajo(labID,bancoID,id));
-        // JsonNode jsonObjects = mapper.convertValue(RecursosBancoDeTrabajoBBDD.getInstance().getRecursosBancoDeTrabajo(id),JsonNode.class);
 
-        logger.debug("In RecursosBancoDeTrabajoController.retrieve(), result is: {}",jsonObjects.toString());
-        return ok(ApplicationUtil.createResponse(jsonObjects, true));
+        RecursosBancoDeTrabajo result = RecursosBancoDeTrabajoBBDD.getInstance().getRecursosBancoDeTrabajo(labID, bancoID, id);
+        if (request.accepts("text/html")) {
+            String output = "error";
+            try {
+
+
+                Configuration cfg = new Configuration(Configuration.VERSION_2_3_30);
+                cfg.setClassLoaderForTemplateLoading(this.getClass().getClassLoader(), "/templates/");
+                cfg.setDefaultEncoding("UTF-8");
+                cfg.setTemplateExceptionHandler(TemplateExceptionHandler.HTML_DEBUG_HANDLER);
+                cfg.setLogTemplateExceptions(false);
+
+                cfg.setWrapUncheckedExceptions(true);
+                cfg.setFallbackOnNullLoopVariable(false);
+                cfg.setNumberFormat("computer");
+
+                Template template = cfg.getTemplate("recurso.ftl");
+                StringWriter sw = new StringWriter();
+                Map<String, Object> mapa = new TreeMap<String, Object>();
+                mapa.put("recurso", result);
+                template.process(mapa, sw);
+                output = sw.toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return ok(output).as("text/html");
+
+        } else {
+            //ObjectMapper mapper = new ObjectMapper();
+            JsonNode jsonObjects = Json.toJson(RecursosBancoDeTrabajoBBDD.getInstance().getRecursosBancoDeTrabajo(labID, bancoID, id));
+            // JsonNode jsonObjects = mapper.convertValue(RecursosBancoDeTrabajoBBDD.getInstance().getRecursosBancoDeTrabajo(id),JsonNode.class);
+
+            logger.debug("In RecursosBancoDeTrabajoController.retrieve(), result is: {}", jsonObjects.toString());
+            return ok(ApplicationUtil.createResponse(jsonObjects, true));
+        }
     }
 
 
-    public Result listRecursosBancosDeTrabajo(int labID, int bancoID) {
+    public Result listRecursosBancosDeTrabajo(Http.Request request,int labID, int bancoID) {
         Collection<RecursosBancoDeTrabajoShort> result = RecursosBancoDeTrabajoBBDD.getInstance().getAllRecursosBancosDeTrabajos(labID,bancoID);
         logger.debug("In RecursosBancoDeTrabajoController.listRecursosBancoDeTrabajos(), result is: {}",result.toString());
         //ObjectMapper mapper = new ObjectMapper();
@@ -97,7 +134,7 @@ public class RecursosBancoDeTrabajoController extends Controller {
         return ok(ApplicationUtil.createResponse(jsonObject, true));
     }
 
-    public Result delete(int labID, int bancoID,int id) throws SQLException, ClassNotFoundException {
+    public Result delete(Http.Request request,int labID, int bancoID,int id) throws SQLException, ClassNotFoundException {
         logger.debug("In RecursosBancoDeTrabajoController.retrieve(), delete recurso de trabajo with id: {}",id);
         if (!RecursosBancoDeTrabajoBBDD.getInstance().deleteRecursosBancoDeTrabajo(labID,bancoID,id)) {
             return notFound(ApplicationUtil.createResponse("RecursosBancoDeTrabajo with id:" + id + " not found", false));

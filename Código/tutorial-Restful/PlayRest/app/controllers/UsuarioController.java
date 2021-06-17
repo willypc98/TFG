@@ -51,7 +51,7 @@ public class UsuarioController extends Controller{
         return ok(ApplicationUtil.createResponse(jsonObject, true));
     }
 
-    public Result retrieve(int id) {
+    public Result retrieve(Http.Request request,int id) {
         logger.debug("In UsuarioController.retrieve(), retrieve usuario with id: {}",id);
         if (UsuarioBBDD.getInstance().getUsuario(id) == null) {
             return notFound(ApplicationUtil.createResponse("Usuario with id:" + id + " not found", false));
@@ -62,7 +62,7 @@ public class UsuarioController extends Controller{
         //return ok("<html> <body><h1>Esto es una prueba"+ id +" </h1></body></html>").as("text/html");
     }
 
-    public Result listUsuarios() {
+    public Result listUsuarios(Http.Request request) {
         ArrayList<Usuario> result = UsuarioBBDD.getInstance().getAllUsuarios();
         logger.debug("In UsuarioController.listUsuarios(), result is: {}",result.toString());
         ObjectMapper mapper = new ObjectMapper();
@@ -72,7 +72,7 @@ public class UsuarioController extends Controller{
 
     }
 
-    public Result delete(int id) throws SQLException, ClassNotFoundException {
+    public Result delete(Http.Request request,int id) throws SQLException, ClassNotFoundException {
         logger.debug("In UsuarioController.retrieve(), delete usuario with id: {}",id);
         if (!UsuarioBBDD.getInstance().deleteUsuario(id)) {
             return notFound(ApplicationUtil.createResponse("Usuario with id:" + id + " not found", false));

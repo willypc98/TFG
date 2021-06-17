@@ -4,37 +4,37 @@
  
 # APIs in Controller
 GET     /inicio                controllers.ControladorDePrueba.index()
-GET     /reservas              controllers.ReservaController.listReservas()
-GET     /reservas/:id          controllers.ReservaController.retrieve(id:Int)
+GET     /reservas              controllers.ReservaController.listReservas(request:Request)
+GET     /reservas/:id          controllers.ReservaController.retrieve(request:Request,id:Int)
 POST    /reservas              controllers.ReservaController.create(request:Request)
-DELETE  /reservas/:id          controllers.ReservaController.delete(id:Int)
+DELETE  /reservas/:id          controllers.ReservaController.delete(request:Request,id:Int)
 
-GET     /usuarios              controllers.UsuarioController.listUsuarios()
-GET     /usuarios/:id          controllers.UsuarioController.retrieve(id:Int)
+GET     /usuarios              controllers.UsuarioController.listUsuarios(request:Request)
+GET     /usuarios/:id          controllers.UsuarioController.retrieve(request:Request,id:Int)
 POST    /usuarios              controllers.UsuarioController.create(request:Request)
 PUT     /usuarios/:id          controllers.UsuarioController.update(request:Request,id:Int)
-DELETE  /usuarios/:id          controllers.UsuarioController.delete(id:Int)
+DELETE  /usuarios/:id          controllers.UsuarioController.delete(request:Request,id:Int)
 
 GET     /laboratorios          controllers.LaboratorioController.listLaboratorios(request:Request)
 GET     /laboratorios/:id      controllers.LaboratorioController.retrieve(request:Request,id:Int)
 POST    /laboratorios          controllers.LaboratorioController.create(request:Request)
 PUT     /laboratorios/:id      controllers.LaboratorioController.update(request:Request,id:Int)
 PATCH   /laboratorios/:id      controllers.LaboratorioController.modify(request:Request,id:Int)
-DELETE  /laboratorios/:id      controllers.LaboratorioController.delete(id:Int)
+DELETE  /laboratorios/:id      controllers.LaboratorioController.delete(request:Request,id:Int)
 
-GET     /laboratorios/:labID/bancos       controllers.BancoDeTrabajoController.listBancosDeTrabajo(labID:Int)
-GET     /laboratorios/:labID/bancos/:id   controllers.BancoDeTrabajoController.retrieve(labID:Int,id:Int)
+GET     /laboratorios/:labID/bancos       controllers.BancoDeTrabajoController.listBancosDeTrabajo(request:Request,labID:Int)
+GET     /laboratorios/:labID/bancos/:id   controllers.BancoDeTrabajoController.retrieve(request:Request,labID:Int,id:Int)
 POST    /laboratorios/:labID/bancos       controllers.BancoDeTrabajoController.create(request:Request,labID:Int)
 PUT     /laboratorios/:labID/bancos/:id   controllers.BancoDeTrabajoController.update(request:Request,labID:Int,id:Int)
 PATCH   /laboratorios/:labID/bancos/:id   controllers.BancoDeTrabajoController.modify(request:Request,labID:Int,id:Int)
-DELETE  /laboratorios/:labID/bancos/:id   controllers.BancoDeTrabajoController.delete(labID:Int,id:Int)
+DELETE  /laboratorios/:labID/bancos/:id   controllers.BancoDeTrabajoController.delete(request:Request,labID:Int,id:Int)
 
-GET     /laboratorios/:labID/bancos/:bancoID/recursos          controllers.RecursosBancoDeTrabajoController.listRecursosBancosDeTrabajo(labID:Int,bancoID:Int)
-GET     /laboratorios/:labID/bancos/:bancoID/recursos/:id      controllers.RecursosBancoDeTrabajoController.retrieve(labID:Int,bancoID:Int,id:Int)
+GET     /laboratorios/:labID/bancos/:bancoID/recursos          controllers.RecursosBancoDeTrabajoController.listRecursosBancosDeTrabajo(request:Request,labID:Int,bancoID:Int)
+GET     /laboratorios/:labID/bancos/:bancoID/recursos/:id      controllers.RecursosBancoDeTrabajoController.retrieve(request:Request,labID:Int,bancoID:Int,id:Int)
 POST    /laboratorios/:labID/bancos/:bancoID/recursos          controllers.RecursosBancoDeTrabajoController.create(request:Request,labID:Int,bancoID:Int)
 PUT     /laboratorios/:labID/bancos/:bancoID/recursos/:id      controllers.RecursosBancoDeTrabajoController.update(request:Request,labID:Int,bancoID:Int,id:Int)
 PATCH   /laboratorios/:labID/bancos/:bancoID/recursos/:id      controllers.RecursosBancoDeTrabajoController.modify(request:Request,labID:Int,bancoID:Int,id:Int)
-DELETE  /laboratorios/:labID/bancos/:bancoID/recursos/:id      controllers.RecursosBancoDeTrabajoController.delete(labID:Int,bancoID:Int,id:Int)
+DELETE  /laboratorios/:labID/bancos/:bancoID/recursos/:id      controllers.RecursosBancoDeTrabajoController.delete(request:Request,labID:Int,bancoID:Int,id:Int)
 
 
 
