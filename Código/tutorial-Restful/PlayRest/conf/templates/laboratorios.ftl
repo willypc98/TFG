@@ -6,11 +6,17 @@
 </head>
 <body>
 
+<div> <b> La lista de laboratorios es: </b><br> <br>
+    <#list laboratorios as laboratorio>
+        <p id="identificador" >  El ID del laboratorio es ${laboratorio.id} </p> <br>
+         <p id="url"> <a href="${laboratorio.url}">La URI del laboratorio es ${laboratorio.url} </a></p> <br>
+         <p id="nombre">EL nombre del laboratorio es ${laboratorio.nombreLab} </p> <br>
+         <p id="descripcion">La descripción del laboratorio es ${laboratorio.descripcionLab} </p> <br>
+         <p >------------------------------------------------- </p> <br>
+    </#list>
+    </div>
 
-  <p id="identificador">El ID del laboratorio es ${laboratorios.entity.id} </p> <br>
-  <p id="url">La URI del laboratorio es  </p> <br>
-  <p id="nombre">EL nombre del laboratorio es  </p> <br>
-  <p id="descripcion">La descripción del laboratorio es </p> <br>
+
 
 </body>
 </html>

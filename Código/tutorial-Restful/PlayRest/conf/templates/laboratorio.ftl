@@ -15,6 +15,7 @@
 <div> <b>La disponibilidad del laboratorio es: </b>  <br>
   <#list listaDisponibilidadLaboratorio as horario>
     <p> ${horario}
+    <#else> NO tiene disponiblidad asignada
   </#list>
   </div> <br>
 
@@ -25,6 +26,7 @@
          <p>La descripción del banco es ${banco.descripcionBanco} </p> <br>
          <p >El ID del laboratorio del banco es ${banco.labID} </p> <br>
          <p >------------------------------------------------- </p> <br>
+    <#else> No tiene bancos de trabajo asignados
     </#list>
     </div>
 
