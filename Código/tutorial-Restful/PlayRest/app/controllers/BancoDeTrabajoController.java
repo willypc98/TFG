@@ -102,6 +102,8 @@ public class BancoDeTrabajoController extends Controller {
                 StringWriter sw = new StringWriter();
                 Map<String, Object> mapa = new TreeMap<String, Object>();
                 mapa.put("banco", result);
+                mapa.put("disponibilidadBanco", result.getListaDisponibilidadBanco());
+                mapa.put("listaRecursos", result.getListaRecursosBanco());
                 template.process(mapa, sw);
                 output = sw.toString();
             } catch (Exception e) {

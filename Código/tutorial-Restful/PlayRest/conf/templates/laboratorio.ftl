@@ -22,7 +22,7 @@
   <div> <b> La lista de bancos de trabajo del laboratorio es: </b><br> <br>
     <#list listaBancosDeTrabajo as banco>
        <p >El id del banco es ${banco.id} </p> <br>
-         <p>La URI del banco es ${banco.url} </p> <br>
+         <p> <a href="${banco.url}">La URI del banco es ${banco.url} </a></p> <br>
          <p>La descripción del banco es ${banco.descripcionBanco} </p> <br>
          <p >El ID del laboratorio del banco es ${banco.labID} </p> <br>
          <p >------------------------------------------------- </p> <br>
