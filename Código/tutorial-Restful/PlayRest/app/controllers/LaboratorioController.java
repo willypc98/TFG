@@ -93,8 +93,8 @@ public Result modify(Http.Request request,int id) throws SQLException, ClassNotF
         if (LaboratorioBBDD.getInstance().getLaboratorio(id) == null) {
             return notFound(ApplicationUtil.createResponse("Laboratorio with id:" + id + " not found", false));
         }
-       Laboratorio result = LaboratorioBBDD.getInstance().getLaboratorio(id);
 
+       Laboratorio result = LaboratorioBBDD.getInstance().getLaboratorio(id);
          if (request.accepts("text/html")) {
              String output="error";
              try {
@@ -114,6 +114,8 @@ public Result modify(Http.Request request,int id) throws SQLException, ClassNotF
                  StringWriter sw = new StringWriter();
                  Map<String, Object> mapa = new TreeMap<String, Object>();
                  mapa.put("laboratorio", result);
+                 mapa.put("listaDisponibilidadLaboratorio", result.getListaDisponibilidadLaboratorio());
+                 mapa.put("listaBancosDeTrabajo", result.getListaBancosDeTrabajo());
                  template.process(mapa, sw);
                  output=sw.toString();
              }
@@ -123,6 +125,8 @@ public Result modify(Http.Request request,int id) throws SQLException, ClassNotF
              return ok(output).as("text/html");
 
          } else {
+
+
              //ObjectMapper mapper = new ObjectMapper();
              JsonNode jsonObjects = Json.toJson(LaboratorioBBDD.getInstance().getLaboratorio(id));
              // JsonNode jsonObjects = mapper.convertValue(LaboratorioBBDD.getInstance().getLaboratorio(id),JsonNode.class);

@@ -12,5 +12,11 @@
   <p id="nombre">EL nombre del laboratorio es ${laboratorio.nombreLab} </p> <br>
   <p id="descripcion">La descripción del laboratorio es ${laboratorio.descripcionLab} </p> <br>
 
+<div> La disponibilidad del laboratorio es: <br>
+  <#list listaDisponibilidadLaboratorio as horario>
+    <p> ${horario}
+  </#list>
+  </div>
+
 </body>
 </html>
