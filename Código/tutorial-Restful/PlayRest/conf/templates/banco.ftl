@@ -6,12 +6,14 @@
 </head>
 <body>
 
-
+<b>
+<p > <a href="/inicio">  Si quiere volver al inicio pinche aquí </a></p> <br>
+<p > <a href="/laboratorios/${banco.labID}/bancos">  Si quiere volver a ver todos los bancos de trabajo  pinche aquí </a></p> <br>
   <p id="identificador">El ID del banco es ${banco.id} </p> <br>
   <p id="url">La URI del banco es ${banco.url} </p> <br>
   <p id="descripcion">La descripción del banco es ${banco.descripcionBanco} </p> <br>
   <p id="labID"> <a href="/laboratorios/${banco.labID}">El ID del laboratorio del banco es ${banco.labID} </a></p> <br>
-
+</b>
   <div> <b>La disponibilidad del banco de trabajo es: </b>  <br>
     <#list disponibilidadBanco as horario>
       <p> ${horario}

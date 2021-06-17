@@ -5,7 +5,7 @@
   <title>/Laboratorios</title>
 </head>
 <body>
-
+<p > <a href="/inicio">  Si quiere volver al inicio pinche aquí </a></p> <br>
 <div> <b> La lista de laboratorios es: </b><br> <br>
     <#list laboratorios as laboratorio>
         <p id="identificador" >  El ID del laboratorio es ${laboratorio.id} </p> <br>
