@@ -5,8 +5,8 @@
   <title>/usuarios </title>
 </head>
 <script>
-function makePOSTRequest(){
-var url = "http://localhost:9000/usuarios";
+function makePOSTRequest(url){
+
 
 var xhr = new XMLHttpRequest();
 xhr.open("POST", url);
@@ -46,7 +46,7 @@ xhr.send(data);
    </#list>
   </div>
 
-<form action="#" onSubmit="makePOSTRequest(); return false;" id="formulario" >
+<form action="#" onSubmit="makePOSTRequest('http://localhost:9000/usuarios'); return false;" id="formulario" >
   <div>
     <label for="usuario.nombre">Introduzca el nombre del usuario</label>
     <input name="nombre" id="nombreUsuario" value="">
