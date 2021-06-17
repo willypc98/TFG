@@ -1,6 +1,9 @@
 package controllers;
 
 import entities.Usuario;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateExceptionHandler;
 import play.*;
 import play.mvc.Http;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -15,10 +18,13 @@ import services.UsuarioBBDD;
 import utils.ApplicationUtil;
 import views.Freemarker;
 
+import java.io.StringWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 
-public class UsuarioController extends Controller{
+public class UsuarioController extends Controller {
 
     private static final Logger logger = LoggerFactory.getLogger("controller");
 
@@ -31,18 +37,18 @@ public class UsuarioController extends Controller{
         logger.debug("In UsuarioController.create(), input is: {}", json.toString());
         Usuario usu = UsuarioBBDD.getInstance().addUsuario(Json.fromJson(json, Usuario.class));
         JsonNode jsonObject = Json.toJson(usu);
-        return created(ApplicationUtil.createResponse(jsonObject, true)).withHeader(LOCATION,usu.getUrl());
+        return created(ApplicationUtil.createResponse(jsonObject, true)).withHeader(LOCATION, usu.getUrl());
     }
 
-    public Result update(Http.Request request,int id) throws SQLException, ClassNotFoundException {
+    public Result update(Http.Request request, int id) throws SQLException, ClassNotFoundException {
         logger.debug("In UsuarioController.update()");
         JsonNode json = request.body().asJson();
         //JsonNode jsonObjects = Json.toJson(UsuarioBBDD.getInstance().getUsuario(id));
         if (json == null) {
             return badRequest(ApplicationUtil.createResponse("Expecting Json data", false));
         }
-        Usuario usu = UsuarioBBDD.getInstance().updateUsuario(Json.fromJson(json, Usuario.class),id);
-        logger.debug("In UsuarioController.update(), usuario is: {}",usu);
+        Usuario usu = UsuarioBBDD.getInstance().updateUsuario(Json.fromJson(json, Usuario.class), id);
+        logger.debug("In UsuarioController.update(), usuario is: {}", usu);
         if (usu == null) {
             return notFound(ApplicationUtil.createResponse("Usuario not found", false));
         }
@@ -51,16 +57,47 @@ public class UsuarioController extends Controller{
         return ok(ApplicationUtil.createResponse(jsonObject, true));
     }
 
-    public Result retrieve(Http.Request request,int id) {
-        logger.debug("In UsuarioController.retrieve(), retrieve usuario with id: {}",id);
+    public Result retrieve(Http.Request request, int id) {
+        logger.debug("In UsuarioController.retrieve(), retrieve usuario with id: {}", id);
         if (UsuarioBBDD.getInstance().getUsuario(id) == null) {
             return notFound(ApplicationUtil.createResponse("Usuario with id:" + id + " not found", false));
         }
+        Usuario result = UsuarioBBDD.getInstance().getUsuario(id);
+
+        if (request.accepts("text/html")) {
+            String output = "error";
+            try {
+
+
+                Configuration cfg = new Configuration(Configuration.VERSION_2_3_30);
+                cfg.setClassLoaderForTemplateLoading(this.getClass().getClassLoader(), "/templates/");
+                cfg.setDefaultEncoding("UTF-8");
+                cfg.setTemplateExceptionHandler(TemplateExceptionHandler.HTML_DEBUG_HANDLER);
+                cfg.setLogTemplateExceptions(false);
+
+                cfg.setWrapUncheckedExceptions(true);
+                cfg.setFallbackOnNullLoopVariable(false);
+                cfg.setNumberFormat("computer");
+
+                Template template = cfg.getTemplate("usuario.ftl");
+                StringWriter sw = new StringWriter();
+                Map<String, Object> mapa = new TreeMap<String, Object>();
+                mapa.put("usuario", result);
+                template.process(mapa, sw);
+                output = sw.toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return ok(output).as("text/html");
+
+        } else {
         JsonNode jsonObjects = Json.toJson(UsuarioBBDD.getInstance().getUsuario(id));
-        logger.debug("In UsuarioController.retrieve(), result is: {}",jsonObjects.toString());
+        logger.debug("In UsuarioController.retrieve(), result is: {}", jsonObjects.toString());
         return ok(ApplicationUtil.createResponse(jsonObjects, true));
         //return ok("<html> <body><h1>Esto es una prueba"+ id +" </h1></body></html>").as("text/html");
     }
+
+}
 
     public Result listUsuarios(Http.Request request) {
         ArrayList<Usuario> result = UsuarioBBDD.getInstance().getAllUsuarios();
