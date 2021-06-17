@@ -13,6 +13,8 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import services.UsuarioBBDD;
 import utils.ApplicationUtil;
+import views.Freemarker;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -57,6 +59,7 @@ public class UsuarioController extends Controller{
         JsonNode jsonObjects = Json.toJson(UsuarioBBDD.getInstance().getUsuario(id));
         logger.debug("In UsuarioController.retrieve(), result is: {}",jsonObjects.toString());
         return ok(ApplicationUtil.createResponse(jsonObjects, true));
+        //return ok("<html> <body><h1>Esto es una prueba"+ id +" </h1></body></html>").as("text/html");
     }
 
     public Result listUsuarios() {

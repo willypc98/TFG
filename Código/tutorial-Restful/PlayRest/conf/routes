@@ -3,6 +3,7 @@
 # ~~~~
  
 # APIs in Controller
+GET     /inicio                controllers.ControladorDePrueba.index()
 GET     /reservas              controllers.ReservaController.listReservas()
 GET     /reservas/:id          controllers.ReservaController.retrieve(id:Int)
 POST    /reservas              controllers.ReservaController.create(request:Request)
@@ -14,7 +15,7 @@ POST    /usuarios              controllers.UsuarioController.create(request:Requ
 PUT     /usuarios/:id          controllers.UsuarioController.update(request:Request,id:Int)
 DELETE  /usuarios/:id          controllers.UsuarioController.delete(id:Int)
 
-GET     /laboratorios          controllers.LaboratorioController.listLaboratorios()
+GET     /laboratorios          controllers.LaboratorioController.listLaboratorios(request:Request)
 GET     /laboratorios/:id      controllers.LaboratorioController.retrieve(id:Int)
 POST    /laboratorios          controllers.LaboratorioController.create(request:Request)
 PUT     /laboratorios/:id      controllers.LaboratorioController.update(request:Request,id:Int)

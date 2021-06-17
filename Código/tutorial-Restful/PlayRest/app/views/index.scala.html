@@ -1,5 +1,48 @@
 @()
 
-@main("Welcome to Play") {
-  <h1>Welcome to Play!</h1>
+
+
+@main("Página de inicio") {
+  <h1>Página de inicio!</h1>
 }
+
+<!DOCTYPE html>
+<html lan="es">
+
+<head>
+ <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <title> Prueba </title>
+
+</head>
+
+<body>
+<h3>Estos son los servicios disponibles de la aplicación </h3>
+<br>
+<div id="debug">
+    <script>
+    fetch("/usuarios")
+    .then(response => response.json())
+    .then(data => {
+    console.log(data.sentence)
+    document.innertext=data.sentence
+    })
+
+</script>
+</div>
+
+
+<ul>
+  <li><a href="/usuarios">Listado de los usuarios </a></li>
+    <li><a href="/reservas">Listado de los reservas </a></li>
+    <li><a href="/laboratorios">Listado de los laboratorios </a></li>
+
+
+</ul>
+<hr>
+
+</body>
+
+</html>>

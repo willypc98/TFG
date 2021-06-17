@@ -3,21 +3,26 @@ package controllers;
 import entities.Laboratorio;
 import entities.LaboratorioShort;
 import entities.ModifHoraria;
-import play.*;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import freemarker.template.TemplateExceptionHandler;
 import play.mvc.Http;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import play.libs.Json;
-import play.api.libs.json.*;
 import play.mvc.Controller;
 import play.mvc.Result;
 import services.LaboratorioBBDD;
 import utils.ApplicationUtil;
+
+import java.io.IOException;
+import java.io.StringWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class LaboratorioController extends Controller {
     private static final Logger logger = LoggerFactory.getLogger("controller");
@@ -97,15 +102,45 @@ public Result modify(Http.Request request,int id) throws SQLException, ClassNotF
     }
 
 
-    public Result listLaboratorios() {
+    public Result listLaboratorios(Http.Request request) throws IOException, TemplateException {
         Collection<LaboratorioShort> result = LaboratorioBBDD.getInstance().getAllLaboratorios();
-        logger.debug("In LaboratorioController.listLaboratorios(), result is: {}",result.toString());
+        logger.debug("In LaboratorioController.listLaboratorios(), result is: {}", result.toString());
         //ObjectMapper mapper = new ObjectMapper();
 
-        JsonNode jsonData = Json.toJson(result);
-        //JsonNode jsonData = mapper.convertValue(result, JsonNode.class);
-        return ok(ApplicationUtil.createResponse(jsonData, true));
+        if (request.accepts("text/html")) {
+            String output="error";
+            try {
 
+
+                Configuration cfg = new Configuration(Configuration.VERSION_2_3_30);
+                cfg.setClassLoaderForTemplateLoading(this.getClass().getClassLoader(), "/templates/");
+                cfg.setDefaultEncoding("UTF-8");
+                cfg.setTemplateExceptionHandler(TemplateExceptionHandler.HTML_DEBUG_HANDLER);
+                cfg.setLogTemplateExceptions(false);
+
+                cfg.setWrapUncheckedExceptions(true);
+                cfg.setFallbackOnNullLoopVariable(false);
+                cfg.setNumberFormat("computer");
+
+                Template template = cfg.getTemplate("laboratorios.ftl");
+                StringWriter sw = new StringWriter();
+                Map<String, Object> mapa = new TreeMap<String, Object>();
+                mapa.put("laboratorios", result);
+                mapa.put("user", "Manolo");
+                template.process(mapa, sw);
+            output=sw.toString();
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+            return ok(output).as("text/html");
+
+        } else {
+            JsonNode jsonData = Json.toJson(result);
+            //JsonNode jsonData = mapper.convertValue(result, JsonNode.class);
+            return ok(ApplicationUtil.createResponse(jsonData, true));
+
+        }
     }
 
     public Result delete(int id) throws SQLException, ClassNotFoundException {
