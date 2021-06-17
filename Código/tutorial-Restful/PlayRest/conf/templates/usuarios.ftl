@@ -8,7 +8,8 @@
 
 <b>
 <p > <a href="/inicio">  Si quiere volver al inicio pinche aquí </a></p> <br>
-<p > <a href="/reservas">  Si quiere ver todos las reservas pinche aquí </a></p> <br>
+<p > <a href="/reservas">  Si quiere ver todas las reservas pinche aquí </a></p> <br>
+<p > <a href="/laboratorios">  Si quiere ver todos los laboratorios pinche aquí </a></p> <br>
   </b>
 
   <div> <b> La lista de usuarios es: </b><br> <br>

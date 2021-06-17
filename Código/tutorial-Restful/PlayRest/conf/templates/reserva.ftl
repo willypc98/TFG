@@ -5,7 +5,8 @@
   <title>/reservas/${reserva.id} </title>
 </head>
 <body>
-
+<p > <a href="/inicio">  Si quiere volver al inicio pinche aquí </a></p> <br>
+<p > <a href="/reservas">  Si quiere ver todas las reservas pinche aquí </a></p> <br>
 
   <p id="identificador">El ID de la reserva es ${reserva.id} </p> <br>
   <p id="url">La URI de la reserva es ${reserva.url} </p> <br>
