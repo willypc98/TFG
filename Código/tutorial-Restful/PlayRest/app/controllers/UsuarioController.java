@@ -83,6 +83,7 @@ public class UsuarioController extends Controller {
                 StringWriter sw = new StringWriter();
                 Map<String, Object> mapa = new TreeMap<String, Object>();
                 mapa.put("usuario", result);
+                mapa.put("listaReservas", result.getListaReservas());
                 template.process(mapa, sw);
                 output = sw.toString();
             } catch (Exception e) {
@@ -101,12 +102,46 @@ public class UsuarioController extends Controller {
 
     public Result listUsuarios(Http.Request request) {
         ArrayList<Usuario> result = UsuarioBBDD.getInstance().getAllUsuarios();
-        logger.debug("In UsuarioController.listUsuarios(), result is: {}",result.toString());
-        ObjectMapper mapper = new ObjectMapper();
+        logger.debug("In UsuarioController.listUsuarios(), result is: {}", result.toString());
 
-        JsonNode jsonData = mapper.convertValue(result, JsonNode.class);
-        return ok(ApplicationUtil.createResponse(jsonData, true));
+        if (request.accepts("text/html")) {
+            String output = "error";
+            try {
 
+
+                Configuration cfg = new Configuration(Configuration.VERSION_2_3_30);
+                cfg.setClassLoaderForTemplateLoading(this.getClass().getClassLoader(), "/templates/");
+                cfg.setDefaultEncoding("UTF-8");
+                cfg.setTemplateExceptionHandler(TemplateExceptionHandler.HTML_DEBUG_HANDLER);
+                cfg.setLogTemplateExceptions(false);
+
+                cfg.setWrapUncheckedExceptions(true);
+                cfg.setFallbackOnNullLoopVariable(false);
+                cfg.setNumberFormat("computer");
+
+                Template template = cfg.getTemplate("usuarios.ftl");
+                StringWriter sw = new StringWriter();
+                Map<String, Object> mapa = new TreeMap<String, Object>();
+                mapa.put("usuarios", result);
+                template.process(mapa, sw);
+                output = sw.toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return ok(output).as("text/html");
+
+        } else {
+
+            JsonNode jsonData = Json.toJson(result);
+            //JsonNode jsonData = mapper.convertValue(result, JsonNode.class);
+            //return ok(ApplicationUtil.createResponse(jsonData, true));
+
+            //ObjectMapper mapper = new ObjectMapper();
+
+          //  JsonNode jsonData = mapper.convertValue(result, JsonNode.class);
+            return ok(ApplicationUtil.createResponse(jsonData, true));
+
+        }
     }
 
     public Result delete(Http.Request request,int id) throws SQLException, ClassNotFoundException {

@@ -53,7 +53,9 @@ public class UsuarioBBDD extends ConexionBBDD{
         try {
             if(conector()==true){
                 System.out.println("Antes de guardar la query");
-                String queryBBDD = "select usuario.id, usuario.url,usuario.nombre, usuario.grado, reserva.id as ReservaID, reserva.url as ReservaURL, reserva.disponibilidad as Disponibilidad from usuario inner join reserva on usuario.id = reserva.usuarioID where usuario.id=" + id + ";";
+                String queryBBDD = "select usuario.id, usuario.url,usuario.nombre, usuario.grado from usuario where usuario.id=" + id + ";";
+                String queryBBDD1 = "select usuario.id, usuario.url,usuario.nombre, usuario.grado, reserva.id as ReservaID, reserva.url as ReservaURL, reserva.disponibilidad as Disponibilidad from usuario inner join reserva on usuario.id = reserva.usuarioID where usuario.id=" + id + ";";
+                System.out.println("Después de la query");
                 int i=0;
                 try {
                     rS = createStatement.executeQuery(queryBBDD);
@@ -68,12 +70,12 @@ public class UsuarioBBDD extends ConexionBBDD{
 
                     try {
                         while (rS.next()) {
+                            System.out.println("En la query");
                             Usuario usu;
-                            if (mapa.containsKey(Integer.parseInt(rS.getString("usuario.id")))){
-                                usu=mapa.get(Integer.parseInt(rS.getString("usuario.id")));
-                            }
-                            else{
-
+                            if (mapa.containsKey(Integer.parseInt(rS.getString("usuario.id")))) {
+                                usu = mapa.get(Integer.parseInt(rS.getString("usuario.id")));
+                            } else {
+                                System.out.println("En el else");
                                 usu = new Usuario();
                                 usu.setId(rS.getInt("usuario.id"));
 
@@ -84,27 +86,44 @@ public class UsuarioBBDD extends ConexionBBDD{
                                 usu.setGrado(rS.getString("usuario.grado"));
 
                                 mapa.put(usu.getId(), usu);
+
+                                System.out.println("Al final del primer statement");
                             }
+                        }
+                        System.out.println("Antes del nuevo statement");
+                        rS1 = createStatement.executeQuery(queryBBDD1);
+                        while(rS1.next()){
+                            System.out.println("Dentro del nuevo statement");
+                           Usuario usu = null;
+                            if (mapa.containsKey(Integer.parseInt(rS1.getString("usuario.id")))){
+                                usu=mapa.get(Integer.parseInt(rS1.getString("usuario.id")));
 
+                            }
                             ReservaShort reserva = new ReservaShort();
-                            reserva.setId(Integer.parseInt(rS.getString("ReservaID")));
-                            reserva.setUrl(rS.getString("ReservaURL"));
-                            reserva.setDisponibilidadReserva(rS.getObject("Disponibilidad",LocalDateTime.class));
-
+                            reserva.setId(Integer.parseInt(rS1.getString("ReservaID")));
+                            System.out.println("ID de la reserva" + reserva.getId());
+                            reserva.setUrl(rS1.getString("ReservaURL"));
+                            System.out.println("ID de la reserva" + reserva.getUrl());
+                            reserva.setDisponibilidadReserva(rS1.getObject("Disponibilidad",LocalDateTime.class));
+                            System.out.println("ID de la reserva" + reserva.getDisponibilidadReserva());
+                            System.out.println("antes de añadir el nuevo statement");
+                           // usu.annadirReservas(reserva);
                             usu.annadirReservas(reserva);
 
-
+                            System.out.println("Al final del todo");
 
 
 
                         }
                     } catch (SQLException ex) {
+                        ex.printStackTrace();
                         Logger.getLogger(UsuarioBBDD.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     try {
                         i = 0;
                         con.close();
                     } catch (SQLException ex) {
+                        ex.printStackTrace();
                         Logger.getLogger(UsuarioBBDD.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
@@ -115,8 +134,10 @@ public class UsuarioBBDD extends ConexionBBDD{
 
             }
         } catch (SQLException ex) {
+            ex.printStackTrace();
             Logger.getLogger(UsuarioBBDD.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
             Logger.getLogger(UsuarioBBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (mapa.values().size() >0){
