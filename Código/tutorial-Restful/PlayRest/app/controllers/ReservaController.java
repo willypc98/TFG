@@ -83,6 +83,10 @@ public class ReservaController extends Controller {
                 StringWriter sw = new StringWriter();
                 Map<String, Object> mapa = new TreeMap<String, Object>();
                 mapa.put("reserva", result);
+                mapa.put("usuario", result.getUsu());
+                mapa.put("laboratorio", result.getLab());
+                mapa.put("banco", result.getBan());
+                mapa.put("listaRecursos", result.getListaRecursos());
                 template.process(mapa, sw);
                 output = sw.toString();
             } catch (Exception e) {
