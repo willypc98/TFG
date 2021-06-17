@@ -2,6 +2,9 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import entities.BancoDeTrabajoShort;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateExceptionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import play.libs.Json;
@@ -14,8 +17,12 @@ import services.ReservaBBDD;
 import entities.Reserva;
 import utils.ApplicationUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.StringWriter;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class ReservaController extends Controller {
 
@@ -47,7 +54,7 @@ public class ReservaController extends Controller {
 
      */
     public Result retrieve(Http.Request request,int id) {
-        logger.debug("In ReservaController.retrieve(), retrieve Reserva with id: {}",id);
+        logger.debug("In ReservaController.retrieve(), retrieve Reserva with id: {}", id);
         System.out.println("In ReservaController.retrieve(), retrieve Reserva with id: {}" + id);
 
         if (ReservaBBDD.getInstance().getReserva(id) == null) {
@@ -55,13 +62,45 @@ public class ReservaController extends Controller {
             return notFound(ApplicationUtil.createResponse("Reserva with id:" + id + " not found", false));
         }
 
-       // ObjectMapper mapper = new ObjectMapper();
-        JsonNode jsonObjects = Json.toJson(ReservaBBDD.getInstance().getReserva(id));
+        Reserva result = ReservaBBDD.getInstance().getReserva(id);
 
-         //JsonNode jsonObjects = mapper.convertValue(ReservaBBDD.getInstance().getReserva(id),JsonNode.class);
+        if (request.accepts("text/html")) {
+            String output = "error";
+            try {
 
-        logger.debug("In ReservaController.retrieve(), result is: {}",jsonObjects.toString());
-        return ok(ApplicationUtil.createResponse(jsonObjects, true));
+
+                Configuration cfg = new Configuration(Configuration.VERSION_2_3_30);
+                cfg.setClassLoaderForTemplateLoading(this.getClass().getClassLoader(), "/templates/");
+                cfg.setDefaultEncoding("UTF-8");
+                cfg.setTemplateExceptionHandler(TemplateExceptionHandler.HTML_DEBUG_HANDLER);
+                cfg.setLogTemplateExceptions(false);
+
+                cfg.setWrapUncheckedExceptions(true);
+                cfg.setFallbackOnNullLoopVariable(false);
+                cfg.setNumberFormat("computer");
+
+                Template template = cfg.getTemplate("reserva.ftl");
+                StringWriter sw = new StringWriter();
+                Map<String, Object> mapa = new TreeMap<String, Object>();
+                mapa.put("reserva", result);
+                template.process(mapa, sw);
+                output = sw.toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return ok(output).as("text/html");
+
+        } else {
+
+
+            // ObjectMapper mapper = new ObjectMapper();
+            JsonNode jsonObjects = Json.toJson(ReservaBBDD.getInstance().getReserva(id));
+
+            //JsonNode jsonObjects = mapper.convertValue(ReservaBBDD.getInstance().getReserva(id),JsonNode.class);
+
+            logger.debug("In ReservaController.retrieve(), result is: {}", jsonObjects.toString());
+            return ok(ApplicationUtil.createResponse(jsonObjects, true));
+        }
     }
 
     public Result listReservas(Http.Request request) {
