@@ -16,7 +16,7 @@ PUT     /usuarios/:id          controllers.UsuarioController.update(request:Requ
 DELETE  /usuarios/:id          controllers.UsuarioController.delete(id:Int)
 
 GET     /laboratorios          controllers.LaboratorioController.listLaboratorios(request:Request)
-GET     /laboratorios/:id      controllers.LaboratorioController.retrieve(id:Int)
+GET     /laboratorios/:id      controllers.LaboratorioController.retrieve(request:Request,id:Int)
 POST    /laboratorios          controllers.LaboratorioController.create(request:Request)
 PUT     /laboratorios/:id      controllers.LaboratorioController.update(request:Request,id:Int)
 PATCH   /laboratorios/:id      controllers.LaboratorioController.modify(request:Request,id:Int)

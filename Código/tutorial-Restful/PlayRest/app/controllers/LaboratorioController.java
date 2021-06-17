@@ -88,17 +88,52 @@ public Result modify(Http.Request request,int id) throws SQLException, ClassNotF
 
 
 
-     public Result retrieve(int id) {
+     public Result retrieve(Http.Request request,int id) {
         logger.debug("In LaboratorioController.retrieve(), retrieve usuario with id: {}",id);
         if (LaboratorioBBDD.getInstance().getLaboratorio(id) == null) {
             return notFound(ApplicationUtil.createResponse("Laboratorio with id:" + id + " not found", false));
         }
-        //ObjectMapper mapper = new ObjectMapper();
-        JsonNode jsonObjects = Json.toJson(LaboratorioBBDD.getInstance().getLaboratorio(id));
-       // JsonNode jsonObjects = mapper.convertValue(LaboratorioBBDD.getInstance().getLaboratorio(id),JsonNode.class);
+       Laboratorio result = LaboratorioBBDD.getInstance().getLaboratorio(id);
 
-        logger.debug("In LaboratorioController.retrieve(), result is: {}",jsonObjects.toString());
-        return ok(ApplicationUtil.createResponse(jsonObjects, true));
+         if (request.accepts("text/html")) {
+             String output="error";
+             try {
+
+
+                 Configuration cfg = new Configuration(Configuration.VERSION_2_3_30);
+                 cfg.setClassLoaderForTemplateLoading(this.getClass().getClassLoader(), "/templates/");
+                 cfg.setDefaultEncoding("UTF-8");
+                 cfg.setTemplateExceptionHandler(TemplateExceptionHandler.HTML_DEBUG_HANDLER);
+                 cfg.setLogTemplateExceptions(false);
+
+                 cfg.setWrapUncheckedExceptions(true);
+                 cfg.setFallbackOnNullLoopVariable(false);
+                 cfg.setNumberFormat("computer");
+
+                 Template template = cfg.getTemplate("laboratorio.ftl");
+                 StringWriter sw = new StringWriter();
+                 Map<String, Object> mapa = new TreeMap<String, Object>();
+                 mapa.put("laboratorio", result);
+                 mapa.put("user", "Manolo");
+                 template.process(mapa, sw);
+                 output=sw.toString();
+             }
+             catch (Exception e){
+                 e.printStackTrace();
+             }
+             return ok(output).as("text/html");
+
+         } else {
+             //ObjectMapper mapper = new ObjectMapper();
+             JsonNode jsonObjects = Json.toJson(LaboratorioBBDD.getInstance().getLaboratorio(id));
+             // JsonNode jsonObjects = mapper.convertValue(LaboratorioBBDD.getInstance().getLaboratorio(id),JsonNode.class);
+
+             logger.debug("In LaboratorioController.retrieve(), result is: {}",jsonObjects.toString());
+             return ok(ApplicationUtil.createResponse(jsonObjects, true));
+
+         }
+
+
     }
 
 
