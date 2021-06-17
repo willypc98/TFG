@@ -9,6 +9,7 @@
 <b>
 <p > <a href="/inicio">  Si quiere volver al inicio pinche aquí </a></p> <br>
 <p > <a href="/laboratorios/${banco.labID}/bancos">  Si quiere volver a ver todos los bancos de trabajo  pinche aquí </a></p> <br>
+  <p > <a href="/laboratorios/${banco.labID}/bancos/${banco.id}/recursos">  Si quiere ver todos los recursos de este banco de trabajo pinche aquí </a></p> <br>
   <p id="identificador">El ID del banco es ${banco.id} </p> <br>
   <p id="url">La URI del banco es ${banco.url} </p> <br>
   <p id="descripcion">La descripción del banco es ${banco.descripcionBanco} </p> <br>

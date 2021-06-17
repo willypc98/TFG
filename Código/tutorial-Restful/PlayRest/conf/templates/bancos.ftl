@@ -8,6 +8,7 @@
 
 <p > <a href="/inicio">  Si quiere volver al inicio pinche aquí </a></p> <br>
 <p > <a href="/laboratorios">  Si quiere volver a ver todos los laboratorios pinche aquí </a></p> <br>
+
 <div> <b> La lista de bancos de trabajo es: </b><br> <br>
 <#list bancos as banco>
   <p id="identificador">El ID del banco es ${banco.id} </p> <br>
