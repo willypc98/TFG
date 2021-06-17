@@ -152,7 +152,7 @@ public class ReservaBBDD extends ConexionBBDD{
         HashMap<Integer,Reserva> mapa = new HashMap<>();
         try {
             if(conector()==true){
-                String queryBBDD= "select Reserva.id, Reserva.url, Reserva.usuarioID , Reserva.labID, Reserva.bancoID,Reserva.disponibilidad, reservarecursos.recursoID as recursosID from Reserva inner join reservarecursos on Reserva.id = reservarecursos.reservaID where Reserva.id =" + id +" ;";
+                String queryBBDD= "select Reserva.id, Reserva.url, Reserva.usuarioID , Reserva.labID, Reserva.bancoID,Reserva.disponibilidad, reservarecursos.recursoID as recursosID, usuario.url as usuarioURL, laboratorio.url as labURL, bancodetrabajo.url as bancoURL, recursosbancodetrabajo.url as recursoURL from Reserva inner join reservarecursos on Reserva.id = reservarecursos.reservaID inner join usuario on Reserva.usuarioID  =usuario.id inner join laboratorio on Reserva.labID =laboratorio.id inner join bancodetrabajo on Reserva.bancoID =bancodetrabajo.id inner join recursosbancodetrabajo on Reserva.recursosID =recursosbancodetrabajo.id where Reserva.id =" + id+" ;";
                 int i=0;
 
                 try {

@@ -30,6 +30,8 @@ public class UsuarioController extends Controller {
 
 
     public Result create(Http.Request request) throws SQLException, ClassNotFoundException {
+        System.out.println("Información");
+        System.out.println(request.body());
         JsonNode json = request.body().asJson();
         if (json == null) {
             return badRequest(ApplicationUtil.createResponse("Expecting JSON data", false));

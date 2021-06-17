@@ -4,6 +4,30 @@
 <head>
   <title>/usuarios </title>
 </head>
+<script>
+function makePOSTRequest(){
+var url = "http://localhost:9000/usuarios";
+
+var xhr = new XMLHttpRequest();
+xhr.open("POST", url);
+
+xhr.setRequestHeader("Accept", "application/json");
+xhr.setRequestHeader("Content-Type", "application/json");
+
+xhr.onreadystatechange = function () {
+   if (xhr.readyState === 4) {
+      console.log(xhr.status);
+      console.log(xhr.responseText);
+   }};
+var form = document.querySelector("#formulario");
+var data = `{
+                    "nombre": "`+form.querySelector('input[name="nombre"]').value+`",
+                    "grado": "`+form.querySelector('input[name="grado"]').value+`"
+            }`;
+console.log(data)
+xhr.send(data);
+}
+</script>
 <body>
 
 <b>
@@ -22,5 +46,22 @@
    </#list>
   </div>
 
+<form action="#" onSubmit="makePOSTRequest(); return false;" id="formulario" >
+  <div>
+    <label for="usuario.nombre">Introduzca el nombre del usuario</label>
+    <input name="nombre" id="nombreUsuario" value="">
+  </div>
+  <div>
+    <label for="usuario.grado">Introduzca el grado del usuario</label>
+    <input name="grado" id="gradoUsuario" value="">
+  </div>
+  <div>
+    <button id="creacion">Crear usuario</button>
+  </div>
+</form>
+
+
+
 </body>
+
 </html>

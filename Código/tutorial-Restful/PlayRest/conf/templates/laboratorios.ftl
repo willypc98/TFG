@@ -16,6 +16,19 @@
     </#list>
     </div>
 
+<form action="http://localhost:9000/laboratorios" method="POST">
+  <div>
+    <label for="say">Introduzca el nombre del laboratorio</label>
+    <input name="say" id="say" value="">
+  </div>
+  <div>
+    <label for="to">Introduzca el nombre del laboratorio</label>
+    <input name="to" id="to" value="">
+  </div>
+  <div>
+    <button>Send my greetings</button>
+  </div>
+</form>
 
 
 </body>

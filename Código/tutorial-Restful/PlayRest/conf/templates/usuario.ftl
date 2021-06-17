@@ -22,7 +22,31 @@
              <p >------------------------------------------------- </p> <br>
         <#else>
         <p>No tiene reservas asignadas<p>
+        <p >------------------------------------------------- </p> <br>
         </#list>
         </div>
+
+         <form action="http://localhost:9000/usuarios/${usuario.id}" method="PUT">
+                <div>
+                  <label for="usuario.nombre">Introduzca el nombre que quiere modificar del usuario</label>
+                  <input name="nombre" id="nombreUsuario" value="">
+                </div>
+                <div>
+                  <label for="usuario.grado">Introduzca el grado que quiere modificar del usuario</label>
+                  <input name="grado" id="gradoUsuario" value="">
+                </div>
+                <div>
+                  <button>Modificar usuario</button>
+                </div>
+              </form>
+         <p >------------------------------------------------- </p> <br>
+ <form action="http://localhost:9000/usuarios/${usuario.id}" method="DELETE">
+
+                 <div>
+                   <button>Borrar este usuario</button>
+                 </div>
+               </form>
+          <p >------------------------------------------------- </p> <br>
+
 </body>
 </html>
