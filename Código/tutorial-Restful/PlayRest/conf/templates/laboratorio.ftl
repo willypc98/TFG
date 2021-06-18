@@ -55,6 +55,30 @@ xhr.send(data);
 }
 </script>
 
+<script>
+function makeDELETERequest(url){
+
+
+var xhr = new XMLHttpRequest();
+xhr.open("DELETE", url);
+
+xhr.setRequestHeader("Accept", "application/json");
+xhr.setRequestHeader("Content-Type", "application/json");
+
+xhr.onreadystatechange = function () {
+   if (xhr.readyState === 4) {
+      console.log(xhr.status);
+      console.log(xhr.responseText);
+   }};
+var form = document.querySelector("#formularioDELETE");
+var data = `{
+
+            }`;
+console.log(data)
+xhr.send(data);
+}
+</script>
+
 <body>
 
 
@@ -114,6 +138,15 @@ xhr.send(data);
 
   <div>
     <button id="modificarDisponibilidad">Modificar disponiblidad</button>
+  </div>
+</form>
+<p >------------------------------------------------- </p> <br>
+
+<form action="#" onSubmit="makeDELETERequest('${laboratorio.url}'); return false;" id="formularioDELETE" >
+ <b> <p>Si quiere este laboratorio pulse el botón </p> </b>
+
+  <div>
+    <button id="borrarLab">Borrar laboratorio</button>
   </div>
 </form>
 <p >------------------------------------------------- </p> <br>
