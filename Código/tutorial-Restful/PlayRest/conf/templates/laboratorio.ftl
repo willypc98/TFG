@@ -30,6 +30,31 @@ xhr.send(data);
 }
 </script>
 
+<script>
+function makePATCHRequest(url){
+
+
+var xhr = new XMLHttpRequest();
+xhr.open("PATCH", url);
+
+xhr.setRequestHeader("Accept", "application/json");
+xhr.setRequestHeader("Content-Type", "application/json");
+
+xhr.onreadystatechange = function () {
+   if (xhr.readyState === 4) {
+      console.log(xhr.status);
+      console.log(xhr.responseText);
+   }};
+var form = document.querySelector("#formularioPATCH");
+var data = `{
+                    "type": "`+form.querySelector('input[name="tipo"]').value+`",
+                    "franja": "`+form.querySelector('input[name="franja"]').value+`"
+            }`;
+console.log(data)
+xhr.send(data);
+}
+</script>
+
 <body>
 
 
@@ -72,6 +97,23 @@ xhr.send(data);
 
   <div>
     <button id="modificarLab">Modificar laboratorio</button>
+  </div>
+</form>
+<p >------------------------------------------------- </p> <br>
+
+<form action="#" onSubmit="makePATCHRequest('${laboratorio.url}'); return false;" id="formularioPATCH" >
+ <b> <p>Este formulario es para modificar la información del nombre y la descripción de este laboratorio </p> </b>
+  <div>
+    <label for="laboratorio.nombre">Introduzca ADD si quiere añadir o REMOVE si quiere eliminar una franja de disponibilidad</label>
+    <input name="tipo" id="Tipo" value="">
+  </div>
+  <div>
+    <label for="laboratorio.descripcion">Introduzca la hora que quiera modificar</label>
+    <input name="franja" id="Franja" value="2021-05-01T09:30:00">
+  </div>
+
+  <div>
+    <button id="modificarDisponibilidad">Modificar disponiblidad</button>
   </div>
 </form>
 <p >------------------------------------------------- </p> <br>
