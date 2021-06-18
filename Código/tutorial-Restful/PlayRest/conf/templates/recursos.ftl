@@ -2,7 +2,7 @@
 <meta charset="UTF-8">
 <html>
 <head>
-  <title>/recursos</title>
+  <title>/laboratorios/${labID}/bancos/${bancoID}/recursos</title>
 </head>
 <body>
 

@@ -132,6 +132,8 @@ public class RecursosBancoDeTrabajoController extends Controller {
                 StringWriter sw = new StringWriter();
                 Map<String, Object> mapa = new TreeMap<String, Object>();
                 mapa.put("recursos", result);
+                mapa.put("labID", labID);
+                mapa.put("bancoID", bancoID);
                 template.process(mapa, sw);
                 output = sw.toString();
             } catch (Exception e) {
