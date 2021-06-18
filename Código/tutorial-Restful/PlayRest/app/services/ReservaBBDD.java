@@ -147,12 +147,12 @@ public class ReservaBBDD extends ConexionBBDD{
 
     public Reserva getReserva(int id) {
     int usuarioID = 0; int labID=0; int bancoID=0; int recursoID=0;
-
+    String usuarioURL; String labURL; String bancoURL; String recursoURL;
 
         HashMap<Integer,Reserva> mapa = new HashMap<>();
         try {
             if(conector()==true){
-                String queryBBDD= "select Reserva.id, Reserva.url, Reserva.usuarioID , Reserva.labID, Reserva.bancoID,Reserva.disponibilidad, reservarecursos.recursoID as recursosID, usuario.url as usuarioURL, laboratorio.url as labURL, bancodetrabajo.url as bancoURL, recursosbancodetrabajo.url as recursoURL from Reserva inner join reservarecursos on Reserva.id = reservarecursos.reservaID inner join usuario on Reserva.usuarioID  =usuario.id inner join laboratorio on Reserva.labID =laboratorio.id inner join bancodetrabajo on Reserva.bancoID =bancodetrabajo.id inner join recursosbancodetrabajo on Reserva.recursosID =recursosbancodetrabajo.id where Reserva.id =" + id+" ;";
+                String queryBBDD= "select Reserva.id, Reserva.url, Reserva.usuarioID , Reserva.labID, Reserva.bancoID,Reserva.disponibilidad, reservarecursos.recursoID as recursosID, usuario.url as usuarioURL, laboratorio.url as labURL, bancodetrabajo.url as bancoURL, recursosbancodetrabajo.url as recursoURL from Reserva inner join reservarecursos on Reserva.id = reservarecursos.reservaID inner join usuario on Reserva.usuarioID  =usuario.id inner join laboratorio on Reserva.labID =laboratorio.id inner join bancodetrabajo on Reserva.bancoID =bancodetrabajo.id inner join recursosbancodetrabajo on ReservaRecursos.recursoID =recursosbancodetrabajo.id where Reserva.id =" + id+" ;";
                 int i=0;
 
                 try {
@@ -191,13 +191,19 @@ public class ReservaBBDD extends ConexionBBDD{
                                 reserva.setUrl(rS.getString("Reserva.url"));
                                 usuarioID=Integer.parseInt(rS.getString("Reserva.usuarioID"));
                                 usu.setId(usuarioID);
+                                usuarioURL=rS.getString("usuarioURL");
+                                usu.setUrl(usuarioURL);
                                 reserva.setUsu(usu);
 
                                 labID=Integer.parseInt(rS.getString("Reserva.labID"));
                                 lab.setId(labID);
+                                labURL=rS.getString("labURL");
+                                lab.setUrl(labURL);
                                 reserva.setLab(lab);
                                 bancoID=Integer.parseInt(rS.getString("Reserva.bancoID"));
                                 banco.setId(bancoID);
+                                bancoURL=rS.getString("bancoURL");
+                                banco.setUrl(bancoURL);
                                 reserva.setBan(banco);
                                 LocalDateTime horario=rS.getObject("Reserva.disponibilidad",LocalDateTime.class);
                                 reserva.setDisponibilidadReserva(horario);
@@ -210,6 +216,7 @@ public class ReservaBBDD extends ConexionBBDD{
 
                             RecursosBancoDeTrabajoShort recurso = new RecursosBancoDeTrabajoShort();
                             recurso.setId(Integer.parseInt(rS.getString("recursosID")));
+                            recurso.setUrl(rS.getString("recursoURL"));
 
 
                             reserva.annadirListaRecursos(recurso);

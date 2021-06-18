@@ -13,12 +13,16 @@
   <p id="disponibilidad">La disponibilidad de la reserva es ${reserva.disponibilidadReserva} </p> <br>
 
   <p id="usuario">El ID del usuario de la reserva es ${usuario.id} </p> <br>
+  <p id="usuarioURL"> <a href="${usuario.url}"> La URI del usuario de la reserva es ${usuario.url} </a></p> <br>
   <p id="laboratorio">El ID del laboratorio de la reserva es ${laboratorio.id} </p> <br>
-  <p id="usuario">El ID del banco de trabajo de la reserva es ${banco.id} </p> <br>
+  <p id="laboratorioURL"><a href="${laboratorio.url}">La URI del laboratorio de la reserva es ${laboratorio.url} </a></p> <br>
+  <p id="banco">El ID del banco de trabajo de la reserva es ${banco.id} </p> <br>
+  <p id="bancoURL"><a href="${banco.url}">La URI del banco de trabajo de la reserva es ${banco.url} </a></p> <br>
 
   <div> <b> La lista de recursos asignados a la reserva es: </b><br> <br>
           <#list listaRecursos as recurso>
              <p >El id del recurso de la reserva es ${recurso.id} </p> <br>
+             <p ><a href="${recurso.url}">La URI del recurso de la reserva es ${recurso.url} </a></p> <br>
                <p >------------------------------------------------- </p> <br>
           <#else>
           <p>No tiene recursos asignados<p>
