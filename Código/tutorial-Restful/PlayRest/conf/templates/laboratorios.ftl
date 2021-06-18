@@ -4,6 +4,32 @@
 <head>
   <title>/Laboratorios</title>
 </head>
+<script>
+function makePOSTRequest(url){
+
+
+var xhr = new XMLHttpRequest();
+xhr.open("POST", url);
+
+xhr.setRequestHeader("Accept", "application/json");
+xhr.setRequestHeader("Content-Type", "application/json");
+
+xhr.onreadystatechange = function () {
+   if (xhr.readyState === 4) {
+      console.log(xhr.status);
+      console.log(xhr.responseText);
+   }};
+var form = document.querySelector("#formulario");
+var data = `{
+                    "nombreLab": "`+form.querySelector('input[name="nombre"]').value+`",
+                    "descripcionLab": "`+form.querySelector('input[name="descripcion"]').value+`",
+                    "listaDisponibilidadLaboratorio": ["`+form.querySelector('input[name="disponibilidad"]').value+`"]
+            }`;
+console.log(data)
+xhr.send(data);
+}
+</script>
+
 <body>
 <p > <a href="/inicio">  Si quiere volver al inicio pinche aquí </a></p> <br>
 <div> <b> La lista de laboratorios es: </b><br> <br>
@@ -16,19 +42,24 @@
     </#list>
     </div>
 
-<form action="http://localhost:9000/laboratorios" method="POST">
+<form action="#" onSubmit="makePOSTRequest('http://localhost:9000/laboratorios'); return false;" id="formulario" >
   <div>
-    <label for="say">Introduzca el nombre del laboratorio</label>
-    <input name="say" id="say" value="">
+    <label for="laboratorio.nombre">Introduzca el nombre del laboratorio</label>
+    <input name="nombre" id="nombreLab" value="">
   </div>
   <div>
-    <label for="to">Introduzca el nombre del laboratorio</label>
-    <input name="to" id="to" value="">
+    <label for="laboratorio.descripcion">Introduzca la descripción del laboratorio</label>
+    <input name="descripcion" id="descripcionLab" value="">
   </div>
   <div>
-    <button>Send my greetings</button>
+      <label for="laboratorio.descripcion">Introduzca la disponibilidad del laboratorio separada por comas</label>
+      <input name="disponibilidad" id="disponibilidadLab" value="2021-05-01T09:30:00">
+    </div>
+  <div>
+    <button id="creacionLab">Crear laboratorio</button>
   </div>
 </form>
+
 
 
 </body>
