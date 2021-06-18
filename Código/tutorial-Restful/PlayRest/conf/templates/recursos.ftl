@@ -9,7 +9,6 @@
 <p > <a href="/inicio">  Si quiere volver al inicio pinche aquí </a></p> <br>
 <p > <a href="/laboratorios">  Si quiere volver a ver todos los laboratorios pinche aquí </a></p> <br>
 
-<b>
 <div> <b> La lista de bancos de trabajo es: </b><br> <br>
 <#list recursos as recurso>
 

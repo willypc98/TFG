@@ -126,7 +126,7 @@ xhr.send(data);
 <p >------------------------------------------------- </p> <br>
 
 <form action="#" onSubmit="makePATCHRequest('${laboratorio.url}'); return false;" id="formularioPATCH" >
- <b> <p>Este formulario es para modificar la información del nombre y la descripción de este laboratorio </p> </b>
+ <b> <p>Este formulario es para modificar la disponibilidad de este laboratorio </p> </b>
   <div>
     <label for="laboratorio.nombre">Introduzca ADD si quiere añadir o REMOVE si quiere eliminar una franja de disponibilidad</label>
     <input name="tipo" id="Tipo" value="">
@@ -143,7 +143,7 @@ xhr.send(data);
 <p >------------------------------------------------- </p> <br>
 
 <form action="#" onSubmit="makeDELETERequest('${laboratorio.url}'); return false;" id="formularioDELETE" >
- <b> <p>Si quiere este laboratorio pulse el botón </p> </b>
+ <b> <p>Si quiere borrar este laboratorio pulse el botón </p> </b>
 
   <div>
     <button id="borrarLab">Borrar laboratorio</button>
