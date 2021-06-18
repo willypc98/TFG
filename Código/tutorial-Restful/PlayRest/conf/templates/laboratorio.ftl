@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<b>
+
 <p > <a href="/inicio">  Si quiere volver al inicio pinche aquí </a></p> <br>
   <p > <a href="/laboratorios">  Si quiere ver todos los laboratorios pinche aquí </a></p> <br>
   <p > <a href="/laboratorios/${laboratorio.id}/bancos">  Si quiere ver todos los bancos de este laboratorio pinche aquí </a></p> <br>
@@ -14,7 +14,7 @@
   <p id="url">La URI del laboratorio es ${laboratorio.url} </p> <br>
   <p id="nombre">EL nombre del laboratorio es ${laboratorio.nombreLab} </p> <br>
   <p id="descripcion">La descripción del laboratorio es ${laboratorio.descripcionLab} </p> <br>
-</b>
+
 <div> <b>La disponibilidad del laboratorio es: </b>  <br>
   <#list listaDisponibilidadLaboratorio as horario>
     <p> ${horario}
