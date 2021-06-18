@@ -20,10 +20,16 @@ xhr.onreadystatechange = function () {
       console.log(xhr.responseText);
    }};
 var form = document.querySelector("#formulario");
+var disponibilidad= form.querySelector('input[name="disponibilidad"]').value
+console.log(disponibilidad)
+var arrayDisp = disponibilidad.split(',');
+var arrayBienDisp= arrayDisp.join('","');
+console.log(arrayDisp);
+
 var data = `{
                     "nombreLab": "`+form.querySelector('input[name="nombre"]').value+`",
                     "descripcionLab": "`+form.querySelector('input[name="descripcion"]').value+`",
-                    "listaDisponibilidadLaboratorio": ["`+form.querySelector('input[name="disponibilidad"]').value+`"]
+                    "listaDisponibilidadLaboratorio": ["`+arrayBienDisp+`"]
             }`;
 console.log(data)
 xhr.send(data);
