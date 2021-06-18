@@ -4,6 +4,57 @@
 <head>
   <title>/usuarios/${usuario.id} </title>
 </head>
+
+<script>
+function makePUTRequest(url){
+
+
+var xhr = new XMLHttpRequest();
+xhr.open("PUT", url);
+
+xhr.setRequestHeader("Accept", "application/json");
+xhr.setRequestHeader("Content-Type", "application/json");
+
+xhr.onreadystatechange = function () {
+   if (xhr.readyState === 4) {
+      console.log(xhr.status);
+      console.log(xhr.responseText);
+   }};
+var form = document.querySelector("#formulario");
+var data = `{
+                    "nombre": "`+form.querySelector('input[name="nombre"]').value+`",
+                    "grado": "`+form.querySelector('input[name="grado"]').value+`"
+            }`;
+console.log(data)
+xhr.send(data);
+}
+</script>
+
+<script>
+function makeDELETERequest(url){
+
+
+var xhr = new XMLHttpRequest();
+xhr.open("DELETE", url);
+
+xhr.setRequestHeader("Accept", "application/json");
+xhr.setRequestHeader("Content-Type", "application/json");
+
+xhr.onreadystatechange = function () {
+   if (xhr.readyState === 4) {
+      console.log(xhr.status);
+      console.log(xhr.responseText);
+   }};
+var form = document.querySelector("#formularioDELETE");
+var data = `{
+
+            }`;
+console.log(data)
+xhr.send(data);
+}
+</script>
+
+
 <body>
 
 <b>
@@ -26,27 +77,33 @@
         </#list>
         </div>
 
-         <form action="http://localhost:9000/usuarios/${usuario.id}" method="PUT">
-                <div>
-                  <label for="usuario.nombre">Introduzca el nombre que quiere modificar del usuario</label>
-                  <input name="nombre" id="nombreUsuario" value="">
-                </div>
-                <div>
-                  <label for="usuario.grado">Introduzca el grado que quiere modificar del usuario</label>
-                  <input name="grado" id="gradoUsuario" value="">
-                </div>
-                <div>
-                  <button>Modificar usuario</button>
-                </div>
-              </form>
-         <p >------------------------------------------------- </p> <br>
- <form action="http://localhost:9000/usuarios/${usuario.id}" method="DELETE">
+     <form action="#" onSubmit="makePUTRequest('${usuario.url}'); return false;" id="formulario" >
+      <b> <p>Este formulario es para modificar la información del nombre y el grado de este usuario </p> </b>
+       <div>
+         <label for="laboratorio.nombre">Introduzca el nombre del usuario</label>
+         <input name="nombre" id="nombreUsu" value="">
+       </div>
+       <div>
+         <label for="laboratorio.descripcion">Introduzca el grado del usuario</label>
+         <input name="grado" id="gradoUsu" value="">
+       </div>
 
-                 <div>
-                   <button>Borrar este usuario</button>
-                 </div>
-               </form>
-          <p >------------------------------------------------- </p> <br>
+       <div>
+         <button id="modificarLab">Modificar usuario</button>
+       </div>
+     </form>
+     <p >------------------------------------------------- </p> <br>
+
+
+
+     <form action="#" onSubmit="makeDELETERequest('${usuario.url}'); return false;" id="formularioDELETE" >
+      <b> <p>Si quiere este usuario pulse el botón </p> </b>
+
+       <div>
+         <button id="borrarLab">Borrar usuario</button>
+       </div>
+     </form>
+     <p >------------------------------------------------- </p> <br>
 
 </body>
 </html>
