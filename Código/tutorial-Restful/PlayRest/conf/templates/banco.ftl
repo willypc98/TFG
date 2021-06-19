@@ -126,11 +126,11 @@ xhr.send(data);
 <form action="#" onSubmit="makePATCHRequest('${banco.url}'); return false;" id="formularioPATCH" >
  <b> <p>Este formulario es para modificar la disponibilidad de este banco de trabajo </p> </b>
   <div>
-    <label for="laboratorio.nombre">Introduzca ADD si quiere añadir o REMOVE si quiere eliminar una franja de disponibilidad</label>
+    <label for="banco.nombre">Introduzca ADD si quiere añadir o REMOVE si quiere eliminar una franja de disponibilidad</label>
     <input name="tipo" id="Tipo" value="">
   </div>
   <div>
-    <label for="laboratorio.descripcion">Introduzca la hora que quiera modificar</label>
+    <label for="banco.descripcion">Introduzca la hora que quiera modificar</label>
     <input name="franja" id="Franja" value="2021-05-01T09:30:00">
   </div>
 
@@ -144,7 +144,7 @@ xhr.send(data);
  <b> <p>Si quiere borrar este banco pulse el botón </p> </b>
 
   <div>
-    <button id="borrarLab">Borrar banco</button>
+    <button id="borrarBanco">Borrar banco</button>
   </div>
 </form>
 <p >------------------------------------------------- </p> <br>
