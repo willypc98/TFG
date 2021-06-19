@@ -57,14 +57,15 @@ xhr.send(data);
 
 <body>
 
-<b>
+
 <p >   Si quiere volver al inicio pinche <a href="/inicio">aquí </a></p> <br>
 <p >   Si quiere volver a ver todos los usuarios pinche <a href="/usuarios">aquí </a></p> <br>
+<p >------------------------------------------------- </p> <br>
   <p id="identificador">El ID del usuario es ${usuario.id} </p> <br>
   <p id="url">La URI del usuario es ${usuario.url} </p> <br>
   <p id="nombre">EL nombre del usuario es ${usuario.nombre} </p> <br>
   <p id="grado">El grado al que pertenece el usuario  es ${usuario.grado} </p> <br> <br>
-</b>
+
 <div> <b> La lista de reservas asignadas al usuario ${usuario.nombre} es: </b><br> <br>
         <#list listaReservas as reserva>
            <p >El id de la reserva es ${reserva.id} </p> <br>

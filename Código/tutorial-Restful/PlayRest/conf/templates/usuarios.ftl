@@ -30,11 +30,11 @@ xhr.send(data);
 </script>
 <body>
 
-<b>
+
 <p >  Si quiere volver al inicio pinche <a href="/inicio"> aquí </a></p> <br>
 <p >   Si quiere ver todas las reservas pinche <a href="/reservas">aquí </a></p> <br>
 <p >  Si quiere ver todos los laboratorios pinche <a href="/laboratorios">aquí </a></p> <br>
-  </b>
+ <p >------------------------------------------------- </p> <br>
 
   <div> <b> La lista de usuarios es: </b><br> <br>
   <#list usuarios as usuario>
