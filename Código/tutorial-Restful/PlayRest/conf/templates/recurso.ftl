@@ -80,11 +80,11 @@ xhr.send(data);
 
 <body>
 
-<p > <a href="/inicio">  Si quiere volver al inicio pinche aquí </a></p> <br>
-<p > <a href="/laboratorios">  Si quiere volver a ver todos los laboratorios pinche aquí </a></p> <br>
-<p > <a href="/laboratorios/${recurso.labID}/bancos">  Si quiere volver a ver todos los bancos de trabajo de este laboratorio pinche aquí </a></p> <br>
-<p > <a href="/laboratorios/${recurso.labID}/bancos/${recurso.bancoID}/recursos">  Si quiere volver a ver todos los recursos del banco de trabajo de este laboratorio pinche aquí </a></p> <br>
-
+<p >   Si quiere volver al <b>inicio</b> pinche <a href="/inicio">aquí </a></p> <br>
+<p >   Si quiere volver a ver <b>todos los laboratorios</b> pinche <a href="/laboratorios">aquí </a></p> <br>
+<p >   Si quiere volver a ver <b>todos los bancos de trabajo</b> de este laboratorio pinche <a href="/laboratorios/${recurso.labID}/bancos">aquí </a></p> <br>
+<p >   Si quiere volver a ver <b>todos los recursos</b> del banco de trabajo de este laboratorio pinche <a href="/laboratorios/${recurso.labID}/bancos/${recurso.bancoID}/recursos">aquí </a></p>
+<p >------------------------------------------------- </p> <br>
   <p id="identificador">El ID del recurso es ${recurso.id} </p> <br>
   <p id="url">La URI del recurso es ${recurso.url} </p> <br>
   <p id="nombre">EL nombre del recurso es ${recurso.nombreRecursoBanco} </p> <br>

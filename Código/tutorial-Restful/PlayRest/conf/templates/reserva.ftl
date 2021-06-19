@@ -29,8 +29,8 @@ xhr.send(data);
 </script>
 
 <body>
-<p >   Si quiere volver al inicio pinche <a href="/inicio">aquí </a></p> <br>
-<p >  Si quiere ver todas las reservas pinche <a href="/reservas"> aquí </a></p> <br>
+<p >   Si quiere volver al <b>inicio</b> pinche <a href="/inicio">aquí </a></p> <br>
+<p >  Si quiere ver <b>todas las reservas</b> pinche <a href="/reservas"> aquí </a></p> <br>
 <p >------------------------------------------------- </p> <br>
 
   <p id="identificador">El ID de la reserva es ${reserva.id} </p> <br>

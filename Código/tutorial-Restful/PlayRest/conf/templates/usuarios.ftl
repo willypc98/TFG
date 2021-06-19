@@ -31,9 +31,9 @@ xhr.send(data);
 <body>
 
 
-<p >  Si quiere volver al inicio pinche <a href="/inicio"> aquí </a></p> <br>
-<p >   Si quiere ver todas las reservas pinche <a href="/reservas">aquí </a></p> <br>
-<p >  Si quiere ver todos los laboratorios pinche <a href="/laboratorios">aquí </a></p> <br>
+<p >  Si quiere volver al <b>inicio</b> pinche <a href="/inicio"> aquí </a></p> <br>
+<p >   Si quiere ver <b>todas las reservas</b> pinche <a href="/reservas">aquí </a></p> <br>
+<p >  Si quiere ver <b>todos los laboratorios</b> pinche <a href="/laboratorios">aquí </a></p> <br>
  <p >------------------------------------------------- </p> <br>
 
   <div> <b> La lista de usuarios es: </b><br> <br>

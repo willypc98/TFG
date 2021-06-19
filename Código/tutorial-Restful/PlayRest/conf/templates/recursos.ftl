@@ -38,14 +38,14 @@ xhr.send(data);
 
 <body>
 
-<p > <a href="/inicio">  Si quiere volver al inicio pinche aquí </a></p> <br>
-<p > <a href="/laboratorios">  Si quiere volver a ver todos los laboratorios pinche aquí </a></p> <br>
-
+<p > Si quiere volver al <b>inicio</b> pinche <a href="/inicio">aquí </a></p> <br>
+<p > Si quiere volver a ver <b>todos los laboratorios</b> pinche <a href="/laboratorios">aquí </a></p>
+<p >------------------------------------------------- </p> <br>
 <div> <b> La lista de bancos de trabajo es: </b><br> <br>
 <#list recursos as recurso>
 
   <p id="identificador">El ID del recurso es ${recurso.id} </p> <br>
-  <p id="url"><a href="${recurso.url}">La URI del recurso es ${recurso.url} </a></p> <br>
+  <p id="url">La URI del recurso es <a href="${recurso.url}">${recurso.url} </a></p> <br>
   <p id="nombre">EL nombre del recurso es ${recurso.nombreRecursoBanco} </p> <br>
   <p id="descripcion">La descripción del recurso es ${recurso.descripcionRecursoBanco} </p> <br>
   <p id="labID">El ID del laboratorio del recurso es ${recurso.labID} </p> <br>
