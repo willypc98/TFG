@@ -78,7 +78,7 @@ public class BancoDeTrabajoBBDD extends ConexionBBDD{
                     Logger.getLogger(BancoDeTrabajoBBDD.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 if (rS == null){
-                    //banco= null;
+                    return null;
 
                 }
                 else{
@@ -144,7 +144,7 @@ public class BancoDeTrabajoBBDD extends ConexionBBDD{
 
             }
             else{
-                //banco=null;
+                return null;
 
             }
         } catch (SQLException ex) {
