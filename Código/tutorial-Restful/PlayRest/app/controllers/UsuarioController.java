@@ -61,10 +61,40 @@ public class UsuarioController extends Controller {
 
     public Result retrieve(Http.Request request, int id) {
         logger.debug("In UsuarioController.retrieve(), retrieve usuario with id: {}", id);
-        if (UsuarioBBDD.getInstance().getUsuario(id) == null) {
-            return notFound(ApplicationUtil.createResponse("Usuario with id:" + id + " not found", false));
-        }
         Usuario result = UsuarioBBDD.getInstance().getUsuario(id);
+        if (UsuarioBBDD.getInstance().getUsuario(id) == null) {
+            if (request.accepts("text/html")) {
+                String output = "error";
+                try {
+
+
+                    Configuration cfg = new Configuration(Configuration.VERSION_2_3_30);
+                    cfg.setClassLoaderForTemplateLoading(this.getClass().getClassLoader(), "/templates/");
+                    cfg.setDefaultEncoding("UTF-8");
+                    cfg.setTemplateExceptionHandler(TemplateExceptionHandler.HTML_DEBUG_HANDLER);
+                    cfg.setLogTemplateExceptions(false);
+
+                    cfg.setWrapUncheckedExceptions(true);
+                    cfg.setFallbackOnNullLoopVariable(false);
+                    cfg.setNumberFormat("computer");
+
+                    Template template = cfg.getTemplate("usuarioMissing.ftl");
+                    StringWriter sw = new StringWriter();
+                    Map<String, Object> mapa = new TreeMap<String, Object>();
+                    mapa.put("usuario", result);
+                    mapa.put("usuarioID", id);
+                    template.process(mapa, sw);
+                    output = sw.toString();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return ok(output).as("text/html");
+
+            } else {
+                return notFound(ApplicationUtil.createResponse("Usuario with id:" + id + " not found", false));
+            }
+        }
+
 
         if (request.accepts("text/html")) {
             String output = "error";
