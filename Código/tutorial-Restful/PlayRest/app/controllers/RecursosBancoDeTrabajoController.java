@@ -65,11 +65,44 @@ public class RecursosBancoDeTrabajoController extends Controller {
 
     public Result retrieve(Http.Request request,int labID, int bancoID,int id) {
         logger.debug("In RecursosBancoDeTrabajoController.retrieve(), retrieve usuario with id: {}", id);
+        RecursosBancoDeTrabajo result = RecursosBancoDeTrabajoBBDD.getInstance().getRecursosBancoDeTrabajo(labID, bancoID, id);
         if (RecursosBancoDeTrabajoBBDD.getInstance().getRecursosBancoDeTrabajo(labID, bancoID, id) == null) {
-            return notFound(ApplicationUtil.createResponse("RecursosBancoDeTrabajo with id:" + id + " not found", false));
+
+            if (request.accepts("text/html")) {
+                String output = "error";
+                try {
+
+
+                    Configuration cfg = new Configuration(Configuration.VERSION_2_3_30);
+                    cfg.setClassLoaderForTemplateLoading(this.getClass().getClassLoader(), "/templates/");
+                    cfg.setDefaultEncoding("UTF-8");
+                    cfg.setTemplateExceptionHandler(TemplateExceptionHandler.HTML_DEBUG_HANDLER);
+                    cfg.setLogTemplateExceptions(false);
+
+                    cfg.setWrapUncheckedExceptions(true);
+                    cfg.setFallbackOnNullLoopVariable(false);
+                    cfg.setNumberFormat("computer");
+
+                    Template template = cfg.getTemplate("recursoMissing.ftl");
+                    StringWriter sw = new StringWriter();
+                    Map<String, Object> mapa = new TreeMap<String, Object>();
+                    mapa.put("laboratorioID",labID);
+                    mapa.put("bancoID",bancoID);
+                    mapa.put("recursoID",id);
+                    template.process(mapa, sw);
+                    output = sw.toString();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return ok(output).as("text/html");
+
+            } else {
+
+                return notFound(ApplicationUtil.createResponse("RecursosBancoDeTrabajo with id:" + id + " not found", false));
+            }
         }
 
-        RecursosBancoDeTrabajo result = RecursosBancoDeTrabajoBBDD.getInstance().getRecursosBancoDeTrabajo(labID, bancoID, id);
+
         if (request.accepts("text/html")) {
             String output = "error";
             try {
