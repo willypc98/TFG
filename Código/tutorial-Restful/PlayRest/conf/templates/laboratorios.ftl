@@ -37,11 +37,15 @@ xhr.send(data);
 </script>
 
 <body>
-<p > <a href="/inicio">  Si quiere volver al inicio pinche aquí </a></p> <br>
+<p >   Si quiere volver al <b>inicio</b> pinche <a href="/inicio">aquí </a></p> <br>
+<p >  Si quiere ver <b>todas las reservas</b> pinche <a href="/reservas"> aquí </a></p> <br>
+<p >   Si quiere ver <b>todos los usuarios</b> pinche <a href="/usuarios">aquí </a></p> <br>
+<p >------------------------------------------------- </p> <br><br>
+
 <div> <b> La lista de laboratorios es: </b><br> <br>
     <#list laboratorios as laboratorio>
         <p id="identificador" >  El ID del laboratorio es ${laboratorio.id} </p> <br>
-         <p id="url"> <a href="${laboratorio.url}">La URI del laboratorio es ${laboratorio.url} </a></p> <br>
+         <p id="url"> La URI del laboratorio es <a href="${laboratorio.url}">${laboratorio.url} </a></p> <br>
          <p id="nombre">EL nombre del laboratorio es ${laboratorio.nombreLab} </p> <br>
          <p id="descripcion">La descripción del laboratorio es ${laboratorio.descripcionLab} </p> <br>
          <p >------------------------------------------------- </p> <br>

@@ -60,7 +60,7 @@ xhr.send(data);
 
 <p >   Si quiere volver al <b>inicio</b> pinche <a href="/inicio">aquí </a></p> <br>
 <p >   Si quiere volver a ver <b>todos los usuarios</b> pinche <a href="/usuarios">aquí </a></p> <br>
-<p >------------------------------------------------- </p> <br>
+<p >------------------------------------------------- </p> <br><br>
   <p id="identificador">El ID del usuario es ${usuario.id} </p> <br>
   <p id="url">La URI del usuario es ${usuario.url} </p> <br>
   <p id="nombre">EL nombre del usuario es ${usuario.nombre} </p> <br>

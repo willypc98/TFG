@@ -82,9 +82,10 @@ xhr.send(data);
 <body>
 
 
-<p > <a href="/inicio">  Si quiere volver al inicio pinche aquí </a></p> <br>
-  <p > <a href="/laboratorios">  Si quiere ver todos los laboratorios pinche aquí </a></p> <br>
-  <p > <a href="/laboratorios/${laboratorio.id}/bancos">  Si quiere ver todos los bancos de este laboratorio pinche aquí </a></p> <br>
+<p >   Si quiere volver al <b>inicio</b> pinche <a href="/inicio">aquí </a></p> <br>
+  <p >  Si quiere volver a ver <b>todos los laboratorios</b> pinche <a href="/laboratorios"> aquí </a></p> <br>
+  <p >  Si quiere ver <b>todos los bancos</b> de este laboratorio pinche <a href="/laboratorios/${laboratorio.id}/bancos"> aquí </a></p> <br>
+  <p >------------------------------------------------- </p> <br><br>
   <p id="identificador" >  El ID del laboratorio es ${laboratorio.id} </p> <br>
   <p id="url">La URI del laboratorio es ${laboratorio.url} </p> <br>
   <p id="nombre">EL nombre del laboratorio es ${laboratorio.nombreLab} </p> <br>
