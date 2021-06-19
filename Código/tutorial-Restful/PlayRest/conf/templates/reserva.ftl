@@ -29,24 +29,25 @@ xhr.send(data);
 </script>
 
 <body>
-<p > <a href="/inicio">  Si quiere volver al inicio pinche aquí </a></p> <br>
-<p > <a href="/reservas">  Si quiere ver todas las reservas pinche aquí </a></p> <br>
+<p >   Si quiere volver al inicio pinche <a href="/inicio">aquí </a></p> <br>
+<p >  Si quiere ver todas las reservas pinche <a href="/reservas"> aquí </a></p> <br>
+<p >------------------------------------------------- </p> <br>
 
   <p id="identificador">El ID de la reserva es ${reserva.id} </p> <br>
   <p id="url">La URI de la reserva es ${reserva.url} </p> <br>
   <p id="disponibilidad">La disponibilidad de la reserva es ${reserva.disponibilidadReserva} </p> <br>
 
   <p id="usuario">El ID del usuario de la reserva es ${usuario.id} </p> <br>
-  <p id="usuarioURL"> <a href="${usuario.url}"> La URI del usuario de la reserva es ${usuario.url} </a></p> <br>
+  <p id="usuarioURL">  La URI del usuario de la reserva es <a href="${usuario.url}">${usuario.url} </a></p> <br>
   <p id="laboratorio">El ID del laboratorio de la reserva es ${laboratorio.id} </p> <br>
-  <p id="laboratorioURL"><a href="${laboratorio.url}">La URI del laboratorio de la reserva es ${laboratorio.url} </a></p> <br>
+  <p id="laboratorioURL">La URI del laboratorio de la reserva es <a href="${laboratorio.url}">${laboratorio.url} </a></p> <br>
   <p id="banco">El ID del banco de trabajo de la reserva es ${banco.id} </p> <br>
-  <p id="bancoURL"><a href="${banco.url}">La URI del banco de trabajo de la reserva es ${banco.url} </a></p> <br>
+  <p id="bancoURL">La URI del banco de trabajo de la reserva es <a href="${banco.url}">${banco.url} </a></p> <br> <br>
 
   <div> <b> La lista de recursos asignados a la reserva es: </b><br> <br>
           <#list listaRecursos as recurso>
              <p >El id del recurso de la reserva es ${recurso.id} </p> <br>
-             <p ><a href="${recurso.url}">La URI del recurso de la reserva es ${recurso.url} </a></p> <br>
+             <p >La URI del recurso de la reserva es <a href="${recurso.url}">${recurso.url} </a></p> <br>
                <p >------------------------------------------------- </p> <br>
           <#else>
           <p>No tiene recursos asignados<p>
