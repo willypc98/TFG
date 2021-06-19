@@ -4,6 +4,30 @@
 <head>
   <title>/reservas/${reserva.id} </title>
 </head>
+<script>
+function makeDELETERequest(url){
+
+
+var xhr = new XMLHttpRequest();
+xhr.open("DELETE", url);
+
+xhr.setRequestHeader("Accept", "application/json");
+xhr.setRequestHeader("Content-Type", "application/json");
+
+xhr.onreadystatechange = function () {
+   if (xhr.readyState === 4) {
+      console.log(xhr.status);
+      console.log(xhr.responseText);
+   }};
+var form = document.querySelector("#formularioDELETE");
+var data = `{
+
+            }`;
+console.log(data)
+xhr.send(data);
+}
+</script>
+
 <body>
 <p > <a href="/inicio">  Si quiere volver al inicio pinche aquí </a></p> <br>
 <p > <a href="/reservas">  Si quiere ver todas las reservas pinche aquí </a></p> <br>
@@ -29,6 +53,14 @@
           </#list>
           </div>
 
+<form action="#" onSubmit="makeDELETERequest('${reserva.url}'); return false;" id="formularioDELETE" >
+ <b> <p>Si quiere borrar esta reserva pulse el botón </p> </b>
+
+  <div>
+    <button id="borrarReserva">Borrar reserva</button>
+  </div>
+</form>
+<p >------------------------------------------------- </p> <br>
 
 </body>
 </html>
