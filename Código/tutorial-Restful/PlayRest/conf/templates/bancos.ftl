@@ -55,15 +55,15 @@ xhr.send(data);
 <form action="#" onSubmit="makePOSTRequest('http://localhost:9000/laboratorios/${labID}/bancos'); return false;" id="formulario" >
 
   <div>
-    <label for="laboratorio.descripcion">Introduzca la descripción del banco</label>
+    <label for="banco.descripcion">Introduzca la descripción del banco</label>
     <input name="descripcion" id="descripcionBanco" value="">
   </div>
   <div>
-      <label for="laboratorio.descripcion">Introduzca la disponibilidad del banco separada por comas</label>
-      <input name="disponibilidad" id="disponibilidadLab" value="2021-05-01T09:30:00">
+      <label for="banco.disponibilidad">Introduzca la disponibilidad del banco separada por comas</label>
+      <input name="disponibilidad" id="disponibilidadBanco" value="2021-05-01T09:30:00">
     </div>
   <div>
-    <button id="creacionLab">Crear banco</button>
+    <button id="creacionBanco">Crear banco</button>
   </div>
 </form>
 
