@@ -3,7 +3,7 @@
 # ~~~~
  
 # APIs in Controller
-GET     /inicio                controllers.ControladorDePrueba.index()
+GET     /inicio                controllers.Inicio.index()
 GET     /reservas              controllers.ReservaController.listReservas(request:Request)
 GET     /reservas/:id          controllers.ReservaController.retrieve(request:Request,id:Int)
 POST    /reservas              controllers.ReservaController.create(request:Request)
