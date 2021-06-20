@@ -1,7 +1,5 @@
 @()
 
-
-
 @main("Página de inicio") {
   <h1>Página de inicio!</h1>
 }
@@ -21,17 +19,6 @@
 <body>
 <h3>Estos son los servicios disponibles de la aplicación </h3>
 <br>
-<div id="debug">
-    <script>
-    fetch("/usuarios")
-    .then(response => response.json())
-    .then(data => {
-    console.log(data.sentence)
-    document.innertext=data.sentence
-    })
-
-</script>
-</div>
 
 
 <ul>
