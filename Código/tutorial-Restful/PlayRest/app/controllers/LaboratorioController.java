@@ -89,7 +89,7 @@ public Result modify(Http.Request request,int id) throws SQLException, ClassNotF
 
 
      public Result retrieve(Http.Request request,int id) {
-        logger.debug("In LaboratorioController.retrieve(), retrieve usuario with id: {}",id);
+        logger.debug("In LaboratorioController.retrieve(), retrieve laboratorio with id: {}",id);
          Laboratorio result = LaboratorioBBDD.getInstance().getLaboratorio(id);
         if (LaboratorioBBDD.getInstance().getLaboratorio(id) == null) {
             if (request.accepts("text/html")) {
@@ -156,9 +156,8 @@ public Result modify(Http.Request request,int id) throws SQLException, ClassNotF
          } else {
 
 
-             //ObjectMapper mapper = new ObjectMapper();
+
              JsonNode jsonObjects = Json.toJson(LaboratorioBBDD.getInstance().getLaboratorio(id));
-             // JsonNode jsonObjects = mapper.convertValue(LaboratorioBBDD.getInstance().getLaboratorio(id),JsonNode.class);
 
              logger.debug("In LaboratorioController.retrieve(), result is: {}",jsonObjects.toString());
              return ok(ApplicationUtil.createResponse(jsonObjects, true));
