@@ -16,7 +16,7 @@ public class ConexionBBDD {
     protected static final String driver="com.mysql.jdbc.Driver";
     protected static final String user="root";
     protected static final String pass="root";
-    protected static final String url="jdbc:mysql://localhost:3306/tfg";
+    protected static final String url="jdbc:mysql://172.17.0.2:3306/tfg?useSSL=false";
 
 
     protected Statement createStatement;
