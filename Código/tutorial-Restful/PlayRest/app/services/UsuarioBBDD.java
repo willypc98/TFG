@@ -200,7 +200,7 @@ public class UsuarioBBDD extends ConexionBBDD{
                 String nombre = usu.getNombre();
                 String grado= usu.getGrado();
 
-                String queryBBDD = "update Usuario set nombre='"+nombre+"', grado='"+grado+"' where id="+id+";";
+                String queryBBDD = "update usuario set nombre='"+nombre+"', grado='"+grado+"' where id="+id+";";
 
                 try {
                     createStatement.executeUpdate(queryBBDD);
