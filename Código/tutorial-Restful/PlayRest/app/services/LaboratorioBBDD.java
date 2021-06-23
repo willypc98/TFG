@@ -171,7 +171,8 @@ public class LaboratorioBBDD extends ConexionBBDD{
 
         }
         else {
-            return null;
+          return null;
+
         }
 
 
@@ -226,7 +227,7 @@ public class LaboratorioBBDD extends ConexionBBDD{
             }
             else{
                 //return new ArrayList<>(mapa.values);
-                return null;
+                //return null;
             }
         } catch (SQLException ex) {
             Logger.getLogger(LaboratorioBBDD.class.getName()).log(Level.SEVERE, null, ex);
