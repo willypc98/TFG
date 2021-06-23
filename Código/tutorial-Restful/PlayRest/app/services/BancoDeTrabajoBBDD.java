@@ -35,18 +35,18 @@ public class BancoDeTrabajoBBDD extends ConexionBBDD{
                 disponibilidad= banco.getListaDisponibilidadBanco();
 
                 System.out.println("El identifacdor del laboratorio es: " + labID);
-                createStatement.executeUpdate("INSERT INTO bancoDeTrabajo (descripcion,labid) VALUES ('" + descripcion + "', " + labID+");",Statement.RETURN_GENERATED_KEYS);
+                createStatement.executeUpdate("INSERT INTO bancodetrabajo (descripcion,labid) VALUES ('" + descripcion + "', " + labID+");",Statement.RETURN_GENERATED_KEYS);
                 ResultSet prueba = createStatement.getGeneratedKeys();
                 prueba.next();
                 identificador=prueba.getInt(1);
                 System.out.println("la fila es " + identificador );
                 String patron = "/laboratorios/" + labID + "/bancos/";
                 String url = patron+identificador;
-                createStatement.executeUpdate("UPDATE  BancoDeTrabajo set url ='" + url + "' where id = "+ identificador + ";");
+                createStatement.executeUpdate("UPDATE  bancodetrabajo set url ='" + url + "' where id = "+ identificador + ";");
 
                 for (LocalDateTime dis:disponibilidad) {
 
-                    createStatement.executeUpdate("INSERT INTO DisponibilidadBancoDeTrabajo (bancoid,disponibilidad) VALUES (" + identificador + ", '" + dis +  "');");
+                    createStatement.executeUpdate("INSERT INTO disponibilidadbancodetrabajo (bancoid,disponibilidad) VALUES (" + identificador + ", '" + dis +  "');");
                 }
                 con.commit();
                 con.setAutoCommit(true);
@@ -67,8 +67,8 @@ public class BancoDeTrabajoBBDD extends ConexionBBDD{
         try {
             if(conector()==true){
 
-                String queryBBDD = "select bancoDeTrabajo.id, bancoDeTrabajo.url, bancoDeTrabajo.descripcion, bancodetrabajo.labid, disponibilidadbancoDeTrabajo.disponibilidad  from bancoDeTrabajo inner join disponibilidadbancoDeTrabajo on bancoDeTrabajo.id = disponibilidadbancoDeTrabajo.bancoid where bancoDeTrabajo.id =" + id + " AND bancoDetrabajo.labid =" + labID +" ;";
-               String queryBBDD1="select bancoDeTrabajo.id, bancoDeTrabajo.url, bancoDeTrabajo.descripcion, bancodetrabajo.labid , recursosbancodetrabajo.id as recursoID , recursosbancodetrabajo.url as recursoURL, recursosbancodetrabajo.nombre as recursoNombre, recursosbancodetrabajo.descripcion as recursoDescripcion, recursosbancodetrabajo.labid as recursoLabID, recursosbancodetrabajo.bancoID as recursoBancoID from bancoDeTrabajo INNER JOIN recursosbancodetrabajo on bancodetrabajo.id = recursosbancodetrabajo.bancoid  where bancoDeTrabajo.id =" + id + " AND bancoDetrabajo.labid =" + labID +" ;";
+                String queryBBDD = "select bancodetrabajo.id, bancodetrabajo.url, bancodetrabajo.descripcion, bancodetrabajo.labid, disponibilidadbancodetrabajo.disponibilidad  from bancodetrabajo inner join disponibilidadbancodetrabajo on bancodetrabajo.id = disponibilidadbancodetrabajo.bancoid where bancodetrabajo.id =" + id + " AND bancodetrabajo.labid =" + labID +" ;";
+               String queryBBDD1="select bancodetrabajo.id, bancodetrabajo.url, bancodetrabajo.descripcion, bancodetrabajo.labid , recursosbancodetrabajo.id as recursoID , recursosbancodetrabajo.url as recursoURL, recursosbancodetrabajo.nombre as recursoNombre, recursosbancodetrabajo.descripcion as recursoDescripcion, recursosbancodetrabajo.labid as recursoLabID, recursosbancodetrabajo.bancoid as recursoBancoID from bancodetrabajo INNER JOIN recursosbancodetrabajo on bancodetrabajo.id = recursosbancodetrabajo.bancoid  where bancodetrabajo.id =" + id + " AND bancodetrabajo.labid =" + labID +" ;";
                int i=0;
 
                 try {
@@ -87,23 +87,23 @@ public class BancoDeTrabajoBBDD extends ConexionBBDD{
                         while (rS.next()) {
                             BancoDeTrabajo banco;
                           
-                            if (mapa.containsKey(Integer.parseInt(rS.getString("bancoDeTrabajo.id")))){
-                                banco=mapa.get(Integer.parseInt(rS.getString("bancoDeTrabajo.id")));
+                            if (mapa.containsKey(Integer.parseInt(rS.getString("bancodetrabajo.id")))){
+                                banco=mapa.get(Integer.parseInt(rS.getString("bancodetrabajo.id")));
                                 
                             }
                             else{
                                
                                 banco = new BancoDeTrabajo();
-                                banco.setId(Integer.parseInt(rS.getString("bancoDeTrabajo.id")));
-                                banco.setUrl(rS.getString("bancoDeTrabajo.url"));
-                                banco.setDescripcionBanco(rS.getString("bancoDeTrabajo.descripcion"));
-                                banco.setLabID(Integer.parseInt(rS.getString("bancoDeTrabajo.labid")));
+                                banco.setId(Integer.parseInt(rS.getString("bancodetrabajo.id")));
+                                banco.setUrl(rS.getString("bancodetrabajo.url"));
+                                banco.setDescripcionBanco(rS.getString("bancodetrabajo.descripcion"));
+                                banco.setLabID(Integer.parseInt(rS.getString("bancodetrabajo.labid")));
                                 
                                 mapa.put(banco.getId(), banco);
                             }
 
                            
-                            LocalDateTime tiempo = rS.getObject("disponibilidadbancoDeTrabajo.disponibilidad",LocalDateTime.class);
+                            LocalDateTime tiempo = rS.getObject("disponibilidadbancodetrabajo.disponibilidad",LocalDateTime.class);
                             
                             banco.annadirListaDisponibilidad(tiempo);
 
@@ -171,7 +171,7 @@ public class BancoDeTrabajoBBDD extends ConexionBBDD{
 
         try {
             if(conector()==true){
-                 String queryBBDD = "select id, url, descripcion, labid  from bancoDeTrabajo where labid =" + labID + " ;";
+                 String queryBBDD = "select id, url, descripcion, labid  from bancodetrabajo where labid =" + labID + " ;";
                 int i=0;
                 try {
                     rS = createStatement.executeQuery(queryBBDD);
@@ -226,7 +226,7 @@ public class BancoDeTrabajoBBDD extends ConexionBBDD{
 
                 String descripcion= banco.getDescripcionBanco();
 
-                String queryBBDD = "update BancoDeTrabajo set descripcion='"+descripcion+"' where id="+id+" AND labID= " + labID + ";";
+                String queryBBDD = "update bancodetrabajo set descripcion='"+descripcion+"' where id="+id+" AND labid= " + labID + ";";
 
                 try {
                     createStatement.executeUpdate(queryBBDD);
@@ -284,7 +284,7 @@ public class BancoDeTrabajoBBDD extends ConexionBBDD{
         try {
             if (conector() == true) {
 
-                String queryBBDD = "delete from bancoDeTrabajo where id="+id+" AND labID= " + labID + ";";
+                String queryBBDD = "delete from bancodetrabajo where id="+id+" AND labid= " + labID + ";";
 
                 try {
                     createStatement.executeUpdate(queryBBDD);
