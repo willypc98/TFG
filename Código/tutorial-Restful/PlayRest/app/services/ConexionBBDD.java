@@ -134,7 +134,7 @@ public class ConexionBBDD {
                 createStatement.executeUpdate(creacionDisBanco);
 
                 createStatement.executeUpdate(creacionDisRecurso);
-                
+
                 valor= true;
             }
         }
