@@ -48,9 +48,9 @@ public class ReservaBBDD extends ConexionBBDD{
               recursos = reserva.getListaRecursos();
                 System.out.println("El tamaño de la lista de recursos es: " + recursos.size());
 
-              String queryBBDD1=("select count(*) from Usuario where id="+ usuID +";");
-              String queryBBDD2=("select count(*) from DisponibilidadLaboratorio where labID="+ labID +" AND disponibilidad = '"+ horario + "';");
-              String queryBBDD3=("delete from DisponibilidadBancoDeTrabajo where bancoID="+ bancoID +" AND disponibilidad = '"+ horario + "';");
+              String queryBBDD1=("select count(*) from usuario where id="+ usuID +";");
+              String queryBBDD2=("select count(*) from disponibilidadlaboratorio where labID="+ labID +" AND disponibilidad = '"+ horario + "';");
+              String queryBBDD3=("delete from disponibilidadbancodetrabajo where bancoid="+ bancoID +" AND disponibilidad = '"+ horario + "';");
 
                 rS=createStatement.executeQuery(queryBBDD1);
                 while (rS.next()){
@@ -71,7 +71,7 @@ public class ReservaBBDD extends ConexionBBDD{
                                 int recursoID= recurso.getId();
                                 System.out.println("El tamaño de la lista de recursos es: " + recursos.size());
                                 System.out.println("El ID del recurso es el siguiente " + recursoID );
-                                createStatement.executeUpdate("delete from DisponibilidadRecursosBancoDeTrabajo where recursoID="+ recursoID +" AND disponibilidad = '"+ horario + "';");
+                                createStatement.executeUpdate("delete from disponibilidadrecursosbancodetrabajo where recursoid="+ recursoID +" AND disponibilidad = '"+ horario + "';");
                                if(createStatement.getUpdateCount()==1){
                                    contadorRecursos++;
                                }
@@ -81,17 +81,17 @@ public class ReservaBBDD extends ConexionBBDD{
 
 
 
-                                createStatement.executeUpdate("INSERT INTO Reserva (usuarioID,labID,bancoID, disponibilidad) VALUES (" + usuID + ", " + labID+ ", "  + bancoID+" ,'" + horario+ "' );", Statement.RETURN_GENERATED_KEYS);
+                                createStatement.executeUpdate("INSERT INTO reserva (usuarioid,labid,bancoid, disponibilidad) VALUES (" + usuID + ", " + labID+ ", "  + bancoID+" ,'" + horario+ "' );", Statement.RETURN_GENERATED_KEYS);
                                 ResultSet prueba = createStatement.getGeneratedKeys();
                                 prueba.next();
                                 identificador=prueba.getInt(1);
                                 System.out.println("la fila es " + identificador );
                                 String url = "/reservas/"+identificador;
-                                createStatement.executeUpdate("UPDATE  Reserva set url ='" + url + "' where id = "+ identificador + ";");
+                                createStatement.executeUpdate("UPDATE  reserva set url ='" + url + "' where id = "+ identificador + ";");
 
                                 for (RecursosBancoDeTrabajoShort recurso:recursos) {
                                     int recursoID= recurso.getId();
-                                    createStatement.executeUpdate("INSERT INTO reservarecursos (reservaID,recursoID) VALUES (" + identificador + ", " + recursoID +  ");");
+                                    createStatement.executeUpdate("INSERT INTO reservarecursos (reservaid,recursoid) VALUES (" + identificador + ", " + recursoID +  ");");
                                 }
 
                                 con.commit();
@@ -152,7 +152,7 @@ public class ReservaBBDD extends ConexionBBDD{
         HashMap<Integer,Reserva> mapa = new HashMap<>();
         try {
             if(conector()==true){
-                String queryBBDD= "select Reserva.id, Reserva.url, Reserva.usuarioID , Reserva.labID, Reserva.bancoID,Reserva.disponibilidad, reservarecursos.recursoID as recursosID, usuario.url as usuarioURL, laboratorio.url as labURL, bancodetrabajo.url as bancoURL, recursosbancodetrabajo.url as recursoURL from Reserva inner join reservarecursos on Reserva.id = reservarecursos.reservaID inner join usuario on Reserva.usuarioID  =usuario.id inner join laboratorio on Reserva.labID =laboratorio.id inner join bancodetrabajo on Reserva.bancoID =bancodetrabajo.id inner join recursosbancodetrabajo on ReservaRecursos.recursoID =recursosbancodetrabajo.id where Reserva.id =" + id+" ;";
+                String queryBBDD= "select reserva.id, reserva.url, reserva.usuarioid , reserva.labid, reserva.bancoid,reserva.disponibilidad, reservarecursos.recursoid as recursosID, usuario.url as usuarioURL, laboratorio.url as labURL, bancodetrabajo.url as bancoURL, recursosbancodetrabajo.url as recursoURL from reserva inner join reservarecursos on reserva.id = reservarecursos.reservaid inner join usuario on reserva.usuarioid  =usuario.id inner join laboratorio on reserva.labID =laboratorio.id inner join bancodetrabajo on reserva.bancoid =bancodetrabajo.id inner join recursosbancodetrabajo on reservarecursos.recursoid =recursosbancodetrabajo.id where reserva.id =" + id+" ;";
                 int i=0;
 
                 try {
@@ -175,9 +175,9 @@ public class ReservaBBDD extends ConexionBBDD{
 
                             Reserva reserva;
 
-                            if (mapa.containsKey(Integer.parseInt(rS.getString("Reserva.id")))){
+                            if (mapa.containsKey(Integer.parseInt(rS.getString("reserva.id")))){
 
-                                reserva=mapa.get(Integer.parseInt(rS.getString("Reserva.id")));
+                                reserva=mapa.get(Integer.parseInt(rS.getString("reserva.id")));
 
                             }
                             else{
@@ -187,25 +187,25 @@ public class ReservaBBDD extends ConexionBBDD{
                                 LaboratorioShort lab= new LaboratorioShort();
                                 BancoDeTrabajoShort banco=new BancoDeTrabajoShort();
 
-                                reserva.setId(Integer.parseInt(rS.getString("Reserva.id")));
-                                reserva.setUrl(rS.getString("Reserva.url"));
-                                usuarioID=Integer.parseInt(rS.getString("Reserva.usuarioID"));
+                                reserva.setId(Integer.parseInt(rS.getString("reserva.id")));
+                                reserva.setUrl(rS.getString("reserva.url"));
+                                usuarioID=Integer.parseInt(rS.getString("reserva.usuarioid"));
                                 usu.setId(usuarioID);
                                 usuarioURL=rS.getString("usuarioURL");
                                 usu.setUrl(usuarioURL);
                                 reserva.setUsu(usu);
 
-                                labID=Integer.parseInt(rS.getString("Reserva.labID"));
+                                labID=Integer.parseInt(rS.getString("reserva.labid"));
                                 lab.setId(labID);
                                 labURL=rS.getString("labURL");
                                 lab.setUrl(labURL);
                                 reserva.setLab(lab);
-                                bancoID=Integer.parseInt(rS.getString("Reserva.bancoID"));
+                                bancoID=Integer.parseInt(rS.getString("reserva.bancoid"));
                                 banco.setId(bancoID);
                                 bancoURL=rS.getString("bancoURL");
                                 banco.setUrl(bancoURL);
                                 reserva.setBan(banco);
-                                LocalDateTime horario=rS.getObject("Reserva.disponibilidad",LocalDateTime.class);
+                                LocalDateTime horario=rS.getObject("reserva.disponibilidad",LocalDateTime.class);
                                 reserva.setDisponibilidadReserva(horario);
 
 
@@ -277,7 +277,7 @@ public class ReservaBBDD extends ConexionBBDD{
         try {
             if(conector()==true){
 
-                 String queryBBDD= "select Reserva.id, Reserva.url, Reserva.usuarioID , Reserva.labID, Reserva.bancoID,Reserva.disponibilidad, reservarecursos.recursoID as recursosID from Reserva inner join reservarecursos on Reserva.id = reservarecursos.reservaID ;";
+                 String queryBBDD= "select reserva.id, reserva.url, reserva.usuarioid , reserva.labid, reserva.bancoid,reserva.disponibilidad, reservarecursos.recursoid as recursosID from reserva inner join reservarecursos on reserva.id = reservarecursos.reservaid ;";
                 int i=0;
 
                 try {
@@ -296,8 +296,8 @@ public class ReservaBBDD extends ConexionBBDD{
                         while (rS.next()) {
                             Reserva reserva;
 
-                            if (mapa.containsKey(Integer.parseInt(rS.getString("Reserva.id")))){
-                                reserva=mapa.get(Integer.parseInt(rS.getString("Reserva.id")));
+                            if (mapa.containsKey(Integer.parseInt(rS.getString("reserva.id")))){
+                                reserva=mapa.get(Integer.parseInt(rS.getString("reserva.id")));
 
                             }
                             else{
@@ -307,19 +307,19 @@ public class ReservaBBDD extends ConexionBBDD{
                                 LaboratorioShort lab= new LaboratorioShort();
                                 BancoDeTrabajoShort banco=new BancoDeTrabajoShort();
 
-                                reserva.setId(Integer.parseInt(rS.getString("Reserva.id")));
-                                reserva.setUrl(rS.getString("Reserva.url"));
-                                usuarioID=Integer.parseInt(rS.getString("Reserva.usuarioID"));
+                                reserva.setId(Integer.parseInt(rS.getString("reserva.id")));
+                                reserva.setUrl(rS.getString("reserva.url"));
+                                usuarioID=Integer.parseInt(rS.getString("reserva.usuarioid"));
                                 usu.setId(usuarioID);
                                 reserva.setUsu(usu);
 
-                                labID=Integer.parseInt(rS.getString("Reserva.labID"));
+                                labID=Integer.parseInt(rS.getString("reserva.labid"));
                                 lab.setId(labID);
                                 reserva.setLab(lab);
-                                bancoID=Integer.parseInt(rS.getString("Reserva.bancoID"));
+                                bancoID=Integer.parseInt(rS.getString("reserva.bancoid"));
                                 banco.setId(bancoID);
                                 reserva.setBan(banco);
-                                LocalDateTime horario=rS.getObject("Reserva.disponibilidad",LocalDateTime.class);
+                                LocalDateTime horario=rS.getObject("reserva.disponibilidad",LocalDateTime.class);
                                 reserva.setDisponibilidadReserva(horario);
 
 
@@ -328,7 +328,7 @@ public class ReservaBBDD extends ConexionBBDD{
 
 
                             RecursosBancoDeTrabajoShort recurso = new RecursosBancoDeTrabajoShort();
-                            recurso.setId(Integer.parseInt(rS.getString("recursosID")));
+                            recurso.setId(Integer.parseInt(rS.getString("recursosid")));
 
 
                             reserva.annadirListaRecursos(recurso);
@@ -401,7 +401,7 @@ public class ReservaBBDD extends ConexionBBDD{
 
 
               //  String queryBBDD = "INSERT INTO disponibilidadlaboratorio (labID,disponibilidad) VALUES (" + labID + ", '" + horario + "');";
-                String queryBBDD1= "INSERT INTO disponibilidadBancoDeTrabajo (bancoID,disponibilidad) VALUES (" + bancoID + ", '" + horario + "');";
+                String queryBBDD1= "INSERT INTO disponibilidadbancodetrabajo (bancoid,disponibilidad) VALUES (" + bancoID + ", '" + horario + "');";
 
                 System.out.println(queryBBDD1);
                 String queryBBDD2 = "delete from reserva where id="+id+";";
@@ -417,7 +417,7 @@ public class ReservaBBDD extends ConexionBBDD{
                         for (RecursosBancoDeTrabajoShort recurso : recursos) {
                             int recursoID = recurso.getId();
                             System.out.println("El ID del recurso" + recursoID);
-                            createStatement.executeUpdate("INSERT INTO disponibilidadRecursosBancoDeTRabajo (recursoID,disponibilidad) VALUES (" + recursoID + ", '" + horario + "');");
+                            createStatement.executeUpdate("INSERT INTO disponibilidadrecursosbancodetrabajo (recursoid,disponibilidad) VALUES (" + recursoID + ", '" + horario + "');");
                         }
                         createStatement.executeUpdate(queryBBDD2);
 
