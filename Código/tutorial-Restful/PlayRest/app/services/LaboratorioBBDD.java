@@ -44,11 +44,11 @@ public class LaboratorioBBDD extends ConexionBBDD{
                 System.out.println("la fila es " + identificador );
                 String patron = "/laboratorios/";
                 String url = patron+identificador;
-                createStatement.executeUpdate("UPDATE  Laboratorio set url ='" + url + "' where id = "+ identificador + ";");
+                createStatement.executeUpdate("UPDATE  laboratorio set url ='" + url + "' where id = "+ identificador + ";");
 
                 for (LocalDateTime dis:disponibilidad) {
 
-                    createStatement.executeUpdate("INSERT INTO DisponibilidadLaboratorio (labid,disponibilidad) VALUES (" + identificador + ", '" + dis +  "');");
+                    createStatement.executeUpdate("INSERT INTO disponibilidadlaboratorio (labid,disponibilidad) VALUES (" + identificador + ", '" + dis +  "');");
                 }
                 con.commit();
                 con.setAutoCommit(true);
@@ -246,7 +246,7 @@ public class LaboratorioBBDD extends ConexionBBDD{
                 String nombre = lab.getNombreLab();
                 String descripcion= lab.getDescripcionLab();
 
-                String queryBBDD = "update Laboratorio set nombre='"+nombre+"', descripcion='"+descripcion+"' where id="+id+";";
+                String queryBBDD = "update laboratorio set nombre='"+nombre+"', descripcion='"+descripcion+"' where id="+id+";";
 
                 try {
                     createStatement.executeUpdate(queryBBDD);
